@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文为 Cooperative Multitasking with Coroutines 的学习笔记">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-11T06:52:49.078Z">
+<meta property="og:updated_time" content="2019-06-11T07:19:42.767Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Asyncio 学习笔记: 使用协程处理协同式多任务">
 <meta name="twitter:description" content="本文为 Cooperative Multitasking with Coroutines 的学习笔记">
@@ -327,7 +327,7 @@
 <p>执行结果：</p>
 <figure class="highlight oxygene"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">starting coroutine</span><br><span class="line">entering <span class="keyword">event</span> <span class="keyword">loop</span></span><br><span class="line"><span class="keyword">in</span> coroutine</span><br><span class="line">closing <span class="keyword">event</span> <span class="keyword">loop</span></span><br></pre></td></tr></table></figure>
 
-<p>coroutine 对象在其 return 的时候执行结束，所有 coroutine 对象执行结束后 <code>run_until_complete</code> 执行结束。</p>
+<p>coroutine 对象在其 <code>return</code> 的时候执行结束，所有 coroutine 对象执行结束后 <code>run_until_complete</code> 执行结束。</p>
 <p>最后需要使用 <code>close</code> 方法关闭对应的 event loop.</p>
 <p>需要注意的是，使用 <code>get_event_loop</code> 获取的事件循环对象是唯一的一个全局对象，在调用 close 方法后会被彻底关闭，在同一段代码中第二次调用 <code>get_event_loop</code> 方法会产生错误，需要重启 python 环境以恢复该全局对象。可以改用 <code>new_event_loop</code> 方法来避免此问题。</p>
 <p>参考 <a href="https://stackoverflow.com/questions/45600579/asyncio-event-loop-is-closed" target="_blank" rel="noopener">Asyncio Event Loop is Closed</a> 和 <a href="https://segmentfault.com/a/1190000011013476" target="_blank" rel="noopener">在一段Python程序中使用多次事件循环</a></p>
@@ -345,7 +345,7 @@
 <figure class="highlight ceylon"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">in</span> <span class="keyword">outer</span></span><br><span class="line">waiting <span class="keyword">for</span> result<span class="number">1</span></span><br><span class="line"><span class="keyword">in</span> phase<span class="number">1</span></span><br><span class="line">waiting <span class="keyword">for</span> result<span class="number">2</span></span><br><span class="line"><span class="keyword">in</span> phase<span class="number">2</span></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">value</span>: (<span class="string">'result1'</span>, <span class="string">'result2 derived from result1'</span>)</span><br></pre></td></tr></table></figure>
 
 <p>本例中使用了 <code>await</code> 关键字来启动新的 coroutine 对象，其作用相当于调用 event loop 的 <code>run_until_complete</code> 方法。<code>await</code> 关键字使得外部 coroutine 可以管理内部 coroutine 的调用顺序，而不需要把所有的 coroutine 都交给事件循环来管理。</p>
-<h2 id="使用生成器来替代-coroutines"><a href="#使用生成器来替代-coroutines" class="headerlink" title="使用生成器来替代 coroutines"></a>使用生成器来替代 coroutines</h2><p>本节是 python 3.4 及以下版本使用生成器 generator 语法代替 coroutine 的方法，这里不赘述，感兴趣的可以阅读<a href="https://pymotw.com/3/asyncio/coroutines.html#generators-instead-of-coroutines" target="_blank" rel="noopener">原文</a>。</p>
+<h2 id="使用生成器来替代-coroutines"><a href="#使用生成器来替代-coroutines" class="headerlink" title="使用生成器来替代 coroutines"></a>使用生成器来替代 coroutines</h2><p>本节是 python 3.4 及以下版本使用生成器 generator 语法代替 coroutine<br>的方法，这里不赘述，感兴趣的可以阅读<a href="https://pymotw.com/3/asyncio/coroutines.html#generators-instead-of-coroutines" target="_blank" rel="noopener">原文</a>。</p>
 <p>参考资料：</p>
 <ul>
 <li><a href="https://pymotw.com/3/asyncio/coroutines.html" target="_blank" rel="noopener">Cooperative Multitasking with Coroutines</a> </li>
@@ -469,7 +469,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
