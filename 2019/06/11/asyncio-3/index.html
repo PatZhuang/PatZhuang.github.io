@@ -131,7 +131,7 @@
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文为 Producing Results Asynchronously 的学习笔记">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-11T10:21:30.564Z">
+<meta property="og:updated_time" content="2019-06-11T11:25:53.110Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Asyncio 学习笔记: 以异步方式生成数据">
 <meta name="twitter:description" content="本文为 Producing Results Asynchronously 的学习笔记">
@@ -394,7 +394,7 @@
                 
               
 
-              <time title="创建时间：2019-06-11 14:54:14 / 修改时间：18:21:30" itemprop="dateCreated datePublished" datetime="2019-06-11T14:54:14+08:00">2019-06-11</time>
+              <time title="创建时间：2019-06-11 14:54:14 / 修改时间：19:25:53" itemprop="dateCreated datePublished" datetime="2019-06-11T14:54:14+08:00">2019-06-11</time>
             
 
             
@@ -440,7 +440,7 @@
 <h2 id="等待-Future-对象"><a href="#等待-Future-对象" class="headerlink" title="等待 Future 对象"></a>等待 Future 对象</h2><p><code>Future</code> 对象的行为和 <code>coroutine</code> 类似，因此等待 <code>coroutine</code> 的方法同样适用于等待 <code>Future</code>.</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mark_done</span><span class="params">(future, result)</span>:</span></span><br><span class="line">    print(<span class="string">'setting future result to &#123;!r&#125;'</span>.format(result))</span><br><span class="line">    future.set_result(result) <span class="comment"># future 在 set_result 后标记为完成，并返回 result</span></span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">event_loop = asyncio.get_event_loop()</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    all_done = asyncio.Future() <span class="comment"># 创建 Future 对象</span></span><br><span class="line"></span><br><span class="line">    print(<span class="string">'scheduling mark_done'</span>)</span><br><span class="line">    event_loop.call_soon(mark_done, all_done, <span class="string">'the result'</span>)</span><br><span class="line"></span><br><span class="line">    print(<span class="string">'entering event loop'</span>)</span><br><span class="line">    result = event_loop.run_until_complete(all_done)</span><br><span class="line">    print(<span class="string">'returned result: &#123;!r&#125;'</span>.format(result))</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    print(<span class="string">'closing event loop'</span>)</span><br><span class="line">    event_loop.close()</span><br><span class="line">    </span><br><span class="line"><span class="comment"># Future 的 set_result 方法会同时把结果保存在其 result 方法中</span></span><br><span class="line">print(<span class="string">'future result: &#123;!r&#125;'</span>.format(all_done.result()))</span><br></pre></td></tr></table></figure>
 
-<p><code>Future</code> 对象在调用 <code>set_result()</code> 方法后其状态转变为完成，其行为相当于 <code>coroutine</code> 的 <code>retuen</code>, 也会将结果返回给调用该 <code>Future</code> 的位置，同时会把这个结果保存在 <code>Future</code> 对象的 <code>result()</code> 方法中。</p>
+<p><code>Future</code> 对象在调用 <code>set_result()</code> 方法后其状态转变为完成，其行为相当于 <code>coroutine</code> 的 <code>return</code>, 也会将结果返回给调用该 <code>Future</code> 的位置，同时会把这个结果保存在 <code>Future</code> 对象的 <code>result()</code> 方法中。</p>
 <blockquote>
 <p>注意：</p>
 <p>如果第 9 行使用的是 <code>new_event_loop</code> 方法，则需要调用 <code>asyncio.set_event_loop(event_loop)</code> 将该事件循环绑定为全局事件循环，否则第 14 行会出现 <code>loop argument must agree with Future</code> 错误。</p>
@@ -493,9 +493,9 @@
         
         <div class="post-tags">
           
-            <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+            <a href="/tags/python/" rel="tag"># python</a>
           
-            <a href="/tags/asyncio/" rel="tag"><i class="fa fa-tag"></i> asyncio</a>
+            <a href="/tags/asyncio/" rel="tag"># asyncio</a>
           
         </div>
       
