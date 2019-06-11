@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文为 Cooperative Multitasking with Coroutines 的学习笔记">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-11T08:59:07.074Z">
+<meta property="og:updated_time" content="2019-06-11T10:22:04.981Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Asyncio 学习笔记: 使用协程处理协同式多任务">
 <meta name="twitter:description" content="本文为 Cooperative Multitasking with Coroutines 的学习笔记">
@@ -346,6 +346,10 @@
 
 <p>本例中使用了 <code>await</code> 关键字来启动新的 <code>coroutine</code> 对象，其作用相当于调用 event loop 的 <code>run_until_complete()</code> 方法。<code>await</code> 关键字使得外部 <code>coroutine</code> 可以管理内部 <code>coroutine</code> 的调用顺序，而不需要把所有的 <code>coroutine</code> 都交给事件循环来管理。</p>
 <h2 id="使用生成器来替代-coroutines"><a href="#使用生成器来替代-coroutines" class="headerlink" title="使用生成器来替代 coroutines"></a>使用生成器来替代 coroutines</h2><p>本节是 python 3.4 及以下版本使用生成器 generator 语法代替 coroutine<br>的方法，这里不赘述，感兴趣的可以阅读<a href="https://pymotw.com/3/asyncio/coroutines.html#generators-instead-of-coroutines" target="_blank" rel="noopener">原文</a>。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://pymotw.com/3/asyncio/coroutines.html" target="_blank" rel="noopener">Cooperative Multitasking with Coroutines</a></li>
+</ul>
 
       
     </div>

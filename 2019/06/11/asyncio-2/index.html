@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文为 Scheduling Calls to Regular Functions 的学习笔记">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-11T08:35:18.655Z">
+<meta property="og:updated_time" content="2019-06-11T10:21:45.812Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Asyncio 学习笔记: 定时调用普通函数">
 <meta name="twitter:description" content="本文为 Scheduling Calls to Regular Functions 的学习笔记">
@@ -340,6 +340,10 @@
 <p><code>call_soon()</code> 调用的函数仍然被最先执行，同时可以看到 <code>loop.time()</code> 和 <code>time.time()</code> 返回的时间是不一样的：</p>
 <figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">entering event loop</span><br><span class="line">clock time: 1521404411.833459</span><br><span class="line">loop  time: 715855.398664185</span><br><span class="line">registering callbacks</span><br><span class="line">callback 3 invoked at 715855.398744743</span><br><span class="line">callback 2 invoked at 715855.503897727</span><br><span class="line">callback 1 invoked at 715855.601119414</span><br><span class="line">closing event loop</span><br><span class="line"> Cooperative Multitasking</span><br></pre></td></tr></table></figure>
 
+<p>参考资料：</p>
+<ul>
+<li><a href="https://pymotw.com/3/asyncio/scheduling.html" target="_blank" rel="noopener">Scheduling Calls to Regular Functions</a> </li>
+</ul>
 
       
     </div>

@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文为 Executing Tasks Concurrently 的学习笔记">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-11T10:19:24.497Z">
+<meta property="og:updated_time" content="2019-06-11T10:20:51.558Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Asyncio 学习笔记：并发执行 Tasks">
 <meta name="twitter:description" content="本文为 Executing Tasks Concurrently 的学习笔记">
@@ -367,6 +367,12 @@
 <p>可以看到使用 <code>coroutine</code> 执行的代码运行了 3 秒（1+2），而使用 <code>Task</code> 的代码运行了 2 秒（最长阻塞时间 2 秒）。</p>
 <h3 id="Task-和-Future"><a href="#Task-和-Future" class="headerlink" title="Task 和 Future"></a>Task 和 Future</h3><p><code>Task</code> 是 <code>Future</code> 的子类，因此 <code>Future</code> 可用的方法 <code>Task</code> 也可用，包括注册回调函数等。</p>
 <p>在 python 3.7 版本以后多数情况下应当使用 <code>create_task()</code> 来创建 <code>Task</code>，只有当需要封装一个抽象 <code>awaitable</code> 对象时才需要使用 <code>ensure_future()</code>. 注意这两者创建的都是 <code>Task</code> 而不是 <code>Future</code>，通常不需要在应用级代码中创建 <code>Future</code> 对象。</p>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://stackoverflow.com/questions/36342899/asyncio-ensure-future-vs-baseeventloop-create-task-vs-simple-coroutine" target="_blank" rel="noopener">asyncio.ensure_future vs. BaseEventLoop.create_task vs. simple coroutine?</a></li>
+<li><a href="https://juejin.im/post/5c2f12ce6fb9a04a006f2659" target="_blank" rel="noopener">asyncio之Coroutines,Tasks and Future</a></li>
+<li><a href="https://segmentfault.com/a/1190000012631063" target="_blank" rel="noopener">通读Python官方文档之协程、Future与Task</a></li>
+</ul>
 
       
     </div>
