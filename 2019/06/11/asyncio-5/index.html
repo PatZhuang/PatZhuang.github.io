@@ -131,7 +131,7 @@
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文是 Composing Coroutines with Control Structures 的学习笔记">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-11T13:19:05.993Z">
+<meta property="og:updated_time" content="2019-06-11T13:21:52.177Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Asyncio 学习笔记：使用控制结构构建协程">
 <meta name="twitter:description" content="本文是 Composing Coroutines with Control Structures 的学习笔记">
@@ -394,7 +394,7 @@
                 
               
 
-              <time title="创建时间：2019-06-11 20:24:47 / 修改时间：21:19:05" itemprop="dateCreated datePublished" datetime="2019-06-11T20:24:47+08:00">2019-06-11</time>
+              <time title="创建时间：2019-06-11 20:24:47 / 修改时间：21:21:52" itemprop="dateCreated datePublished" datetime="2019-06-11T20:24:47+08:00">2019-06-11</time>
             
 
             
@@ -436,7 +436,7 @@
         <p>本文是 <a href="https://patzhuang.github.io" target="_blank" rel="noopener">Composing Coroutines with Control Structures</a> 的学习笔记</p>
 <a id="more"></a>
 
-<p>线性的 <code>coroutine</code> 流可以很容易地使用 <code>await</code> 关键字来处理，而 <code>asyncio</code> 也提供了可以处理更加复杂的结构，允许一个 <code>coroutine</code> 等待多个 <code>coroutine</code> 并发执行。</p>
+<p>线性的 <code>coroutine</code> 流可以很容易地使用 <code>await</code> 关键字来处理，而 <code>asyncio</code> 也提供了可以处理更加复杂的结构的方法，比如允许一个 <code>coroutine</code> 等待多个 <code>coroutine</code> 并发执行。</p>
 <h2 id="等待多个-coroutines"><a href="#等待多个-coroutines" class="headerlink" title="等待多个 coroutines"></a>等待多个 coroutines</h2><p>通常在下载远程资源或访问远程 API 的时候会需要把一个任务分解成多个子任务并让它们并发执行，当这些子任务的执行顺序没有特殊要求的时候，<code>wait()</code> 方法可以暂停当前 <code>coroutine</code> 并等待所有后台任务（子任务）执行完毕。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">phase</span><span class="params">(i)</span>:</span></span><br><span class="line">    print(<span class="string">'in phase &#123;&#125;'</span>.format(i))</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">0.1</span> * i)</span><br><span class="line">    print(<span class="string">'done with phase &#123;&#125;'</span>.format(i))</span><br><span class="line">    <span class="keyword">return</span> <span class="string">'phase &#123;&#125; result'</span>.format(i)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">(num_phases)</span>:</span></span><br><span class="line">    print(<span class="string">'starting main'</span>)</span><br><span class="line">    <span class="comment"># 构造 coroutine 的数组</span></span><br><span class="line">    phases = [phase(i) <span class="keyword">for</span> i <span class="keyword">in</span> range(num_phases)]</span><br><span class="line">    print(<span class="string">'waiting for phases to complete'</span>)</span><br><span class="line">    <span class="comment"># wait 方法返回「已完成、未完成」的两个 Future 集合</span></span><br><span class="line">    completed, pending = <span class="keyword">await</span> asyncio.wait(phases)</span><br><span class="line">    results = [t.result() <span class="keyword">for</span> t <span class="keyword">in</span> completed]</span><br><span class="line">    print(<span class="string">'results: &#123;!r&#125;'</span>.format(results))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">event_loop = asyncio.get_event_loop()</span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    event_loop.run_until_complete(main(<span class="number">3</span>))</span><br><span class="line"><span class="keyword">finally</span>:</span><br><span class="line">    event_loop.close()</span><br></pre></td></tr></table></figure>
 
