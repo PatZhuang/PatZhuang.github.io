@@ -131,7 +131,7 @@
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文是 WHAT IS PYTORCH? 的学习笔记">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-12T12:03:02.731Z">
+<meta property="og:updated_time" content="2019-06-12T12:22:47.736Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="What-Is-Pytorch">
 <meta name="twitter:description" content="本文是 WHAT IS PYTORCH? 的学习笔记">
@@ -394,7 +394,7 @@
                 
               
 
-              <time title="创建时间：2019-06-12 19:51:15 / 修改时间：20:03:02" itemprop="dateCreated datePublished" datetime="2019-06-12T19:51:15+08:00">2019-06-12</time>
+              <time title="创建时间：2019-06-12 19:51:15 / 修改时间：20:22:47" itemprop="dateCreated datePublished" datetime="2019-06-12T19:51:15+08:00">2019-06-12</time>
             
 
             
@@ -535,6 +535,8 @@ tensor([[-0.0793,  1.9369, -1.3093],
         [ 0.7887, -1.5744,  0.0134],
         [ 1.4497, -0.3362,  1.4013]])</code></pre><blockquote>
 <p>Pytorch 中的 In-place 方法都在是 out-of-place 方法后面添加下划线 <code>_</code>，比如 <code>x.copy_(y)</code> 和 <code>x.t_(y)</code> 都会改变 x</p>
+<p>注意 Pytorch 没有 <code>copy()</code> 方法。</p>
+<p><code>copy_()</code> 和 <code>clone()</code> 的区别在于：<code>clone()</code> 后的新 <code>Tensor</code> 也会在计算图上被记录，在梯度传播阶段，传播给新 <code>Tensor</code> 的梯度也会传播给原来的 <code>Tensor</code>. 而 <code>copy_()</code> 是完全的深拷贝，新的 <code>Tensor</code> 与原有的 <code>Tensor</code> 只是拥有相同的数据和形状，不共享存储和梯度，也不会在计算图上被记录。</p>
 </blockquote>
 <blockquote>
 <p><code>Tensor</code> 支持使用 numpy-like 的 indexing </p>
