@@ -131,7 +131,7 @@
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文是 AUTOGRAD: AUTOMATIC DIFFERENTIATION 的学习笔记">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-12T15:08:15.463Z">
+<meta property="og:updated_time" content="2019-06-12T15:12:34.900Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Autograd: Automatic Differentiation">
 <meta name="twitter:description" content="本文是 AUTOGRAD: AUTOMATIC DIFFERENTIATION 的学习笔记">
@@ -394,7 +394,7 @@
                 
               
 
-              <time title="创建时间：2019-06-12 23:00:46 / 修改时间：23:08:15" itemprop="dateCreated datePublished" datetime="2019-06-12T23:00:46+08:00">2019-06-12</time>
+              <time title="创建时间：2019-06-12 23:00:46 / 修改时间：23:12:34" itemprop="dateCreated datePublished" datetime="2019-06-12T23:00:46+08:00">2019-06-12</time>
             
 
             
@@ -475,9 +475,9 @@
 
 <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tensor(<span class="string">[[4.5000, 4.5000],</span></span><br><span class="line"><span class="string">        [4.5000, 4.5000]]</span>)</span><br></pre></td></tr></table></figure>
 
-<p>推导如下：<br>$out = \frac{1}{4}\sum_i z_i$,<br>$z_i = 3(x_i+2)^2$ ，其中 $z_i\bigr\rvert_{x_i=1} = 27$.</p>
-<p>因此，<br>$\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)$</p>
-<p>所以，<br>$\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5$.</p>
+<p>推导如下：<br>$out = \frac{1}{4}\sum_i z_i$, $z_i = 3(x_i+2)^2$ ，其中 $z_i\bigr\rvert_{x_i=1} = 27$.</p>
+<p>因此，$\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)$</p>
+<p>所以，$\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5$.</p>
 <p>最终结果是一个所有值均为 4.5 的 2x2 矩阵。</p>
 <p>如果是对向量求梯度，则结果将是一个雅可比矩阵。具体说明见 <a href="https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html#gradients" target="_blank" rel="noopener">Gradients</a> </p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">x = torch.randn(<span class="number">3</span>, requires_grad=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">y = x * <span class="number">2</span></span><br><span class="line"><span class="comment"># 教程原文使用了 y.data.norm(), 但 data 是 0.4 版本的 API，已经不需要使用</span></span><br><span class="line"><span class="keyword">while</span> y.norm() &lt; <span class="number">1000</span>: <span class="comment"># y 的范数 &gt; 1000 的时候停止</span></span><br><span class="line">    y = y * <span class="number">2</span></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">print(y)</span><br></pre></td></tr></table></figure>
@@ -498,7 +498,7 @@
 <p>参考资料：</p>
 <ul>
 <li><a href="https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html#sphx-glr-beginner-blitz-autograd-tutorial-py" target="_blank" rel="noopener">AUTOGRAD: AUTOMATIC DIFFERENTIATION</a> </li>
-<li>[PyTorch中的backward](</li>
+<li><a href="https://zhuanlan.zhihu.com/p/27808095" target="_blank" rel="noopener">PyTorch中的backward</a></li>
 </ul>
 
       
@@ -849,6 +849,46 @@
   
   
 
+  
+    
+      <script type="text/x-mathjax-config">
+  
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+      
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') { next = next.nextSibling }
+        if (next && next.nodeName.toLowerCase() === 'br') { next.parentNode.removeChild(next) }
+      }
+    });
+  });
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      document.getElementById(all[i].inputID + '-Frame').parentNode.className += ' has-jax';
+    }
+  });
+</script>
+<script src="//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+    
   
 
 
