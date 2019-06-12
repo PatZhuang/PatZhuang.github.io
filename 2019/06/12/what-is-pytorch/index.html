@@ -131,7 +131,7 @@
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文是 WHAT IS PYTORCH? 的学习笔记">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-12T11:58:18.443Z">
+<meta property="og:updated_time" content="2019-06-12T12:03:02.731Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="What-Is-Pytorch">
 <meta name="twitter:description" content="本文是 WHAT IS PYTORCH? 的学习笔记">
@@ -394,7 +394,7 @@
                 
               
 
-              <time title="创建时间：2019-06-12 19:51:15 / 修改时间：19:58:18" itemprop="dateCreated datePublished" datetime="2019-06-12T19:51:15+08:00">2019-06-12</time>
+              <time title="创建时间：2019-06-12 19:51:15 / 修改时间：20:03:02" itemprop="dateCreated datePublished" datetime="2019-06-12T19:51:15+08:00">2019-06-12</time>
             
 
             
@@ -541,7 +541,7 @@ tensor([[-0.0793,  1.9369, -1.3093],
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(x[:, <span class="number">1</span>]) <span class="comment"># 选择第一列（下标从 0 开始）</span></span><br></pre></td></tr></table></figure>
 
-<pre><code>torch.Size([5])</code></pre><blockquote>
+<pre><code>tensor([ 2.2130,  0.0224, -1.5140, -0.0175, -0.1482])</code></pre><blockquote>
 <p>如果需要 resize/reshape 一个 <code>Tensor</code>, 使用 <code>torch.view()</code> 方法。该方法返回一个视图（引用），对引用的修改会影响原 <code>Tensor</code></p>
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">x = torch.randn(<span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line">y = x.view(<span class="number">16</span>)</span><br><span class="line">z = x.view(<span class="number">-1</span>, <span class="number">8</span>) <span class="comment"># 标注 -1 的维会自动推断长度</span></span><br><span class="line"></span><br><span class="line">print(x.size(), y.size(), z.size())</span><br></pre></td></tr></table></figure>
