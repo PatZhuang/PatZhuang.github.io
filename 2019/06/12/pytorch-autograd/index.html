@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon.ico?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-32x32.png?v=7.1.2">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文是 AUTOGRAD MECHANICS 的中文翻译，截至本文发布时 pytorch 的稳定版本为 1.1">
+<meta name="keywords" content="pytorch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pytorch 自动求导机制">
+<meta property="og:url" content="http://yoursite.com/2019/06/12/pytorch-autograd/index.html">
+<meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
+<meta property="og:description" content="本文是 AUTOGRAD MECHANICS 的中文翻译，截至本文发布时 pytorch 的稳定版本为 1.1">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-06-12T07:57:19.530Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pytorch 自动求导机制">
+<meta name="twitter:description" content="本文是 AUTOGRAD MECHANICS 的中文翻译，截至本文发布时 pytorch 的稳定版本为 1.1">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/06/12/pytorch-autograd/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Pytorch 自动求导机制 | Pato's raison d'etre</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pato's raison d'etre</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/12/pytorch-autograd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick">
+      <meta itemprop="description" content="🌈">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pato's raison d'etre">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Pytorch 自动求导机制
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-12 14:57:31 / 修改时间：15:57:19" itemprop="dateCreated datePublished" datetime="2019-06-12T14:57:31+08:00">2019-06-12</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文是 <a href="https://pytorch.org/docs/stable/notes/autograd.html" target="_blank" rel="noopener">AUTOGRAD MECHANICS</a> 的中文翻译，截至本文发布时 <code>pytorch</code> 的稳定版本为 <code>1.1</code></p>
+<a id="more"></a>
+
+<p>本说明将概述自动求导（<code>autograd</code>）是如何工作和记录运算的。完全理解本文不是必须的，但我们仍建议读者大体熟悉这些内容，这有助于你写出更加高效、整洁和易于调试的代码。</p>
+<h2 id="在反向计算时排除子图"><a href="#在反向计算时排除子图" class="headerlink" title="在反向计算时排除子图"></a>在反向计算时排除子图</h2><p>每个<code>张量(Tensor)</code> 都有一个标志（flag）：<code>requires_grad</code>，它允许在梯度运算中精细地排除子图，这有助于提高效率。</p>
+<h3 id="requires-grad"><a href="#requires-grad" class="headerlink" title="requires_grad"></a><code>requires_grad</code></h3><p>如果某个运算的单一输入需要求计算梯度，那么这个操作的输出也会要求计算梯度。反之，只有当某个运算的所有输入都不要求计算梯度的时候，它的输出才不要求计算梯度。如果子图的所有张量都不要求计算梯度，那么反向计算永远不会在该子图上执行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>x = torch.randn(<span class="number">5</span>, <span class="number">5</span>)  <span class="comment"># requires_grad 默认值为 False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>y = torch.randn(<span class="number">5</span>, <span class="number">5</span>)  <span class="comment"># requires_grad 默认值为 False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>z = torch.randn((<span class="number">5</span>, <span class="number">5</span>), requires_grad=<span class="literal">True</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = x + y</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a.requires_grad</span><br><span class="line"><span class="literal">False</span></span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b = a + z</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>b.requires_grad</span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<p>当你需要冻结模型的一部分，或你已经预先知道你不需要某些参数的梯度时，这个标志会非常有用。例如：当你需要微调一个预训练过的 CNN 模型时，只要把冻结层的参数的 <code>requires_grad</code> 置为 <code>True</code>，这样其中间运算结果就不会被保存。直到最后一层的全连接层使用要求计算梯度的权重，那么整个模型的输出也会要求计算梯度。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">model = torchvision.models.resnet18(pretrained=<span class="literal">True</span>)</span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> model.parameters():</span><br><span class="line">    param.requires_grad = <span class="literal">False</span></span><br><span class="line"><span class="comment"># 替换最后一层的全连接层</span></span><br><span class="line"><span class="comment"># 新建的层的参数其 requires_grad 默认值为 True</span></span><br><span class="line">model.fc = nn.Linear(<span class="number">512</span>, <span class="number">100</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 只优化分类器</span></span><br><span class="line">optimizer = optim.SGD(model.fc.parameters(), lr=<span class="number">1e-2</span>, momentum=<span class="number">0.9</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="自动求导如何编码历史信息"><a href="#自动求导如何编码历史信息" class="headerlink" title="自动求导如何编码历史信息"></a>自动求导如何编码历史信息</h2><p>自动求导是一个反向微分运算系统。从概念上来说，自动求导记录了一张图，当你执行运算并创建数据时，这张图会记录下你所有的运算，并生成一张有向无环图（DAG），其叶节点是输入张量，根节点是输出张量。通过跟踪根节点到叶节点的路径，使用链式求导法则就可以自动计算梯度。</p>
+<p>在其内部，自动求导将这张图表示为一张函数对象（ <code>Function</code> object）的图，这些函数对象可以被 <code>apply()</code> 以计算对图评估的结果。当执行前向传播的时候，自动求导同时执行相应的求导运算，并建立一张由计算这些梯度的函数所组成的图（每个需要计算梯度的张量的 <code>.grad_fn</code> 属性就是这张图的入口）。当前向传播完成后，对这张图反向求值就可以获得所需的梯度。</p>
+<p>需要注意的是，在每个迭代中，这张图都会被重新创建，因此可以使用任意的控制流语句在每个迭代中改变图的形状和大小。你无需在开始训练以前就编码所有可能的路径 —— 你执行什么，你就在求导什么。</p>
+<h2 id="自动求导的原地操作（In-place）"><a href="#自动求导的原地操作（In-place）" class="headerlink" title="自动求导的原地操作（In-place）"></a>自动求导的原地操作（In-place）</h2><p>在自动求导中支持原地操作是一件很困难的事，在大部分情况下我们不鼓励使用它们。自动求导使用了激进且高效的缓存释放和重用策略，只有非常少数的情况下原地操作才会显著降低内存占用。除非你真的非常关注内存使用问题，否则你一般不需要用到原地操作。</p>
+<p>原地操作的适用性有限有以下的两个原因：</p>
+<ol>
+<li>原地操作有可能会覆盖需要计算梯度的变量的值</li>
+<li>实际上，每个原地操作都需要重写计算图。非原地操作分配新的对象并保持对原有对象的引用，而原地操作会导致对该操作对应的函数 <code>Function</code> 的所有输入张量的创建者 <code>creator</code> 的改变。特别是当多个张量引用相同存储（例如：使用索引 <code>indexing</code> 或转置 <code>transpose</code> 生成的张量）时，这会变得非常棘手。而且，当原地操作改变了某个输入的值时，如果这个值的存储同时被其它的张量引用，将会抛出一个错误。</li>
+</ol>
+<h2 id="In-place-正确性检验"><a href="#In-place-正确性检验" class="headerlink" title="In-place 正确性检验"></a>In-place 正确性检验</h2><p>每个张量都保存一个版本计数器 <code>version counter</code>，每当这个张量被某个操作标记为脏数据时，这个计数器就会递增。当一个函数保存了在反向传播中会使用的张量时，该张量的版本计数器也会被保存。当你访问 <code>self-saved_tensor</code> 时，就会检查这个计数器，如果它比被保存的计数器的值要大，说明在反向传播的过程中，该值可能被某个原地操作函数修改过，这时会抛出一个错误。</p>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://pytorch.org/docs/stable/notes/autograd.html#requires-grad" target="_blank" rel="noopener">AUTOGRAD MECHANICS</a></li>
+<li><a href="https://pytorch-cn.readthedocs.io/zh/latest/notes/autograd/" target="_blank" rel="noopener">自动求导机制</a> </li>
+</ul>
+<p>（注：参考资料[2] 为 pytorch 0.4 版本对应页面的翻译，有很多内容已经不再适用，仅作翻译参考。）</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/11/asyncio-5/" rel="next" title="Asyncio 学习笔记：使用控制结构构建协程">
+                <i class="fa fa-chevron-left"></i> Asyncio 学习笔记：使用控制结构构建协程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Patrick</p>
+              <div class="site-description motion-element" itemprop="description">🌈</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在反向计算时排除子图"><span class="nav-number">1.</span> <span class="nav-text">在反向计算时排除子图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#requires-grad"><span class="nav-number">1.1.</span> <span class="nav-text">requires_grad</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动求导如何编码历史信息"><span class="nav-number">2.</span> <span class="nav-text">自动求导如何编码历史信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动求导的原地操作（In-place）"><span class="nav-number">3.</span> <span class="nav-text">自动求导的原地操作（In-place）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#In-place-正确性检验"><span class="nav-number">4.</span> <span class="nav-text">In-place 正确性检验</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
