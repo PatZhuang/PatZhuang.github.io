@@ -131,7 +131,7 @@
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文是 AUTOGRAD: AUTOMATIC DIFFERENTIATION 的学习笔记">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-12T15:12:34.900Z">
+<meta property="og:updated_time" content="2019-06-13T06:50:27.171Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Autograd: Automatic Differentiation">
 <meta name="twitter:description" content="本文是 AUTOGRAD: AUTOMATIC DIFFERENTIATION 的学习笔记">
@@ -394,12 +394,24 @@
                 
               
 
-              <time title="创建时间：2019-06-12 23:00:46 / 修改时间：23:12:34" itemprop="dateCreated datePublished" datetime="2019-06-12T23:00:46+08:00">2019-06-12</time>
+              <time title="创建时间：2019-06-12 23:00:46" itemprop="dateCreated datePublished" datetime="2019-06-12T23:00:46+08:00">2019-06-12</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-13 14:50:27" itemprop="dateModified" datetime="2019-06-13T14:50:27+08:00">2019-06-13</time>
               
             
           </span>
@@ -438,61 +450,61 @@
 
 <p><code>autograd</code> 模块是 PyTorch 最核心的模块，提供了对 <code>Tensor</code> 所有运算的自动微分，它是一个「由运行定义」（define-by-run）的框架，也就是说，反向传播是由代码的运行所定义，且在每个迭代中都可以是不同的。</p>
 <h2 id="Tensor"><a href="#Tensor" class="headerlink" title="Tensor"></a>Tensor</h2><p><code>torch.Tensor</code> 是 <code>autograd</code> 模块最核心的类。当  tensor 的 <code>.requires_grad</code> 属性被设置为 True 时，所有对该 <code>Tensor</code> 执行的运算都会被记录。当全部的计算执行完毕后，通过调用 <code>.backward()</code> 就可以自动计算所有的梯度。该 tensor 的梯度会被<strong>累加</strong>到其 <code>.grad</code> 属性中。</p>
-<p>如果要停止 tensor 追踪运算记录，可以调用它的 <code>.detach()</code> 方法来把它从运算记录中剔除，同时这个 tensor 未来的运算不再被追踪。</p>
-<p>也可以通过 <code>with torch.nograd():</code> 来停止追踪运算（和占用内存），这在评估模型的时候非常有用，因为模型的可训练参数会将 <code>requires_grad</code> 设置为 True，而在评估模型的时候并不需要使用到梯度。</p>
-<p>另一个对自动梯度实现非常重要的类的 <code>Function</code>.</p>
-<p><code>Tensor</code> 和 <code>Function</code> 相互联系并构建起一个无环图，这个无环图会编码完整的运算记录。每个 tensor 都有一个 <code>.grad_fn</code> 属性，该属性是对创建这个 <code>Tensor</code> 的 <code>Function</code> 的引用（用户自己新建的 <code>Tensor</code> 的 <code>.grad_fn</code> 为 <code>None</code>）。</p>
+<p>如果要停止 tensor 追踪运算，可以调用它的 <code>.detach()</code> 方法来把它从运算记录中剔除，这样该 tensor 未来的运算也不再被追踪。</p>
+<p>也可以通过 <code>with torch.nograd():</code> 上下文来停止追踪运算（和占用内存），这在评估模型的时候非常有用，因为模型的可训练参数会将 <code>requires_grad</code> 设置为 True，而在评估模型的时候并不需要使用到梯度。</p>
+<p>另一个对自动梯度实现非常重要的类是 <code>Function</code>.</p>
+<p><code>Tensor</code> 和 <code>Function</code> 相互联系并构建起一个无环图，这个无环图会编码完整的运算记录。每个 tensor 都有一个 <code>.grad_fn</code> 属性，该属性是对<strong>在运算中</strong>创建这个 <code>Tensor</code> 的 <code>Function</code> 的引用（用户自己新建的 <code>Tensor</code> 的 <code>.grad_fn</code> 为 <code>None</code>）。</p>
 <p>如果要对输入求梯度，可以调用 <code>Tensor</code> 的 <code>.backward()</code> 方法（对输出张量调用）。如果这个 <code>Tensor</code> 是一个标量（即只含有一个值），在调用 <code>backward()</code> 的时候不需要指明任何参数，否则需要传入一个有相应 shape 的 <code>gradient</code> 参数。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br></pre></td></tr></table></figure>
 
 <p>新建一个 tensor <code>x</code>, 设置 requires_grad 为 True</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x = torch.ones(<span class="number">2</span>, <span class="number">2</span>, requires_grad=<span class="literal">True</span>)</span><br><span class="line">print(x)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tensor(<span class="string">[[1., 1.],</span></span><br><span class="line"><span class="string">        [1., 1.]]</span>, requires_grad=True)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tensor([[1., 1.],</span><br><span class="line">        [1., 1.]], requires_grad=True)</span><br></pre></td></tr></table></figure>
 
 <p>执行一个张量运算，可以看到 <code>y</code> 的 requires_grad 也是 True</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">y = x + <span class="number">2</span></span><br><span class="line">print(y)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tensor(<span class="string">[[3., 3.],</span></span><br><span class="line"><span class="string">        [3., 3.]]</span>, grad_fn=&lt;AddBackward0&gt;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tensor([[3., 3.],</span><br><span class="line">        [3., 3.]], grad_fn=&lt;AddBackward0&gt;)</span><br></pre></td></tr></table></figure>
 
 <p><code>y</code> 是由加法运算得到的结果，因此它有 <code>grad.fn</code> 属性</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(y.grad_fn)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="keyword">AddBackward0 </span>object <span class="built_in">at</span> <span class="number">0x7ff5af3443c8</span>&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;AddBackward0 object at 0x7ff5af3443c8&gt;</span><br></pre></td></tr></table></figure>
 
 <p>再对 <code>y</code> 做更多的运算</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">z = y * y * <span class="number">3</span></span><br><span class="line">out = z.mean()</span><br><span class="line"></span><br><span class="line">print(z, out, sep=<span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tensor([[<span class="number">27.</span>, <span class="number">27.</span>],</span><br><span class="line">        [<span class="number">27.</span>, <span class="number">27.</span>]], grad_fn=&lt;MulBackward0&gt;)</span><br><span class="line">tensor(<span class="number">27.</span>, grad_fn=&lt;MeanBackward0&gt;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tensor([[27., 27.],</span><br><span class="line">        [27., 27.]], grad_fn=&lt;MulBackward0&gt;)</span><br><span class="line">tensor(27., grad_fn=&lt;MeanBackward0&gt;)</span><br></pre></td></tr></table></figure>
 
 <p><code>.requires_grad_()</code> 方法可以改变  Tensor 的 <code>requires_grad</code> 标志，注意该方法是 In-place 方法，结尾有一个下划线。默认参数是 <code>False</code></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a = torch.randn(<span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">a = ((a * <span class="number">3</span>) / (a - <span class="number">1</span>))</span><br><span class="line">print(a.requires_grad)</span><br><span class="line"></span><br><span class="line">a.requires_grad_(<span class="literal">True</span>) <span class="comment"># 修改 requires_grad 标志</span></span><br><span class="line">print(a.requires_grad)</span><br><span class="line"></span><br><span class="line">b = (a * a).sum()</span><br><span class="line">print(b.grad_fn)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">False</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="string">&lt;SumBackward0</span> <span class="string">object</span> <span class="string">at</span> <span class="number">0x7ff563025978</span><span class="string">&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">False</span><br><span class="line">True</span><br><span class="line">&lt;SumBackward0 object at 0x7ff563025978&gt;</span><br></pre></td></tr></table></figure>
 
 <h2 id="Gradients"><a href="#Gradients" class="headerlink" title="Gradients"></a>Gradients</h2><p><code>out</code> 张量只包含一个标量值，因此对它调用 <code>out.backward()</code> 相当于调用 <code>out.backward(torch.tensor(1.))</code></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">out.backward() <span class="comment"># 反向传播</span></span><br><span class="line">print(x.grad)  <span class="comment"># 查看 x 的梯度</span></span><br></pre></td></tr></table></figure>
 
-<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tensor(<span class="string">[[4.5000, 4.5000],</span></span><br><span class="line"><span class="string">        [4.5000, 4.5000]]</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tensor([[4.5000, 4.5000],</span><br><span class="line">        [4.5000, 4.5000]])</span><br></pre></td></tr></table></figure>
 
 <p>推导如下：<br>$out = \frac{1}{4}\sum_i z_i$, $z_i = 3(x_i+2)^2$ ，其中 $z_i\bigr\rvert_{x_i=1} = 27$.</p>
 <p>因此，$\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)$</p>
 <p>所以，$\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5$.</p>
 <p>最终结果是一个所有值均为 4.5 的 2x2 矩阵。</p>
 <p>如果是对向量求梯度，则结果将是一个雅可比矩阵。具体说明见 <a href="https://pytorch.org/tutorials/beginner/blitz/autograd_tutorial.html#gradients" target="_blank" rel="noopener">Gradients</a> </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">x = torch.randn(<span class="number">3</span>, requires_grad=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">y = x * <span class="number">2</span></span><br><span class="line"><span class="comment"># 教程原文使用了 y.data.norm(), 但 data 是 0.4 版本的 API，已经不需要使用</span></span><br><span class="line"><span class="keyword">while</span> y.norm() &lt; <span class="number">1000</span>: <span class="comment"># y 的范数 &gt; 1000 的时候停止</span></span><br><span class="line">    y = y * <span class="number">2</span></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">print(y)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">x = torch.randn(<span class="number">3</span>, requires_grad=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">y = x * <span class="number">2</span></span><br><span class="line"><span class="comment"># 教程原文使用了 y.data.norm(), 但 data 是 0.4 版本的 API，已经不需要使用</span></span><br><span class="line"><span class="keyword">while</span> y.norm() &lt; <span class="number">1000</span>: <span class="comment"># y 的范数 &gt;= 1000 的时候停止</span></span><br><span class="line">    y = y * <span class="number">2</span></span><br><span class="line">    </span><br><span class="line">print(y)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor([ -<span class="number">939.5166</span>, -<span class="number">1193.9800</span>,   <span class="number">809.2726</span>], grad_fn=&lt;MulBackward0&gt;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor([ -939.5166, -1193.9800,   809.2726], grad_fn=&lt;MulBackward0&gt;)</span><br></pre></td></tr></table></figure>
 
 <p><code>y</code> 现在不是一个标量，需要向 <code>backward</code> 方法传入一个向量来求得梯度（关于这个向量的进一步解释，参考<a href="https://zhuanlan.zhihu.com/p/27808095" target="_blank" rel="noopener">PyTorch中的backward</a>）：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">v = torch.tensor([<span class="number">0.1</span>, <span class="number">1.0</span>, <span class="number">0.0001</span>], dtype=torch.float)</span><br><span class="line">y.backward(v)</span><br><span class="line"></span><br><span class="line">print(x.grad)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor([<span class="number">1.0240e+02</span>, <span class="number">1.0240e+03</span>, <span class="number">1.0240e-01</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tensor([1.0240e+02, 1.0240e+03, 1.0240e-01])</span><br></pre></td></tr></table></figure>
 
 <p>将 <code>Tensor</code> 包裹在 <code>with torch.no_grad()</code> 上下文中可以使 <code>.requires_grad=True</code> 的张量停止追踪运算记录：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">print(x.requires_grad)</span><br><span class="line">print((x ** <span class="number">2</span>).requires_grad)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    print((x ** <span class="number">2</span>).requires_grad)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="literal">True</span></span><br><span class="line"><span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">True</span><br><span class="line">True</span><br><span class="line">False</span><br></pre></td></tr></table></figure>
 
 <hr>
 <p>参考资料：</p>
