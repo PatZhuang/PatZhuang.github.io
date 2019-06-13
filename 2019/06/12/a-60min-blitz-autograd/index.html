@@ -131,7 +131,7 @@
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文是 AUTOGRAD: AUTOMATIC DIFFERENTIATION 的学习笔记">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-06-13T06:50:27.171Z">
+<meta property="og:updated_time" content="2019-06-13T06:55:49.534Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Autograd: Automatic Differentiation">
 <meta name="twitter:description" content="本文是 AUTOGRAD: AUTOMATIC DIFFERENTIATION 的学习笔记">
@@ -411,7 +411,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-13 14:50:27" itemprop="dateModified" datetime="2019-06-13T14:50:27+08:00">2019-06-13</time>
+                <time title="修改时间：2019-06-13 14:55:49" itemprop="dateModified" datetime="2019-06-13T14:55:49+08:00">2019-06-13</time>
               
             
           </span>
@@ -487,7 +487,7 @@
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tensor([[4.5000, 4.5000],</span><br><span class="line">        [4.5000, 4.5000]])</span><br></pre></td></tr></table></figure>
 
-<p>推导如下：<br>$out = \frac{1}{4}\sum_i z_i$, $z_i = 3(x_i+2)^2$ ，其中 $z_i\bigr\rvert_{x_i=1} = 27$.</p>
+<p>推导如下：<br>$out = \frac{1}{4}\sum_i z_i$, 其中 $z_i = 3(x_i+2)^2$ ，则 $z_i\bigr\rvert_{x_i=1} = 27$.</p>
 <p>因此，$\frac{\partial o}{\partial x_i} = \frac{3}{2}(x_i+2)$</p>
 <p>所以，$\frac{\partial o}{\partial x_i}\bigr\rvert_{x_i=1} = \frac{9}{2} = 4.5$.</p>
 <p>最终结果是一个所有值均为 4.5 的 2x2 矩阵。</p>
@@ -561,6 +561,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/06/13/a-60min-blitz-neural-networks/" rel="prev" title="A-60min-Blitz-Neural-Networks">
+                A-60min-Blitz-Neural-Networks <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -628,7 +632,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-count">9</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
