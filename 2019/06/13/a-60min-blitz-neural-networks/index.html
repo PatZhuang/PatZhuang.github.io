@@ -132,7 +132,7 @@
 <meta property="og:description" content="本文是 NEURAL NETWORKS 的学习笔记">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://pytorch.org/tutorials/_images/mnist.png">
-<meta property="og:updated_time" content="2019-06-13T09:53:24.237Z">
+<meta property="og:updated_time" content="2019-06-13T10:23:31.377Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="A 60 Minute Blitz 学习笔记：Neural Networks">
 <meta name="twitter:description" content="本文是 NEURAL NETWORKS 的学习笔记">
@@ -396,7 +396,7 @@
                 
               
 
-              <time title="创建时间：2019-06-13 17:28:08 / 修改时间：17:53:24" itemprop="dateCreated datePublished" datetime="2019-06-13T17:28:08+08:00">2019-06-13</time>
+              <time title="创建时间：2019-06-13 17:28:08 / 修改时间：18:23:31" itemprop="dateCreated datePublished" datetime="2019-06-13T17:28:08+08:00">2019-06-13</time>
             
 
             
@@ -464,14 +464,14 @@
 <p>注意开头图中的模型使用的卷积核是 5x5 而上述定义的网络的卷积核是 3x3 的，因此每一层的大小会有所不同<br>比如图中的模型在进入全连接层之前的 shape 是 16x5x5<br>而上述定义的模型在进入全连接层前的 shape 是 16x6x6</p>
 </blockquote>
 <blockquote>
-<p>图中最后一层 gussian connection 实际上是全连接层 + MES loss，现在一般被 Softmax 所替代。详细解释见 <a href="https://discuss.pytorch.org/t/definition-of-a-gaussian-connection/10527/2" target="_blank" rel="noopener">Definition of a “Gaussian connection”</a></p>
+<p>图中最后一层 gussian connection 实际上是全连接层 + MES Loss，现在一般被 Softmax 所替代。参考 <a href="https://discuss.pytorch.org/t/definition-of-a-gaussian-connection/10527/2" target="_blank" rel="noopener">Definition of a “Gaussian connection”</a></p>
 </blockquote>
 <blockquote>
 <p><strong>关于 <code>nn</code> 和 <code>Functional</code> 的说明：</strong></p>
 <p><code>nn</code> 和 <code>Functional</code> 模块中有很多同名或是名称类似的方法，一个粗浅的解释是：<code>nn</code> 中的方法是 <code>Functional</code> 中同名方法的类封装。</p>
-<p><code>nn</code> 中的方法在调用之前需要先实例化，如 <code>self.fc1 = nn.Linear(16 * 6 * 6, 120)</code>，然后调用 <code>self.fc1(x)</code>. 其中全连接层的参数不需要在每次调用时传入，而是由该全连接层对象保存。</p>
+<p><code>nn</code> 中的方法在调用之前需要先实例化，如 <code>self.fc1 = nn.Linear(16 * 6 * 6, 120)</code>，然后调用 <code>self.fc1(x)</code>. 该全连接层的参数不需要在每次调用时传入，而是由该全连接层对象保存。</p>
 <p><code>Functional</code> 中的方法需要每次传参调用，如 <code>x = F.max_pool2d(F.relu(self.conv2(x)), 2)</code>，适用于一些无参或者不需要保存状态的层。</p>
-<p>一般来说，具有学习参数的层使用 <code>nn</code> 模块的方法，而无参的层使用 <code>Functional</code> 方法。</p>
+<p>一般来说，具有学习参数的层使用 <code>nn</code> 模块的方法，而无参或无序学习参数的层使用 <code>Functional</code> 方法。</p>
 <p><code>dropout</code> 层建议使用 <code>nn</code> 模块的方法，因为 <code>Functional</code> 的 <code>dropout</code> 层不会在 <code>model.eval()</code> 时关闭。</p>
 <p>参考：<a href="https://www.zhihu.com/question/66782101/answer/579393790" target="_blank" rel="noopener">PyTorch 中，nn 与 nn.functional 有什么区别？ - 有糖吃可好的回答 - 知乎</a></p>
 </blockquote>
