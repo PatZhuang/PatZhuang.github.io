@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon.ico?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-32x32.png?v=7.1.2">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文为 DATA LOADING AND PROCESSING TUTORIAL 的学习笔记">
+<meta name="keywords" content="pytorch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PyTorch Data Loading Tutorial">
+<meta property="og:url" content="http://yoursite.com/2019/06/19/pytorch-data_loading_tutorial/index.html">
+<meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
+<meta property="og:description" content="本文为 DATA LOADING AND PROCESSING TUTORIAL 的学习笔记">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://pytorch.org/tutorials/_images/landmarked_face2.png">
+<meta property="og:image" content="https://pytorch.org/tutorials/_images/sphx_glr_data_loading_tutorial_001.png">
+<meta property="og:image" content="https://pytorch.org/tutorials/_images/sphx_glr_data_loading_tutorial_002.png">
+<meta property="og:image" content="https://pytorch.org/tutorials/_images/sphx_glr_data_loading_tutorial_003.png">
+<meta property="og:image" content="https://pytorch.org/tutorials/_images/sphx_glr_data_loading_tutorial_004.png">
+<meta property="og:updated_time" content="2019-06-19T13:47:32.814Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PyTorch Data Loading Tutorial">
+<meta name="twitter:description" content="本文为 DATA LOADING AND PROCESSING TUTORIAL 的学习笔记">
+<meta name="twitter:image" content="https://pytorch.org/tutorials/_images/landmarked_face2.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/06/19/pytorch-data_loading_tutorial/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>PyTorch Data Loading Tutorial | Pato's raison d'etre</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pato's raison d'etre</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/19/pytorch-data_loading_tutorial/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick">
+      <meta itemprop="description" content="🌈">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pato's raison d'etre">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">PyTorch Data Loading Tutorial
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-19 21:36:18 / 修改时间：21:47:32" itemprop="dateCreated datePublished" datetime="2019-06-19T21:36:18+08:00">2019-06-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文为 <a href="https://pytorch.org/tutorials/beginner/data_loading_tutorial.html" target="_blank" rel="noopener">DATA LOADING AND PROCESSING TUTORIAL</a> 的学习笔记</p>
+<a id="more"></a>
+
+<p>机器学习的预处理一般要花费很大的精力，PyTorch 为数据读取提供了很多方便的工具，也使得代码更加易读。本文将演示如何对一个数据集进行读取、预处理和数据增强。</p>
+<p>本文需要使用的 package 有：</p>
+<ul>
+<li><code>scikit-image</code>: 数据读取和变换</li>
+<li><code>pandas</code>: 方便 csv 文件的 parsing</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">%config InlineBackend.figure_format = <span class="string">'svg'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> skimage <span class="keyword">import</span> io, transform</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset, DataLoader <span class="comment"># Dataset 是表示数据集的抽象类</span></span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> transforms, utils</span><br><span class="line"></span><br><span class="line"><span class="comment"># 忽略 warnings</span></span><br><span class="line"><span class="keyword">import</span> warnings</span><br><span class="line">warnings.filterwarnings(<span class="string">"ignore"</span>)</span><br><span class="line"></span><br><span class="line">plt.ion() <span class="comment"># 交互模式开启</span></span><br></pre></td></tr></table></figure>
+
+<p>我们要使用的数据集是人脸姿态标记的数据，每张脸都像下图一样被标注：</p>
+<p><img src="https://pytorch.org/tutorials/_images/landmarked_face2.png" alt="landmarked_face"></p>
+<p>每张脸都有 68 个不同的标记点。</p>
+<blockquote>
+<p><a href="https://download.pytorch.org/tutorial/faces.zip" target="_blank" rel="noopener">数据集下载</a>，要放在 <code>data/faces</code> 目录下</p>
+</blockquote>
+<p>数据集中包含一个 csv 文件，其中的标注实例如下：</p>
+<blockquote>
+<p>image_name,part_0_x,part_0_y,part_1_x,part_1_y,part_2_x, … ,part_67_x,part_67_y</p>
+<p>0805personali01.jpg,27,83,27,98, … 84,134</p>
+<p>1084239450_e76e00b7e7.jpg,70,236,71,257, … ,128,312</p>
+</blockquote>
+<p>我们将这些标注点数据读取到一个 (N, 2) 的数组中，其中 N 是标注点的个数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">landmarks_frame = pd.read_csv(<span class="string">'data/faces/face_landmarks.csv'</span>)</span><br><span class="line"></span><br><span class="line">print(landmarks_frame.head()) <span class="comment"># 看前5个数据</span></span><br><span class="line"></span><br><span class="line">n = <span class="number">65</span> <span class="comment"># 选择第 65 张图的标注数据</span></span><br><span class="line">img_name = landmarks_frame.iloc[n, <span class="number">0</span>] <span class="comment"># 读取文件名</span></span><br><span class="line"><span class="comment"># 这里原文使用 as_matrix() 方法, 新版本 pandas 使用 values 属性</span></span><br><span class="line">landmarks = landmarks_frame.iloc[n, <span class="number">1</span>:].values <span class="comment"># 读取标注点坐标并把 DataFrame 转换为 ndarray, shape 为 (136, )</span></span><br><span class="line">landmarks = landmarks.astype(<span class="string">'float'</span>).reshape(<span class="number">-1</span>, <span class="number">2</span>) <span class="comment"># reshape 为 (N, 2)，这里的 N = 1</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">f'\nImage name: <span class="subst">&#123;img_name&#125;</span>'</span>)</span><br><span class="line">print(<span class="string">f'Landmakrs shape: <span class="subst">&#123;landmarks.shape&#125;</span>'</span>)</span><br><span class="line">print(<span class="string">f'First 4 Landmakrs: <span class="subst">&#123;landmarks[:<span class="number">4</span>]&#125;</span>'</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>                  image_name  part_0_x  ...  part_67_x  part_67_y
+0        0805personali01.jpg        27  ...         84        134
+1  1084239450_e76e00b7e7.jpg        70  ...        128        312
+2         10comm-decarlo.jpg        66  ...        116        164
+3   110276240_bec305da91.jpg        42  ...        125        209
+4             1198_0_861.jpg       138  ...        265        516
+
+[5 rows x 137 columns]
+
+Image name: person-7.jpg
+Landmakrs shape: (68, 2)
+First 4 Landmakrs: [[32. 65.]
+ [33. 76.]
+ [34. 86.]
+ [34. 97.]]</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 编写一个可以显式图像及其标记点的函数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_landmarks</span><span class="params">(image, landmarks)</span>:</span></span><br><span class="line">    <span class="string">"""Show image with landmarks"""</span></span><br><span class="line">    plt.imshow(image)</span><br><span class="line">    plt.scatter(landmarks[:, <span class="number">0</span>], landmarks[:, <span class="number">1</span>], s=<span class="number">10</span>, marker=<span class="string">'.'</span>, c=<span class="string">'r'</span>)</span><br><span class="line">    plt.pause(<span class="number">0.001</span>) <span class="comment"># 暂停一回儿让 plots 更新</span></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">plt.figure()</span><br><span class="line">show_landmarks(io.imread(os.path.join(<span class="string">'data/faces'</span>, img_name)), landmarks)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pytorch.org/tutorials/_images/sphx_glr_data_loading_tutorial_001.png" alt="001"></p>
+<h2 id="Dataset-class"><a href="#Dataset-class" class="headerlink" title="Dataset class"></a>Dataset class</h2><p><code>torch.utils.data.Dataset</code> 是表示一个数据集的抽象类。自定义的数据集要继承 <code>Dataset</code> 类并重写以下方法：</p>
+<ul>
+<li><code>__len__</code>: 使 <code>len(dataset)</code> 返回数据集的大小</li>
+<li><code>__getitem__</code>: 使数据集支持下表访问如 <code>dataset[i]</code></li>
+</ul>
+<p>接下来为脸部标注数据集创建一个 dataset class. 我们将 csv 的读取放在 <code>__init__</code> 中，把图片的读取放在 <code>__getitem__</code> 中，这有助于减少内存占用。</p>
+<p>我们将数据集的样本设置为一个字典：<code>{&#39;image&#39;: image, &#39;landmarks&#39;: landmarks}</code>. 我们的数据集接受一个可选参数 <code>transform</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FaceLandmarksDataset</span><span class="params">(Dataset)</span>:</span></span><br><span class="line">    <span class="string">"""Face Landmarks dataset."""</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, csv_file, root_dir, transform=None)</span>:</span></span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string">        Args:</span></span><br><span class="line"><span class="string">            csv_file (string): Path to the csv file with annotations.</span></span><br><span class="line"><span class="string">            root_dir (string): Directory with all the images.</span></span><br><span class="line"><span class="string">            transform (callable, optional): Optional transform to be applied</span></span><br><span class="line"><span class="string">                on a sample.</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.landmarks_frame = pd.read_csv(csv_file)</span><br><span class="line">        self.root_dir = root_dir</span><br><span class="line">        self.transform = transform</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.landmarks_frame)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span><span class="params">(self, idx)</span>:</span></span><br><span class="line">        img_name = os.path.join(self.root_dir, self.landmarks_frame.iloc[idx, <span class="number">0</span>])</span><br><span class="line">        </span><br><span class="line">        image = io.imread(img_name)</span><br><span class="line">        landmarks = self.landmarks_frame.iloc[idx, <span class="number">1</span>:].values.astype(<span class="string">'float'</span>).reshape(<span class="number">-1</span>, <span class="number">2</span>)</span><br><span class="line">        sample = &#123;<span class="string">'image'</span> : image, <span class="string">'landmarks'</span> : landmarks&#125;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> self.transform:</span><br><span class="line">            sample = self.transform(sample)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> sample</span><br></pre></td></tr></table></figure>
+
+<p>接下来实例化这个类并遍历数据集，展示前四个数据：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">face_dataset = FaceLandmarksDataset(csv_file=<span class="string">'data/faces/face_landmarks.csv'</span>, </span><br><span class="line">                                   root_dir=<span class="string">'data/faces/'</span>)</span><br><span class="line"></span><br><span class="line">fig = plt.figure()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(face_dataset)):</span><br><span class="line">    sample = face_dataset[i]</span><br><span class="line">    </span><br><span class="line">    print(i, sample[<span class="string">'image'</span>].shape, sample[<span class="string">'landmarks'</span>].shape)</span><br><span class="line">    </span><br><span class="line">    ax = plt.subplot(<span class="number">1</span>, <span class="number">4</span>, i + <span class="number">1</span>)</span><br><span class="line">    plt.tight_layout()</span><br><span class="line">    ax.set_title(<span class="string">f'sample #<span class="subst">&#123;i&#125;</span>'</span>)</span><br><span class="line">    ax.axis(<span class="string">'off'</span>)</span><br><span class="line">    show_landmarks(**sample)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">3</span>:</span><br><span class="line">        plt.show()</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pytorch.org/tutorials/_images/sphx_glr_data_loading_tutorial_002.png" alt="002"></p>
+<pre><code>0 (324, 215, 3) (68, 2)
+1 (324, 215, 3) (68, 2)
+2 (324, 215, 3) (68, 2)
+3 (324, 215, 3) (68, 2)</code></pre><h2 id="Transforms"><a href="#Transforms" class="headerlink" title="Transforms"></a>Transforms</h2><p>上述样本的一个显而易见的问题是，它们的尺寸是不一致的。大多数神经网络都要求输入数据有一致的尺寸，因此，我们需要对图片做一些预处理：</p>
+<ul>
+<li><code>Rescale</code>: 缩放图片</li>
+<li><code>RandomCrop</code>: 随机切割图片，这是数据增强的操作</li>
+<li><code>ToTensor</code>: 把 numpy image 转换为 torch image，这里要做<strong>轴变换</strong></li>
+</ul>
+<p>我们将使用 <code>callable</code> 类而不是普通的函数来实现这些功能，这样就无需在每次变换的时候都传入变换参数。我们要实现的方法有 <code>__call__</code> 和 <code>__init__</code> （如果需要），之后可以像这样使用这个变换：</p>
+<pre>
+tsfm = Transform(params)
+transformed_sample = tsfm(sample)
+</pre>
+
+<p>注意这些变换要同时应用到图片和标注上。</p>
+<blockquote>
+<p>以上的三个变换方法在 <code>transform</code> 库中都自带，分别叫 <code>Resize</code>, <code>Rescale</code> 和 <code>ToTensor</code></p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Rescale</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""Rescale the image in a sample to a given size.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        output_size (tuple or int): Desired output size. If tuple, output is</span></span><br><span class="line"><span class="string">            matched to output_size. If int, smaller of image edges is matched</span></span><br><span class="line"><span class="string">            to output_size keeping aspect ratio the same.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, output_size)</span>:</span></span><br><span class="line">        <span class="keyword">assert</span> isinstance(output_size, (int, tuple))</span><br><span class="line">        self.output_size = output_size</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, sample)</span>:</span></span><br><span class="line">        image, landmarks = sample[<span class="string">'image'</span>], sample[<span class="string">'landmarks'</span>]</span><br><span class="line">        </span><br><span class="line">        h, w = image.shape[:<span class="number">2</span>] <span class="comment"># 第三个维度是 channel, 这里只处理前两维即高宽</span></span><br><span class="line">        <span class="comment"># 对图片做变换</span></span><br><span class="line">        <span class="keyword">if</span> isinstance(self.output_size, int): <span class="comment"># 如果 output_size 是一个整数</span></span><br><span class="line">            <span class="keyword">if</span> h &gt; w: <span class="comment"># 取短边 = output_size, 保持图片比例</span></span><br><span class="line">                new_h, new_w = self.output_size * h / w, self.output_size</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                new_h, new_w = self.output_size, self.output_size * w / h</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            new_h, new_w = self.output_size</span><br><span class="line">            </span><br><span class="line">        new_h, new_w = int(new_h), int(new_w)</span><br><span class="line">        </span><br><span class="line">        img = transform.resize(image, (new_h, new_w))</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 对标注做变换</span></span><br><span class="line">        <span class="comment"># 注意 x 是宽（横轴，即 1 维方向），y 是高（纵轴，即 0 维方向）</span></span><br><span class="line">        landmarks = landmarks * [new_w/w, new_h/h]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="string">'image'</span> : img, <span class="string">'landmarks'</span> : landmarks&#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RandomCrop</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""Crop randomly the image in a sample.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    Args:</span></span><br><span class="line"><span class="string">        output_size (tuple or int): Desired output size. If int, square crop</span></span><br><span class="line"><span class="string">            is made.</span></span><br><span class="line"><span class="string">    """</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, output_size)</span>:</span></span><br><span class="line">        <span class="keyword">assert</span> isinstance(output_size, (int, tuple))</span><br><span class="line">        <span class="keyword">if</span> isinstance(output_size, int):</span><br><span class="line">            self.output_size = (output_size, output_size)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">assert</span> len(output_size) == <span class="number">2</span></span><br><span class="line">            self.output_size = output_size</span><br><span class="line">                </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, sample)</span>:</span></span><br><span class="line">        image, landmarks = sample[<span class="string">'image'</span>], sample[<span class="string">'landmarks'</span>]</span><br><span class="line">        </span><br><span class="line">        h, w = image.shape[:<span class="number">2</span>]</span><br><span class="line">        new_h, new_w = self.output_size</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 随机设置切割起点（左上角）</span></span><br><span class="line">        top = np.random.randint(<span class="number">0</span>, h - new_h)</span><br><span class="line">        left = np.random.randint(<span class="number">0</span>, w - new_w)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 以 [top, left] 为左上角切出长宽为 (new_h, new_w) 的图片</span></span><br><span class="line">        image = image[top: top + new_h, left: left + new_w]</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 标注点整体向左上平移</span></span><br><span class="line">        landmarks = landmarks - [left, top]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="string">'image'</span> : image, <span class="string">'landmarks'</span> : landmarks&#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ToTensor</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="string">"""Convert ndarrays in sample to Tensors."""</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__call__</span><span class="params">(self, sample)</span>:</span></span><br><span class="line">        image, landmarks = sample[<span class="string">'image'</span>], sample[<span class="string">'landmarks'</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># swap color axis</span></span><br><span class="line">        <span class="comment"># numpy image: H x W x C</span></span><br><span class="line">        <span class="comment"># torch image: C x H x W</span></span><br><span class="line">        image = image.transpose((<span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>))</span><br><span class="line">        <span class="keyword">return</span> &#123;<span class="string">'image'</span>: torch.from_numpy(image),</span><br><span class="line">                  <span class="string">'landmarks'</span>: torch.from_numpy(landmarks)&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Compose-transforms"><a href="#Compose-transforms" class="headerlink" title="Compose transforms"></a>Compose transforms</h3><p>接下来对一个样本应用这些变换。</p>
+<p>假设我们要把该图像的短边缩放到 256 像素，然后将其随机切割为一个边长为 224 的正方形，我们要组合 <code>Rescale</code> 和 <code>RandomCrop</code> 变换。<code>torchvision.transforms.Compose</code> 可以做到这一点，它是一个 <code>callable</code> 类。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">scale = Rescale(<span class="number">256</span>)</span><br><span class="line">crop = RandomCrop(<span class="number">128</span>)</span><br><span class="line">composed = transforms.Compose([</span><br><span class="line">    Rescale(<span class="number">256</span>),</span><br><span class="line">    RandomCrop(<span class="number">224</span>)</span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">fig = plt.figure()</span><br><span class="line">sample = face_dataset[<span class="number">65</span>]</span><br><span class="line"><span class="keyword">for</span> i, tsfrm <span class="keyword">in</span> enumerate([scale, crop, composed]):</span><br><span class="line">    <span class="comment"># 对图像和标注应用三种变换：缩放、随机切割、组合变换</span></span><br><span class="line">    transformed_sample = tsfrm(sample)</span><br><span class="line">    </span><br><span class="line">    ax = plt.subplot(<span class="number">1</span>, <span class="number">3</span>, i + <span class="number">1</span>)</span><br><span class="line">    plt.tight_layout()</span><br><span class="line">    ax.set_title(type(tsfrm).__name__)</span><br><span class="line">    show_landmarks(**transformed_sample)</span><br><span class="line">    </span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pytorch.org/tutorials/_images/sphx_glr_data_loading_tutorial_003.png" alt="003"></p>
+<h2 id="Iterating-through-the-dataset"><a href="#Iterating-through-the-dataset" class="headerlink" title="Iterating through the dataset"></a>Iterating through the dataset</h2><p>结合以上的内容我们可以创造一个经过组合变换的数据集，这个数据集在每次被采样时：</p>
+<ul>
+<li>一张图片被读取</li>
+<li>对这张图片应用组合变换</li>
+<li>由于切割变换是随机的，因此在采样的同时也做了数据增强</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">transformed_dataset = FaceLandmarksDataset(</span><br><span class="line">    csv_file=<span class="string">'data/faces/face_landmarks.csv'</span>,</span><br><span class="line">    root_dir=<span class="string">'data/faces/'</span>,</span><br><span class="line">    transform=transforms.Compose([</span><br><span class="line">        Rescale(<span class="number">256</span>),</span><br><span class="line">        RandomCrop(<span class="number">224</span>),</span><br><span class="line">        ToTensor()</span><br><span class="line">    ])</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用简单的 for loop 来遍历数据集</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(len(transformed_dataset)):</span><br><span class="line">    sample = transformed_dataset[i]</span><br><span class="line">    </span><br><span class="line">    print(i, sample[<span class="string">'image'</span>].size(), sample[<span class="string">'landmarks'</span>].size())</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> i == <span class="number">3</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>0 torch.Size([3, 224, 224]) torch.Size([68, 2])
+1 torch.Size([3, 224, 224]) torch.Size([68, 2])
+2 torch.Size([3, 224, 224]) torch.Size([68, 2])
+3 torch.Size([3, 224, 224]) torch.Size([68, 2])</code></pre><p>为了解决简单 for loop 无法做到：</p>
+<ul>
+<li>将数据分批（Batching）</li>
+<li>数据洗混（shuffling）</li>
+<li>使用 <code>multiprocessing</code> 并行读取数据</li>
+</ul>
+<p>可以使用 <code>torch.utils.data.DataLoader</code> 来读取数据。一个有意思的参数是 <code>collate_fn</code>, 可以用这个参数指定样本如何被分批（batch），但是使用默认参数在大多数情况下就足够了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">dataloader = DataLoader(transformed_dataset, batch_size=<span class="number">4</span>, </span><br><span class="line">                        shuffle=<span class="literal">True</span>, num_workers=<span class="number">4</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 显示一个 batch 的辅助函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">show_landmarks_batch</span><span class="params">(sample_batched)</span>:</span></span><br><span class="line">    <span class="string">"""Show image with landmarks for a batch of samples."""</span></span><br><span class="line">    images_batch, landmarks_batch = sample_batched[<span class="string">'image'</span>], sample_batched[<span class="string">'landmarks'</span>]</span><br><span class="line">    batch_size = len(images_batch)</span><br><span class="line">    im_size = images_batch.size(<span class="number">2</span>)</span><br><span class="line">    grid_border_size = <span class="number">2</span></span><br><span class="line">    </span><br><span class="line">    grid = utils.make_grid(images_batch)</span><br><span class="line">    <span class="comment"># 数据集中的图片是 tensor image, 要换回 numpy image</span></span><br><span class="line">    plt.imshow(grid.numpy().transpose((<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>)))</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(batch_size):</span><br><span class="line">        <span class="comment"># 图片是以 grid 形式打印，要对标注点做坐标变换</span></span><br><span class="line">        plt.scatter(landmarks_batch[i, :, <span class="number">0</span>].numpy() + i * im_size + (i + <span class="number">1</span>) * grid_border_size,</span><br><span class="line">                   landmarks_batch[i, :, <span class="number">1</span>].numpy() + grid_border_size,</span><br><span class="line">                   s=<span class="number">10</span>, marker=<span class="string">'.'</span>, c=<span class="string">'r'</span>)</span><br><span class="line">        plt.title(<span class="string">'Batch from dataloader'</span>)</span><br><span class="line">        </span><br><span class="line"><span class="keyword">for</span> i_batch, sample_batched <span class="keyword">in</span> enumerate(dataloader):</span><br><span class="line">    print(i_batch, sample_batched[<span class="string">'image'</span>].size(), sample_batched[<span class="string">'landmarks'</span>].size())</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> i_batch==<span class="number">3</span>: <span class="comment"># 观察 4th batch</span></span><br><span class="line">        plt.figure()</span><br><span class="line">        show_landmarks_batch(sample_batched)</span><br><span class="line">        plt.axis(<span class="string">'off'</span>)</span><br><span class="line">        plt.ioff()</span><br><span class="line">        plt.show()</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>0 torch.Size([4, 3, 224, 224]) torch.Size([4, 68, 2])
+1 torch.Size([4, 3, 224, 224]) torch.Size([4, 68, 2])
+2 torch.Size([4, 3, 224, 224]) torch.Size([4, 68, 2])
+3 torch.Size([4, 3, 224, 224]) torch.Size([4, 68, 2])</code></pre><p><img src="https://pytorch.org/tutorials/_images/sphx_glr_data_loading_tutorial_004.png" alt="004"></p>
+<h2 id="Afterword-torchvision"><a href="#Afterword-torchvision" class="headerlink" title="Afterword: torchvision"></a>Afterword: torchvision</h2><p>本文展示了如何使用数据集、数据变换和 dataloader. <code>torchvision</code> 提供了一些常见的数据集和变换，你甚至不需要编写自定义类。其中最通用的数据集是 <code>ImageFolder</code>, 它假定图像按照以下格式存放：</p>
+<pre>
+root/ants/xxx.png
+root/ants/xxy.jpeg
+root/ants/xxz.png
+.
+.
+.
+root/bees/123.jpg
+root/bees/nsdf3.png
+root/bees/asd932_.png
+</pre>
+
+<p>其中 ‘ants’, ‘bees’ 等是类标记。<code>PIL.Image</code> 中的一些通用变换操作例如 <code>RandomHorizontalFlip</code>, <code>Scale</code> 也在 <code>torchvision</code> 中提供，可以使用它们来构建一个 dataloader：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> transforms, datasets</span><br><span class="line"></span><br><span class="line">data_transform = transforms.Compose([</span><br><span class="line">    transforms.RandomSizedCrop(<span class="number">224</span>),</span><br><span class="line">    transforms.RandomHorizontalFlip(),</span><br><span class="line">    transforms.ToTensor(),</span><br><span class="line">    <span class="comment"># 这个其实是 CIFAR10 的 mean 和 std</span></span><br><span class="line">    transforms.Normalize(mean=[<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>],</span><br><span class="line">                        std=[<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])    </span><br><span class="line">])</span><br><span class="line"></span><br><span class="line">hymenotera_dataset = datasets.ImageFolder(root=<span class="string">'hymenoptera_data/train'</span>,</span><br><span class="line">                                         transform=data_transform)</span><br><span class="line">dataset_loader = torch.utils.data.DataLoader(hymenoptera_dataset,</span><br><span class="line">                                            batch_size=<span class="number">4</span>, shuffle=<span class="literal">True</span>, num_workers=<span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://pytorch.org/tutorials/beginner/data_loading_tutorial.html" target="_blank" rel="noopener">DATA LOADING AND PROCESSING TUTORIAL</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/14/a-60min-blitz-cifar10/" rel="next" title="A 60 Minute Blitz 学习笔记：Training a Classifier">
+                <i class="fa fa-chevron-left"></i> A 60 Minute Blitz 学习笔记：Training a Classifier
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Patrick</p>
+              <div class="site-description motion-element" itemprop="description">🌈</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">11</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Dataset-class"><span class="nav-number">1.</span> <span class="nav-text">Dataset class</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transforms"><span class="nav-number">2.</span> <span class="nav-text">Transforms</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Compose-transforms"><span class="nav-number">2.1.</span> <span class="nav-text">Compose transforms</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterating-through-the-dataset"><span class="nav-number">3.</span> <span class="nav-text">Iterating through the dataset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Afterword-torchvision"><span class="nav-number">4.</span> <span class="nav-text">Afterword: torchvision</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
