@@ -132,7 +132,7 @@
 <meta property="og:description" content="本文为 WHAT IS TORCH.NN REALLY? 的学习笔记">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://pytorch.org/tutorials/_images/sphx_glr_nn_tutorial_001.png">
-<meta property="og:updated_time" content="2019-06-26T12:22:59.849Z">
+<meta property="og:updated_time" content="2019-06-26T12:25:00.804Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="What-Is-Torch-Nn-Really">
 <meta name="twitter:description" content="本文为 WHAT IS TORCH.NN REALLY? 的学习笔记">
@@ -396,7 +396,7 @@
                 
               
 
-              <time title="创建时间：2019-06-26 20:22:26 / 修改时间：20:22:59" itemprop="dateCreated datePublished" datetime="2019-06-26T20:22:26+08:00">2019-06-26</time>
+              <time title="创建时间：2019-06-26 20:22:26 / 修改时间：20:25:00" itemprop="dateCreated datePublished" datetime="2019-06-26T20:22:26+08:00">2019-06-26</time>
             
 
             
@@ -528,11 +528,7 @@ with torch.no_grad():
     bias -= bias.grad * lr
     weights.grad.zero_()
     bias.grad.zero_()
-</pre>
 
-
-
-<pre>
 # after:
 with torch.no_grad():
     for p in model.parameters():
@@ -562,10 +558,9 @@ with torch.no_grad():
     for p in model.parameters():
         p -= p.grad * lr
     model.zero_grad()
+
 # after:
-
 # 不需要再使用 torch.no_grad() 上下文
-
 opt.step()
 opt.zero_grad() # 清空梯度现在由优化器来执行
 </pre>
