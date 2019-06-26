@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.1.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon.ico?v=7.1.2">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-32x32.png?v=7.1.2">
+
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.1.2',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文为 WHAT IS TORCH.NN REALLY? 的学习笔记">
+<meta name="keywords" content="pytorch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="What-Is-Torch-Nn-Really">
+<meta property="og:url" content="http://yoursite.com/2019/06/26/what-is-torch-nn-really/index.html">
+<meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
+<meta property="og:description" content="本文为 WHAT IS TORCH.NN REALLY? 的学习笔记">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://pytorch.org/tutorials/_images/sphx_glr_nn_tutorial_001.png">
+<meta property="og:updated_time" content="2019-06-26T12:22:59.849Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="What-Is-Torch-Nn-Really">
+<meta name="twitter:description" content="本文为 WHAT IS TORCH.NN REALLY? 的学习笔记">
+<meta name="twitter:image" content="https://pytorch.org/tutorials/_images/sphx_glr_nn_tutorial_001.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/06/26/what-is-torch-nn-really/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>What-Is-Torch-Nn-Really | Pato's raison d'etre</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pato's raison d'etre</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/26/what-is-torch-nn-really/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick">
+      <meta itemprop="description" content="🌈">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pato's raison d'etre">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">What-Is-Torch-Nn-Really
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-06-26 20:22:26 / 修改时间：20:22:59" itemprop="dateCreated datePublished" datetime="2019-06-26T20:22:26+08:00">2019-06-26</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文为 <a href="https://pytorch.org/tutorials/beginner/nn_tutorial.html" target="_blank" rel="noopener">WHAT IS TORCH.NN REALLY?</a> 的学习笔记</p>
+<a id="more"></a>
+
+<p>PyTorch 提供了设计优雅的模块和类例如 torch.nn, torch.optim, Dataset 和 Dataloader 来帮助你创建和训练神经网络。为了充分运用这些模块，你需要真正理解它们在做些什么。首先，我们在 MNIST 数据集使用基本的 PyTorch tensor 来训练一个神经网络而不使用上述的模块。之后我们将逐步添加 <code>torch.nn</code>, <code>torch.optim</code>, <code>Dataset</code> 和 <code>DataLoader</code> 的功能来展示这些模块分别做了什么，以及它们是如何使得代码更加简洁和灵活。</p>
+<h2 id="MNIST-data-setup"><a href="#MNIST-data-setup" class="headerlink" title="MNIST data setup"></a>MNIST data setup</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> pathlib <span class="keyword">import</span> Path <span class="comment"># 使用 pathlib 来处理路径</span></span><br><span class="line"><span class="keyword">import</span> requests <span class="comment"># 使用 requests 来下载 MNIST 数据集</span></span><br><span class="line"></span><br><span class="line">DATA_PATH = Path(<span class="string">'data'</span>)</span><br><span class="line">PATH = DATA_PATH / <span class="string">'mnist'</span></span><br><span class="line"></span><br><span class="line">PATH.mkdir(parents=<span class="literal">True</span>, exist_ok=<span class="literal">True</span>) </span><br><span class="line"></span><br><span class="line">URL = <span class="string">'http://deeplearning.net/data/mnist/'</span></span><br><span class="line">FILENAME = <span class="string">'mnist.pkl.gz'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="keyword">not</span> (PATH / FILENAME).exists():</span><br><span class="line">    content = requests.get(URL + FILENAME).content</span><br><span class="line">    (PATH / FILENAME).open(<span class="string">'wb'</span>).write(content)</span><br></pre></td></tr></table></figure>
+
+<p>数据集是 numpy array 格式，且被 pickle 序列化。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pickle</span><br><span class="line"><span class="keyword">import</span> gzip</span><br><span class="line"></span><br><span class="line"><span class="comment"># as_posix() 从 PosixPath 中取出 Unix 路径分隔符（ / ）表示的路径</span></span><br><span class="line"><span class="keyword">with</span> gzip.open((PATH / FILENAME).as_posix(), <span class="string">'rb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    ((x_train, y_train), (x_valid, y_valid), _) = pickle.load(f, encoding=<span class="string">'latin-1'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>每张图片是 28x28 的大小，被展平为长度为 784（28x28）的行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">%config InlineBackend.figure_format = <span class="string">'svg'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">plt.imshow(x_train[<span class="number">0</span>].reshape((<span class="number">28</span>, <span class="number">28</span>)), cmap=<span class="string">'gray'</span>)</span><br><span class="line">print(x_train.shape)</span><br></pre></td></tr></table></figure>
+
+<pre><code>(50000, 784)</code></pre><p><img src="https://pytorch.org/tutorials/_images/sphx_glr_nn_tutorial_001.png" alt="svg"></p>
+<p>PyTorch 使用 <code>torch.tensor</code> 而不是 numpy array，所以要进行数据格式转换。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把 numpy array 转换为 torch tensor</span></span><br><span class="line"><span class="comment"># map 对象可以直接按位置解包</span></span><br><span class="line">x_train, y_train, x_valid, y_valid = map(</span><br><span class="line">    torch.tensor, (x_train, y_train, x_valid, y_valid)</span><br><span class="line">)</span><br><span class="line">n, c = x_train.shape</span><br><span class="line">x_train, x_train.shape, y_train.min(), y_train.max()</span><br><span class="line">print(x_train, y_train)</span><br><span class="line">print(x_train.shape)</span><br><span class="line">print(y_train.min(), y_train.max())</span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor([[0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        ...,
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.],
+        [0., 0., 0.,  ..., 0., 0., 0.]]) tensor([5, 0, 4,  ..., 8, 4, 8])
+torch.Size([50000, 784])
+tensor(0) tensor(9)</code></pre><h2 id="Neural-net-from-scratch-no-torch-nn"><a href="#Neural-net-from-scratch-no-torch-nn" class="headerlink" title="Neural net from scratch(no torch.nn)"></a>Neural net from scratch(no torch.nn)</h2><p>首先，我们使用 PyTorch tensor 的运算来构建一个模型。</p>
+<p>PyTorch 提供了将 Tensor 随机初始化或初始化为全 0 的方法，我们使用这些方法来创建权重和 bias. 这两者都是一般的 tensor，唯一不同之处是，我们会将它们的 <code>requires_grad</code> 设置为 <code>True</code>. 这使得 PyTorch 会记录所有在这些 tensor 上执行的运算，在反向传播期间就可以自动计算相应的梯度。</p>
+<blockquote>
+<p>我们使用 <a href="http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf" target="_blank" rel="noopener">Xavier initialization</a> 来初始化权重，也即将每个值都除以 sqrt(n).</p>
+<p>这一步执行之后再设置 requires_grad 为 True，因为我们不需要计算这个除法运算对应的梯度。</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line">weights = torch.randn(<span class="number">784</span>, <span class="number">10</span>) / math.sqrt(<span class="number">784</span>)</span><br><span class="line">weights.requires_grad_()</span><br><span class="line">bias = torch.zeros(<span class="number">10</span>, requires_grad=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<p>由于 PyTorch 的自动梯度运算机制，我们可以使用任意的标准 Python 函数（或 callale 对象）作为模型。</p>
+<p>接下来使用简单的矩阵乘法和加法广播来构建一个线性模型，此外，我们还需要使用一个激励函数，这里使用手写的 <em>log_soft_max</em> 函数。</p>
+<p>注意：虽然 PyTorch 提供了许多常用的 loss 和激励函数，但你仍然可以手动实现你想要的 loss 和 activation func, 而且 PyTorch 仍然会为这些手动实现的运算提供 GPU 或 向量化 CPU 加速。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">log_softmax</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="comment"># 执行完 x.exp().sum(-1) 后 shape 会变成 (64)</span></span><br><span class="line">    <span class="comment"># 为了能够广播要在最后加上一维，所以调用 unsqueeze(-1), 变成 (64, 1)</span></span><br><span class="line">    <span class="keyword">return</span> x - x.exp().sum(<span class="number">-1</span>).log().unsqueeze(<span class="number">-1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">model</span><span class="params">(xb)</span>:</span></span><br><span class="line">    <span class="comment"># xb @ weights + bias 的 shape 是 (64, 10)</span></span><br><span class="line">    <span class="comment"># @ 是矩阵乘法，（多数情况下）相当于 torch.mm()</span></span><br><span class="line">    <span class="keyword">return</span> log_softmax(xb @ weights + bias)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bs = <span class="number">64</span> <span class="comment"># batch size</span></span><br><span class="line"></span><br><span class="line">xb = x_train[<span class="number">0</span>:bs] <span class="comment"># (64, 784)</span></span><br><span class="line">preds = model(xb)</span><br><span class="line">print(preds[<span class="number">0</span>], preds.shape)</span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor([-2.6260, -1.9875, -2.5530, -2.1999, -1.8609, -2.5637, -2.6143, -2.1218,
+        -2.6210, -2.2671], grad_fn=&lt;SelectBackward&gt;) torch.Size([64, 10])</code></pre><p>可以看到，<code>preds</code> 张量不仅包含 tensor 值，也包含了梯度函数，之后我们会在反向传播的时候使用它。</p>
+<p>接下来实现一个负的 log-likelihood （也就是 cross entropy）作为 loss func.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">nll</span><span class="params">(input, target)</span>:</span></span><br><span class="line">    <span class="comment"># 对于 log softmax 的 cross entropy</span></span><br><span class="line">    <span class="comment"># 计算公式是 E(y, t) = -y[t], 其中 t 是 target 对应的 index</span></span><br><span class="line">    <span class="keyword">return</span> -input[range(target.shape[<span class="number">0</span>]), target].mean()</span><br><span class="line"></span><br><span class="line">loss_func = nll</span><br></pre></td></tr></table></figure>
+
+<p>来看看随机初始化权重的模型的损失：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yb = y_train[<span class="number">0</span>:bs]</span><br><span class="line">print(loss_func(preds, yb))</span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor(2.3394, grad_fn=&lt;NegBackward&gt;)</code></pre><p>接下来再实现一个函数来计算模型的正确率。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">accuracy</span><span class="params">(out, yb)</span>:</span></span><br><span class="line">    preds = torch.argmax(out, <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">return</span> (preds == yb).float().mean().item()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(accuracy(preds, yb))</span><br></pre></td></tr></table></figure>
+
+<pre><code>0.171875</code></pre><p>接下来可以执行训练了。在每轮迭代中，我们将：</p>
+<ul>
+<li>选择一个 mini-batch（size 大小为 <code>bs</code>）</li>
+<li>使用模型来进行预测</li>
+<li>计算 loss</li>
+<li><code>loss.backward()</code> 来更新 <code>weights</code> 和 <code>bias</code></li>
+</ul>
+<p>在更新 weights 和 bias 的时候，我们在 <code>torch.no_grad()</code> 上下文中执行，这是因为我们不需要对权重更新操作求梯度。</p>
+<p>在每轮迭代结束后要将模型的梯度重置为 0，否则每轮计算的梯度会被累加。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> IPython.core.debugger <span class="keyword">import</span> set_trace</span><br><span class="line"></span><br><span class="line">lr = <span class="number">0.5</span> <span class="comment"># learning_rate</span></span><br><span class="line">epochs = <span class="number">2</span> <span class="comment"># how many epochs to train for</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(epochs):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range((n - <span class="number">1</span>) // bs + <span class="number">1</span>):</span><br><span class="line"><span class="comment">#         set_trace()</span></span><br><span class="line">        start_i = i * bs</span><br><span class="line">        end_i = start_i + bs</span><br><span class="line">        xb = x_train[start_i:end_i]</span><br><span class="line">        yb = y_train[start_i:end_i]</span><br><span class="line">        pred = model(xb)</span><br><span class="line">        loss = loss_func(pred, yb)</span><br><span class="line">        </span><br><span class="line">        loss.backward()</span><br><span class="line">        <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">            weights -= weights.grad * lr</span><br><span class="line">            bias -= bias.grad * lr</span><br><span class="line">            weights.grad.zero_()</span><br><span class="line">            bias.grad.zero_()</span><br></pre></td></tr></table></figure>
+
+<p>到这里为止，我们成功从头创建并训练了一个极小的神经网络（一个逻辑回归）。</p>
+<p>再次检查正确率和 loss：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(loss_func(model(xb), yb), accuracy(model(xb), yb), sep=<span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor(0.0798, grad_fn=&lt;NegBackward&gt;)
+1.0</code></pre><h2 id="Using-torch-nn-functional"><a href="#Using-torch-nn-functional" class="headerlink" title="Using torch.nn.functional"></a>Using torch.nn.functional</h2><p>接下来我们要逐步重构代码来使其更加简洁、易懂和灵活。</p>
+<p>第一步也是最简单的一步，使用 <code>torch.nn.functional</code> （一般 alias 为 <code>F</code>）中的对应函数来替代我们手写的激励函数和损失函数。这个模块包含了 <code>torch.nn</code> 中的所有函数（不包括其中的类）。除了激励函数和损失函数以外，该模块还包含了一些用于构建神经网络的函数，例如池化函数和用于构建卷积层和线性层的函数等，不过这些函数使用对应的类来替换更好。</p>
+<p>如果我们使用的是 negtive log likelihood 作为 loss 和 softmax 作为激励函数，PyTorch 中可以使用 <code>F.cross_entropy</code> 来整合上述两者，因此我们甚至可以在模型中移除激励函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line">loss_func = F.cross_entropy</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">model</span><span class="params">(xb)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> xb @ weights + bias</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(loss_func(model(xb), yb), accuracy(model(xb), yb), sep=<span class="string">'\n'</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor(0.0798, grad_fn=&lt;NllLossBackward&gt;)
+1.0</code></pre><p>可以看到 loss 和 acc 和原来是一样的。</p>
+<h2 id="Refactor-using-nn-Module"><a href="#Refactor-using-nn-Module" class="headerlink" title="Refactor using nn.Module"></a>Refactor using nn.Module</h2><p>接下来，我们使用 <code>nn.Module</code> 和 <code>nn.Parameter</code> 来重构训练循环。在本例中，我们创建一个 <code>nn.Module</code> 的子类来保存权重和 bias 以及前向传播的方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> nn</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mnist_Logistic</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.weights = nn.Parameter(torch.randn(<span class="number">784</span>, <span class="number">10</span>) / math.sqrt(<span class="number">784</span>))</span><br><span class="line">        self.bias = nn.Parameter(torch.zeros(<span class="number">10</span>))</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, xb)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> xb @ self.weights + self.bias</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化模型</span></span><br><span class="line"><span class="attr">model</span> = Mnist_Logistic()</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们像之前一样计算 loss. 注意到这里的 model 被当成 function 来调用，但是实际上 PyTorch 是调用了 model 的 <code>forward</code> 方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(loss_func(model(xb), yb))</span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor(2.3865, grad_fn=&lt;NllLossBackward&gt;)</code></pre><p>现在我们可以使用 model.parameters() 和 model.zero_grad() 来简化权重更新的操作。</p>
+<pre>
+# before:
+with torch.no_grad():
+    weights -= weights.grad * lr
+    bias -= bias.grad * lr
+    weights.grad.zero_()
+    bias.grad.zero_()
+</pre>
+
+
+
+<pre>
+# after:
+with torch.no_grad():
+    for p in model.parameters():
+        p -= p.grad * lr
+    model.zero_grad()
+</pre>
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fit</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> range(epochs):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range((n - <span class="number">1</span>) // bs + <span class="number">1</span>):</span><br><span class="line">            start_i = i * bs</span><br><span class="line">            end_i = start_i + bs</span><br><span class="line">            xb = x_train[start_i: end_i]</span><br><span class="line">            yb = y_train[start_i: end_i]</span><br><span class="line">            pred = model(xb)</span><br><span class="line">            loss = loss_func(pred, yb)</span><br><span class="line">            </span><br><span class="line">            loss.backward()</span><br><span class="line">            <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">                <span class="keyword">for</span> p <span class="keyword">in</span> model.parameters():</span><br><span class="line">                    p -= p.grad * lr</span><br><span class="line">                model.zero_grad()</span><br><span class="line"></span><br><span class="line">fit()</span><br></pre></td></tr></table></figure>
+
+<p>再次确认 loss 是否下降了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(loss_func(model(xb), yb))</span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor(0.0816, grad_fn=&lt;NllLossBackward&gt;)</code></pre><h2 id="Refactor-using-nn-Linear"><a href="#Refactor-using-nn-Linear" class="headerlink" title="Refactor using nn.Linear"></a>Refactor using nn.Linear</h2><p>接下来使用 nn.Linear 来替换 <code>xb @ self.weights + self.bias</code>.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mnist_Logistic</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.lin = nn.Linear(<span class="number">784</span>, <span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, xb)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.lin(xb)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">model = Mnist_Logistic()</span><br><span class="line">print(loss_func(model(xb), yb))</span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor(2.2176, grad_fn=&lt;NllLossBackward&gt;)</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 重复训练步骤</span></span><br><span class="line">fit()</span><br><span class="line">print(loss_func(model(xb), yb))</span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor(0.0807, grad_fn=&lt;NllLossBackward&gt;)</code></pre><h2 id="Refactor-using-optim"><a href="#Refactor-using-optim" class="headerlink" title="Refactor using optim"></a>Refactor using optim</h2><p>PyTorch 的 <code>torch.optim</code> 包也提供了多种优化算法。可以使用其内置优化器的 <code>step</code> 方法来替代手动权重更新。</p>
+<pre>
+# before:
+with torch.no_grad():
+    for p in model.parameters():
+        p -= p.grad * lr
+    model.zero_grad()
+# after:
+
+# 不需要再使用 torch.no_grad() 上下文
+
+opt.step()
+opt.zero_grad() # 清空梯度现在由优化器来执行
+</pre>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch <span class="keyword">import</span> optim</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构造一个辅助函数来返回我们需要的模型和优化器</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_model</span><span class="params">()</span>:</span></span><br><span class="line">    model = Mnist_Logistic()</span><br><span class="line">    <span class="keyword">return</span> model, optim.SGD(model.parameters(), lr = lr)</span><br><span class="line"></span><br><span class="line">model, opt = get_model()</span><br><span class="line">print(loss_func(model(xb), yb))</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(epochs):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range((n - <span class="number">1</span>) // bs + <span class="number">1</span>):</span><br><span class="line">        start_i = i * bs</span><br><span class="line">        end_i = start_i + bs</span><br><span class="line">        xb = x_train[start_i:end_i]</span><br><span class="line">        yb = y_train[start_i:end_i]</span><br><span class="line">        pred = model(xb)</span><br><span class="line">        loss = loss_func(pred, yb)</span><br><span class="line"></span><br><span class="line">        loss.backward()</span><br><span class="line">        opt.step()</span><br><span class="line">        opt.zero_grad()</span><br><span class="line">        </span><br><span class="line">print(loss_func(model(xb), yb))</span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor(2.3893, grad_fn=&lt;NllLossBackward&gt;)
+tensor(0.0819, grad_fn=&lt;NllLossBackward&gt;)</code></pre><h2 id="Refactor-using-Dataset"><a href="#Refactor-using-Dataset" class="headerlink" title="Refactor using Dataset"></a>Refactor using Dataset</h2><p>PyTorch 有一个抽象的 Dataset 类。任何类都可以是一个 Dataset，只要它有 <code>__len__</code> 和 <code>__getitem__</code> 方法。更多 Dataset 类的使用方法可以参照 <a href="https://pytorch.org/tutorials/beginner/data_loading_tutorial.html" target="_blank" rel="noopener">DATA LOADING AND PROCESSING TUTORIAL</a>.</p>
+<p>PyTorch 的 TensorDataset 是一个封装了 tensor 的 Dataset. </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> TensorDataset</span><br><span class="line"></span><br><span class="line"><span class="comment"># x_train 和 y_train 可以用 TensorDataset 封装到一起</span></span><br><span class="line"><span class="comment"># 这样可以大大方便迭代</span></span><br><span class="line">train_ds = TensorDataset(x_train, y_train)</span><br></pre></td></tr></table></figure>
+
+<pre>
+# before:
+xb = x_train[start_i : end_i]
+yb = y_train[start_i : end_i]
+
+# after:
+xb, yb = train_ds[i*bs : i*bs+bs]
+</pre>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">model, opt = get_model()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(epochs):</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range((n - <span class="number">1</span>) // bs + <span class="number">1</span>):</span><br><span class="line">        xb, yb = train_ds[i * bs : i * bs + bs]</span><br><span class="line">        pred = model(xb)</span><br><span class="line">        loss = loss_func(pred, yb)</span><br><span class="line">        </span><br><span class="line">        loss.backward()</span><br><span class="line">        opt.step()</span><br><span class="line">        opt.zero_grad()</span><br><span class="line"></span><br><span class="line">print(loss_func(model(xb), yb))</span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor(0.0805, grad_fn=&lt;NllLossBackward&gt;)</code></pre><h2 id="Refactor-using-DataLoader"><a href="#Refactor-using-DataLoader" class="headerlink" title="Refactor using DataLoader"></a>Refactor using DataLoader</h2><p><code>DataLoader</code> 用于管理 batches. 你可以使用任意的 <code>Dataset</code> 构造 <code>DataLoader</code>. <code>DataLoader</code> 使得 batch 的迭代更加方便：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader</span><br><span class="line"></span><br><span class="line">train_ds = TensorDataset(x_train, y_train)</span><br><span class="line">train_dl = DataLoader(train_ds, batch_size=<span class="number">64</span>)</span><br></pre></td></tr></table></figure>
+
+<pre>
+# before:
+for i in range((n-1)//bs+1):
+    xb, yb = train_ds[i*bs : i*bs+1]
+    pred = model(xb)
+
+# after:
+for xb, yb in train_dl:
+    pred = model(xb)
+</pre>
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">model, opt = get_model()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(epochs):</span><br><span class="line">    <span class="keyword">for</span> xb, yb <span class="keyword">in</span> train_dl:</span><br><span class="line">        pred = model(xb)</span><br><span class="line">        loss = loss_func(pred, yb)</span><br><span class="line">        </span><br><span class="line">        loss.backward()</span><br><span class="line">        opt.step()</span><br><span class="line">        opt.zero_grad()</span><br><span class="line">        </span><br><span class="line">print(loss_func(model(xb), yb))</span><br></pre></td></tr></table></figure>
+
+<pre><code>tensor(0.0809, grad_fn=&lt;NllLossBackward&gt;)</code></pre><p>使用 <code>nn.Module</code>, <code>nn.Parameter</code>, <code>Dataset</code> 和 <code>DataLoader</code> 重构后，训练循环现在变得非常简洁易懂。接下来我们再加入一些模型训练时的常用操作。</p>
+<h2 id="Add-Validation"><a href="#Add-Validation" class="headerlink" title="Add Validation"></a>Add Validation</h2><p>在实际的模型训练过程中，为了判断模型是否过拟合，需要配合使用验证集（validation set）。</p>
+<p>洗混（shuffling）训练数据（training data）也是防止 batch 顺序导致过拟合的重要步骤，详解见：<a href="https://www.quora.com/Does-the-order-of-training-data-matter-when-training-neural-networks" target="_blank" rel="noopener">Does the order of training data matter when training neural networks?</a>。但是对于验证集来说，是否洗混对 loss 没有影响，因此一般不洗混验证集。</p>
+<p>在验证集上，我们使用的 batch size 是两倍于训练集的 batch size，这是因为验证集上不需要执行反向传播，因此会占用更小的内存（因为不存储梯度），这样我们可以使用更大的 batch 来加快 loss 的计算。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">train_ds = TensorDataset(x_train, y_train)</span><br><span class="line">train_dl = DataLoader(train_ds, batch_size=bs, shuffle=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line">valid_ds = TensorDataset(x_valid, y_valid)</span><br><span class="line">valid_dl = DataLoader(valid_ds, batch_size=bs * <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+
+<p>接下来在每个 epoch 迭代结束的时候计算 validation loss.</p>
+<p>注意在训练模型前要调用 <code>model.train()</code>，在进行推断之前要调用 <code>model.eval()</code>。这两个方法是决定 <code>nn.BatchNorm2d</code> 和 <code>nn.Dropout</code> 这一类的层在训练和推断阶段的开启和关闭。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">model, opt = get_model()</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(epochs):</span><br><span class="line">    model.train()</span><br><span class="line">    <span class="keyword">for</span> xb, yb <span class="keyword">in</span> train_dl:</span><br><span class="line">        pred = model(xb)</span><br><span class="line">        loss = loss_func(pred, yb)</span><br><span class="line">        </span><br><span class="line">        loss.backward()</span><br><span class="line">        opt.step()</span><br><span class="line">        opt.zero_grad()</span><br><span class="line">        </span><br><span class="line">    model.eval()</span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        valid_loss = sum(loss_func(model(xb), yb) <span class="keyword">for</span> xb, yb <span class="keyword">in</span> valid_dl)</span><br><span class="line"></span><br><span class="line">    print(epoch, valid_loss / len(valid_dl))</span><br></pre></td></tr></table></figure>
+
+<pre><code>0 tensor(0.3312)
+1 tensor(0.4040)</code></pre><h2 id="Create-fit-and-get-data"><a href="#Create-fit-and-get-data" class="headerlink" title="Create fit() and get_data()"></a>Create fit() and get_data()</h2><p>接下来我们自己对代码进行一些重构。注意到我们在训练集和验证集上都要计算 loss，因此我们可以把这个过程抽象成一个函数 <code>loss_batch</code>.</p>
+<p>另外，在训练集上计算 loss 时，我们传入一个 optimizer 来执行反向传播。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">loss_batch</span><span class="params">(model, loss_func, xb, yb, opt=None)</span>:</span></span><br><span class="line">    loss = loss_func(model(xb), yb)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> opt <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        loss.backward()</span><br><span class="line">        opt.step()</span><br><span class="line">        opt.zero_grad()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> loss.item(), len(xb)</span><br></pre></td></tr></table></figure>
+
+<p>再构造一个 <code>fit</code> 函数来执行训练阶段的必要操作：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fit</span><span class="params">(epochs, model, loss_func, opt, train_dl, valid_dl)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> range(epochs):</span><br><span class="line">        model.train()</span><br><span class="line">        <span class="keyword">for</span> xb, yb <span class="keyword">in</span> train_dl:</span><br><span class="line">            loss_batch(model, loss_func, xb, yb, opt)</span><br><span class="line">            </span><br><span class="line">        model.eval()</span><br><span class="line">        <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">            losses, nums = zip(</span><br><span class="line">                *[loss_batch(model, loss_func, xb, yb) <span class="keyword">for</span> xb, yb <span class="keyword">in</span> valid_dl]</span><br><span class="line">            )</span><br><span class="line">        valid_loss = np.sum(np.multiply(losses, nums)) / np.sum(nums)</span><br><span class="line">        </span><br><span class="line">        print(epoch, valid_loss)</span><br></pre></td></tr></table></figure>
+
+<p><code>get_data</code> 返回训练集和验证集的 dataloader：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_data</span><span class="params">(train_ds, valid_ds, bs)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        DataLoader(train_ds, batch_size=bs, shuffle=<span class="literal">True</span>),</span><br><span class="line">        DataLoader(valid_ds, batch_size=bs * <span class="number">2</span>)</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<p>至此，我们的整个训练过程可以用三行代码解决：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">train_dl, valid_dl = get_data(train_ds, valid_ds, bs)</span><br><span class="line">model, opt = get_model()</span><br><span class="line">fit(epochs, model, loss_func, opt, train_dl, valid_dl)</span><br></pre></td></tr></table></figure>
+
+<pre><code>0 0.3082067723274231
+1 0.4469423895835877</code></pre><h2 id="Switch-to-CNN"><a href="#Switch-to-CNN" class="headerlink" title="Switch to CNN"></a>Switch to CNN</h2><p>接下来我们使用三个卷积层来构建神经网络。由于之前定义的辅助函数与模型是无关的，因此我们仍然可以使用它们来训练 CNN.</p>
+<p>我们将使用 PyTorch 的 <code>Conv2d</code> 类作为卷积层。我们使用三层卷积的网络，每层卷积的结果都用 ReLU 作为激励函数，最后我们会执行一个平均池化（average pooling）。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Mnist_CNN</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        <span class="comment"># input: 28x28</span></span><br><span class="line">        self.conv1 = nn.Conv2d(<span class="number">1</span>, <span class="number">16</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>) <span class="comment"># 14x14</span></span><br><span class="line">        self.conv2 = nn.Conv2d(<span class="number">16</span>, <span class="number">16</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>) <span class="comment"># 7x7</span></span><br><span class="line">        self.conv3 = nn.Conv2d(<span class="number">16</span>, <span class="number">10</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">2</span>) <span class="comment"># 5x5</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, xb)</span>:</span></span><br><span class="line">        xb = xb.view(<span class="number">-1</span>, <span class="number">1</span>, <span class="number">28</span>, <span class="number">28</span>)</span><br><span class="line">        xb = F.relu(self.conv1(xb))</span><br><span class="line">        xb = F.relu(self.conv2(xb))</span><br><span class="line">        xb = F.relu(self.conv3(xb))</span><br><span class="line">        xb = F.avg_pool2d(xb, <span class="number">4</span>) <span class="comment"># 1x1</span></span><br><span class="line">        <span class="keyword">return</span> xb.view(<span class="number">-1</span>, xb.size(<span class="number">1</span>))</span><br><span class="line">    </span><br><span class="line">lr = <span class="number">0.1</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">model = Mnist_CNN()</span><br><span class="line">opt = optim.SGD(model.parameters(), lr=lr, momentum=<span class="number">0.9</span>)</span><br><span class="line"></span><br><span class="line">fit(epochs, model, loss_func, opt, train_dl, valid_dl)</span><br></pre></td></tr></table></figure>
+
+<pre><code>0 0.3150287981033325
+1 0.23092529454231261</code></pre><p><a href="https://cs231n.github.io/neural-networks-3/#sgd" target="_blank" rel="noopener">Momentum</a> 是随机梯度下降的一个变体，它在执行权重更新的时候也会考虑之前的更新操作，一般情况下会使得训练速度加快。</p>
+<h2 id="nn-Sequential"><a href="#nn-Sequential" class="headerlink" title="nn.Sequential"></a>nn.Sequential</h2><p><code>Sequential</code> 对象会按顺序执行其内部包含的模块，这是构建神经网络的一种简单的做法。</p>
+<p>我们可以在 <code>Sequential</code> 对象中放入自定义的层，例如说，PyTorch 原生没有 view layer，我们构造一个 <code>Lambda</code> 函数来对 <code>Sequential</code> 传入自定义的层。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Lambda</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, func)</span>:</span></span><br><span class="line">        super().__init__()</span><br><span class="line">        self.func = func</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> self.func(x)</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x.view(<span class="number">-1</span>, <span class="number">1</span>, <span class="number">28</span>, <span class="number">28</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">model = nn.Sequential(</span><br><span class="line">    Lambda(preprocess),</span><br><span class="line">    nn.Conv2d(<span class="number">1</span>, <span class="number">16</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>),</span><br><span class="line">    nn.ReLU(),</span><br><span class="line">    nn.Conv2d(<span class="number">16</span>, <span class="number">16</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>),</span><br><span class="line">    nn.ReLU(),</span><br><span class="line">    nn.Conv2d(<span class="number">16</span>, <span class="number">10</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>),</span><br><span class="line">    nn.ReLU(),</span><br><span class="line">    nn.AvgPool2d(<span class="number">4</span>),</span><br><span class="line">    Lambda(<span class="keyword">lambda</span> x: x.view(x.size(<span class="number">0</span>), <span class="number">-1</span>))</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">opt = optim.SGD(model.parameters(), lr=lr, momentum=<span class="number">0.9</span>)</span><br><span class="line"></span><br><span class="line">fit(epochs, model, loss_func, opt, train_dl, valid_dl)</span><br></pre></td></tr></table></figure>
+
+<pre><code>0 0.3572545750617981
+1 0.2796625346660614</code></pre><h2 id="Wrapping-DataLoader"><a href="#Wrapping-DataLoader" class="headerlink" title="Wrapping DataLoader"></a>Wrapping DataLoader</h2><p>上述的 CNN 模型很简洁，但是只能用于 MNIST，原因是：</p>
+<ul>
+<li>模型假定输入数据是 28x28 的向量</li>
+<li>模型假定 CNN 最后一层的网格大小是 4x4（因为我们使用了 4x4 的平均池化）</li>
+</ul>
+<p>下面让我们想办法解决这两个问题。首先，我们可以把数据预处理从 Lambda 层中去除，把它放到一个生成器中：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">preprocess</span><span class="params">(x, y)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x.view(<span class="number">-1</span>, <span class="number">1</span>, <span class="number">28</span>, <span class="number">28</span>), y</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">WrappedDataLoader</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, dl, func)</span>:</span></span><br><span class="line">        self.dl = dl</span><br><span class="line">        self.func = func</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.dl)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__iter__</span><span class="params">(self)</span>:</span></span><br><span class="line">        batches = iter(self.dl)</span><br><span class="line">        <span class="keyword">for</span> b <span class="keyword">in</span> batches:</span><br><span class="line">            <span class="keyword">yield</span> (self.func(*b))</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">train_dl, valid_dl = get_data(train_ds, valid_ds, bs)</span><br><span class="line">train_dl = WrappedDataLoader(train_dl, preprocess)</span><br><span class="line">valid_dl = WrappedDataLoader(valid_dl, preprocess)</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们使用 <code>nn.AdaptiveAvgPool2d</code> 来替换 <code>nn.AvgPool2d</code>, 这使得我们可以定义输出张量的大小而不是输入张量的大小。这样做的结果是，我们的模型可以接受任意大小的输入。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">model = nn.Sequential(</span><br><span class="line">    nn.Conv2d(<span class="number">1</span>, <span class="number">16</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>),</span><br><span class="line">    nn.ReLU(),</span><br><span class="line">    nn.Conv2d(<span class="number">16</span>, <span class="number">16</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>),</span><br><span class="line">    nn.ReLU(),</span><br><span class="line">    nn.Conv2d(<span class="number">16</span>, <span class="number">10</span>, kernel_size=<span class="number">3</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>),</span><br><span class="line">    nn.ReLU(),</span><br><span class="line">    nn.AdaptiveAvgPool2d(<span class="number">1</span>), <span class="comment"># 输出大小为 1x1</span></span><br><span class="line">    Lambda(<span class="keyword">lambda</span> x: x.view(x.size(<span class="number">0</span>), <span class="number">-1</span>)),</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">opt = optim.SGD(model.parameters(), lr=lr, momentum=<span class="number">0.9</span>)</span><br><span class="line"></span><br><span class="line">fit(epochs, model, loss_func, opt, train_dl, valid_dl)</span><br></pre></td></tr></table></figure>
+
+<pre><code>0 0.31847067918777466
+1 0.24730257654190063</code></pre><h2 id="Using-your-GPU"><a href="#Using-your-GPU" class="headerlink" title="Using your GPU"></a>Using your GPU</h2><p>略。</p>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://pytorch.org/tutorials/beginner/nn_tutorial.html" target="_blank" rel="noopener">WHAT IS TORCH.NN REALLY?</a></li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/25/pytorch-saving-and-loading-models/" rel="next" title="Saving and Loading Models">
+                <i class="fa fa-chevron-left"></i> Saving and Loading Models
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Patrick</p>
+              <div class="site-description motion-element" itemprop="description">🌈</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MNIST-data-setup"><span class="nav-number">1.</span> <span class="nav-text">MNIST data setup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Neural-net-from-scratch-no-torch-nn"><span class="nav-number">2.</span> <span class="nav-text">Neural net from scratch(no torch.nn)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using-torch-nn-functional"><span class="nav-number">3.</span> <span class="nav-text">Using torch.nn.functional</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Refactor-using-nn-Module"><span class="nav-number">4.</span> <span class="nav-text">Refactor using nn.Module</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Refactor-using-nn-Linear"><span class="nav-number">5.</span> <span class="nav-text">Refactor using nn.Linear</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Refactor-using-optim"><span class="nav-number">6.</span> <span class="nav-text">Refactor using optim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Refactor-using-Dataset"><span class="nav-number">7.</span> <span class="nav-text">Refactor using Dataset</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Refactor-using-DataLoader"><span class="nav-number">8.</span> <span class="nav-text">Refactor using DataLoader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Add-Validation"><span class="nav-number">9.</span> <span class="nav-text">Add Validation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Create-fit-and-get-data"><span class="nav-number">10.</span> <span class="nav-text">Create fit() and get_data()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Switch-to-CNN"><span class="nav-number">11.</span> <span class="nav-text">Switch to CNN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nn-Sequential"><span class="nav-number">12.</span> <span class="nav-text">nn.Sequential</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Wrapping-DataLoader"><span class="nav-number">13.</span> <span class="nav-text">Wrapping DataLoader</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Using-your-GPU"><span class="nav-number">14.</span> <span class="nav-text">Using your GPU</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/utils.js?v=7.1.2"></script>
+
+  <script src="/js/motion.js?v=7.1.2"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.1.2"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.1.2"></script>
+<script src="/js/post-details.js?v=7.1.2"></script>
+
+
+
+  
+
+
+  <script src="/js/next-boot.js?v=7.1.2"></script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+  
+
+  
+  
+
+  
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
