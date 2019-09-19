@@ -15,7 +15,7 @@
 
 
 <html class="theme-next pisces use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
@@ -350,6 +350,171 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/19/vscode-debug-via-cmake-in-ubuntu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Patrick">
+      <meta itemprop="description" content="🌈">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pato's raison d'etre">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/09/19/vscode-debug-via-cmake-in-ubuntu/" class="post-title-link" itemprop="url">Vscode Debug via Cmake in Ubuntu</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-19 19:55:39 / 修改时间：20:14:22" itemprop="dateCreated datePublished" datetime="2019-09-19T19:55:39+08:00">2019-09-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在学习《视觉 SLAM 十四讲》的时候，迫于配置，我只在 Ubuntu 虚拟机中安装了 VSCode 当做 IDE 使用。slambook 提供的每章 C++ 代码均自带 CMakeList.txt，因此我希望使用 VSCode + CMake 对代码进行调试。本文提供一种成功的配置尝试，但不一定是最合理的做法，仅作为记录存档。理论适用于所有使用 CMake 的类似于 slambook 源码的 code collection.</p>
+<p>环境：Ubuntu 16.04 / VSCode 1.38.1</p>
+<p>debugger: GDB（一开始用 LLDB 的时候有各种各样的问题，因为真的不想再 Google 了所以决定乖乖用 GDB）</p>
+<p>配置步骤：</p>
+<ol>
+<li>VSCode 插件：<ul>
+<li>C/C++</li>
+<li>CMake</li>
+<li>CMake Tools</li>
+</ul>
+</li>
+<li>GDB（Ubuntu 16.04 自带）</li>
+<li>选中对应的 .cpp 文件按 f5 调试，配置 launch.json 如下：</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"0.2.0"</span>,</span><br><span class="line">    <span class="attr">"configurations"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"name"</span>: <span class="string">"g++ build and debug active file"</span>,</span><br><span class="line">            <span class="attr">"type"</span>: <span class="string">"cppdbg"</span>,</span><br><span class="line">            <span class="attr">"request"</span>: <span class="string">"launch"</span>,</span><br><span class="line">          // 因为 CMake 会在对应的 Debug 文件夹中 build，因此这里改一下路径</span><br><span class="line">          // 其中 $&#123;fileBasenameNoExtension&#125; 可以根据具体的 target 名修改</span><br><span class="line">            "program": "$&#123;fileDirname&#125;/Debug/$&#123;fileBasenameNoExtension&#125;",</span><br><span class="line">            "args": [],</span><br><span class="line">            "stopAtEntry": false,</span><br><span class="line">            "cwd": "$&#123;workspaceFolder&#125;",</span><br><span class="line">            "environment": [],</span><br><span class="line">            "externalConsole": false,</span><br><span class="line">            "MIMode": "gdb",</span><br><span class="line">            "setupCommands": [</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="attr">"description"</span>: <span class="string">"Enable pretty-printing for gdb"</span>,</span><br><span class="line">                    <span class="attr">"text"</span>: <span class="string">"-enable-pretty-printing"</span>,</span><br><span class="line">                    <span class="attr">"ignoreFailures"</span>: <span class="literal">true</span></span><br><span class="line">                &#125;</span><br><span class="line">            ],</span><br><span class="line">          // launch.json 管理的是「调试」，而「编译」的工作要在 preLaunchTask 里完成</span><br><span class="line">            "preLaunchTask": "build",</span><br><span class="line">            "miDebuggerPath": "/usr/bin/gdb"</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>配置 tasks.json 如下：</li>
+</ol>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    // See https://go.microsoft.com/fwlink/?LinkId=733558 </span><br><span class="line">    // for the documentation about the tasks.json format</span><br><span class="line">    "version": "2.0.0",</span><br><span class="line">    "tasks": [</span><br><span class="line">        &#123;</span><br><span class="line">          // 创建 debug 文件夹</span><br><span class="line">            "type": "shell",</span><br><span class="line">            "label": "createDebugFolder",</span><br><span class="line">          // 要 cd 到对应文件夹</span><br><span class="line">            "command": "cd $&#123;fileDirname&#125; &amp;&amp; rm -rf debug &amp;&amp; mkdir debug"</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          // cmake</span><br><span class="line">            "type": "shell",</span><br><span class="line">            "label": "cmake",</span><br><span class="line">          // 要 cd 到对应文件夹</span><br><span class="line">            "command": "cd $&#123;fileDirname&#125;/Debug &amp;&amp; cmake -DCMAKE_BUILD_TYPE=Debug ..",</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">          // make</span><br><span class="line">            "type": "shell",</span><br><span class="line">          // 这里的 label 要和 launch.json 中的 preLaunchTask 对应</span><br><span class="line">            "label": "build",</span><br><span class="line">          // 要 cd 到对应文件夹</span><br><span class="line">            "command": "cd $&#123;fileDirname&#125;/Debug &amp;&amp; make ",</span><br><span class="line">          // 定义依赖顺序</span><br><span class="line">            "dependsOrder": "sequence",</span><br><span class="line">          // 定义依赖的 tasks, 要按顺序和之前步骤的 label 对应</span><br><span class="line">          // 这里是先创建 debug 文件夹、执行 cmake、最后执行 make(build)</span><br><span class="line">            "dependsOn": [</span><br><span class="line">                "createDebugFolder",</span><br><span class="line">                "cmake",</span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完成。之后可以执行 f5 进行调试。</p>
+<p>但是这样做每一次都会重新编译，可以在 launch.json 中加一条 configuration，把 preLaunchTask 注释掉，使用这个 configuration 来调试就不需要每次都重新编译。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/26/what-is-torch-nn-really/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -412,7 +577,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-06-27 16:55:25" itemprop="dateModified" datetime="2019-06-27T16:55:25+08:00">2019-06-27</time>
+                <time title="修改时间：2019-06-28 10:32:02" itemprop="dateModified" datetime="2019-06-28T10:32:02+08:00">2019-06-28</time>
               
             
           </span>
@@ -1736,155 +1901,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/12/pytorch-autograd/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Patrick">
-      <meta itemprop="description" content="🌈">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pato's raison d'etre">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2019/06/12/pytorch-autograd/" class="post-title-link" itemprop="url">Pytorch 自动求导机制</a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2019-06-12 14:57:31 / 修改时间：16:03:05" itemprop="dateCreated datePublished" datetime="2019-06-12T14:57:31+08:00">2019-06-12</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本文是 <a href="https://pytorch.org/docs/stable/notes/autograd.html" target="_blank" rel="noopener">AUTOGRAD MECHANICS</a> 的中文翻译，截至本文发布时 <code>pytorch</code> 的稳定版本为 <code>1.1</code></p>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2019/06/12/pytorch-autograd/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1931,7 +1947,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1956,7 +1972,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -2156,9 +2176,9 @@
       
     
       
-        
-      
     
+      
+        
       
     
       
