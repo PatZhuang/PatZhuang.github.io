@@ -4,155 +4,83 @@
 
 
 
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next pisces use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-CN">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon.ico?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-32x32.png?v=7.4.0">
   <meta http-equiv="Cache-Control" content="no-transform">
   <meta http-equiv="Cache-Control" content="no-siteapp">
 
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
-  
-
-
-
-
-
-
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
 
-<link rel="stylesheet" href="/css/main.css?v=7.1.2">
 
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png?v=7.1.2">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon.ico?v=7.1.2">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-32x32.png?v=7.1.2">
-
-
-
-
-
-
-
-
-<script id="hexo.configurations">
+<script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    version: '7.1.2',
+    version: '7.4.0',
+    exturl: false,
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
-    back2top: true,
-    back2top_sidebar: false,
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"save":"auto"},
     fancybox: false,
-    fastclick: false,
+    mediumzoom: ,
     lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    pangu: false,
     algolia: {
-      applicationID: '',
+      appID: '',
       apiKey: '',
       indexName: '',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
   };
 </script>
-
-
-  
-
-
-
 
   <meta name="description" content="本文是 Training a Classifier 的学习笔记">
 <meta name="keywords" content="pytorch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="A 60 Minute Blitz 学习笔记：Training a Classifier">
-<meta property="og:url" content="http://yoursite.com/2019/06/14/a-60min-blitz-cifar10/index.html">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;06&#x2F;14&#x2F;a-60min-blitz-cifar10&#x2F;index.html">
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文是 Training a Classifier 的学习笔记">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://pytorch.org/tutorials/_images/cifar10.png">
-<meta property="og:image" content="https://pytorch.org/tutorials/_images/sphx_glr_cifar10_tutorial_001.png">
-<meta property="og:image" content="https://pytorch.org/tutorials/_images/sphx_glr_cifar10_tutorial_002.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pytorch.org&#x2F;tutorials&#x2F;_images&#x2F;cifar10.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pytorch.org&#x2F;tutorials&#x2F;_images&#x2F;sphx_glr_cifar10_tutorial_001.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pytorch.org&#x2F;tutorials&#x2F;_images&#x2F;sphx_glr_cifar10_tutorial_002.png">
 <meta property="og:updated_time" content="2019-06-13T16:22:49.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="A 60 Minute Blitz 学习笔记：Training a Classifier">
-<meta name="twitter:description" content="本文是 Training a Classifier 的学习笔记">
-<meta name="twitter:image" content="https://pytorch.org/tutorials/_images/cifar10.png">
-
-
-
-
-
-  
-  
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pytorch.org&#x2F;tutorials&#x2F;_images&#x2F;cifar10.png">
   <link rel="canonical" href="http://yoursite.com/2019/06/14/a-60min-blitz-cifar10/">
 
 
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
   };
 </script>
 
@@ -166,13 +94,8 @@
 
 
 
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -181,7 +104,7 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
   .use-motion .logo,
   .use-motion .site-title,
@@ -198,29 +121,23 @@
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container use-motion">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta custom-logo">
 
-    <div class="custom-logo-site-title">
+    <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">Pato's raison d'etre</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-    
-    
+      <a>
+        <img class="custom-logo-image" src="[object Object]" alt="Pato's raison d'etre">
+      </a>
   </div>
 
   <div class="site-nav-toggle">
@@ -233,128 +150,80 @@
 </div>
 
 
-
 <nav class="site-nav">
   
-    <ul id="menu" class="menu">
+  <ul id="menu" class="menu">
+      
+      
       
         
-        
-        
-          
-          <li class="menu-item menu-item-home">
-
-    
-    
-    
+        <li class="menu-item menu-item-home">
       
     
 
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+    <a href="/" rel="section">&lt;i class=&quot;menu-item-icon fa fa-fw fa-home&quot;&gt;&lt;&#x2F;i&gt; &lt;br&gt;首页</a>
 
   </li>
+      
+      
+      
         
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-
-    
-    
-    
+        <li class="menu-item menu-item-tags">
       
     
 
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+    <a href="/tags/" rel="section">&lt;i class=&quot;menu-item-icon fa fa-fw fa-tags&quot;&gt;&lt;&#x2F;i&gt; &lt;br&gt;标签</a>
 
   </li>
+      
+      
+      
         
-        
-        
-          
-          <li class="menu-item menu-item-about">
-
-    
-    
-    
+        <li class="menu-item menu-item-about">
       
     
 
-    
-
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+    <a href="/about/" rel="section">&lt;i class=&quot;menu-item-icon fa fa-fw fa-user&quot;&gt;&lt;&#x2F;i&gt; &lt;br&gt;关于</a>
 
   </li>
+      
+      
+      
         
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-
-    
-    
-    
+        <li class="menu-item menu-item-archives">
       
     
 
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+    <a href="/archives/" rel="section">&lt;i class=&quot;menu-item-icon fa fa-fw fa-archive&quot;&gt;&lt;&#x2F;i&gt; &lt;br&gt;归档</a>
 
   </li>
+  </ul>
 
-      
-      
-    </ul>
-  
-
-  
-
-  
 </nav>
-
-
-
-  
-
-
-
 </div>
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
-          
             
 
-          
           <div id="content" class="content">
             
 
   <div id="posts" class="posts-expand">
-    
-
-  
-
+      <article itemscope itemtype="http://schema.org/Article">
   
   
   
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
+  <div class="post-block post">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/14/a-60min-blitz-cifar10/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -366,75 +235,40 @@
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Pato's raison d'etre">
     </span>
-
-    
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">A 60 Minute Blitz 学习笔记：Training a Classifier
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">A 60 Minute Blitz 学习笔记：Training a Classifier
-
-              
-            
-          </h1>
-        
+          
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
+              <span class="post-meta-item-text">发表于</span>
 
               
                 
               
 
               <time title="创建时间：2019-06-14 00:00:56 / 修改时间：00:22:49" itemprop="dateCreated datePublished" datetime="2019-06-14T00:00:56+08:00">2019-06-14</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
+            </span>
           
             
+
             
-          
-
-          
-          
-
-          
-
           
 
           
 
         </div>
       </header>
-    
 
     
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
-      
 
       
         <p>本文是 <a href="https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html" target="_blank" rel="noopener">Training a Classifier</a> 的学习笔记</p>
@@ -463,6 +297,7 @@
 <p>torchvision 数据集的输出是 PILImage 的图片格式，数据范围是 [0, 1]. 我们需要把它转变为 Tensor 并规格化到 [-1, 1].</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">transform = transforms.Compose( <span class="comment"># 组合变换</span></span><br><span class="line">    [</span><br><span class="line">        <span class="comment"># 将一个 PIL Image 或 numpy.ndarray 转变为 tensor</span></span><br><span class="line">        <span class="comment"># 这一步同时会将图片形状变为 (C, H, W) 且值范围为 [0.0, 1.0] </span></span><br><span class="line">        transforms.ToTensor(), </span><br><span class="line">        <span class="comment"># 对图片做正规化，但是这里实际上只是在做 scale 而不是 normalize, 见注解。</span></span><br><span class="line">        transforms.Normalize((<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>))</span><br><span class="line">    ]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">trainset = torchvision.datasets.CIFAR10(</span><br><span class="line">    root=<span class="string">'./data'</span>, <span class="comment"># 数据存放的根目录</span></span><br><span class="line">    train=<span class="literal">True</span>, <span class="comment"># 取训练集</span></span><br><span class="line">    download=<span class="literal">True</span>, <span class="comment"># 如果本地没有这个数据集，从远端下载</span></span><br><span class="line">    transform=transform <span class="comment"># 设置数据变换</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># DataLoader 是一个 dataset 和一个 sampler, 提供对这个 dataset 单线程/多线程的迭代器</span></span><br><span class="line">trainloader = torch.utils.data.DataLoader(</span><br><span class="line">    trainset, <span class="comment"># dataset</span></span><br><span class="line">    batch_size=<span class="number">4</span>, <span class="comment"># sampler 的 batch_size</span></span><br><span class="line">    shuffle=<span class="literal">True</span>, <span class="comment"># 是否在每个 epoch 都 reshuffle</span></span><br><span class="line">    num_workers=<span class="number">2</span> <span class="comment"># 表示使用 2 个子进程读取进程</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">testset = torchvision.datasets.CIFAR10(</span><br><span class="line">    root=<span class="string">'./data'</span>,</span><br><span class="line">    train=<span class="literal">False</span>,</span><br><span class="line">    download=<span class="literal">True</span>,</span><br><span class="line">    transform=transform</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">testloader = torch.utils.data.DataLoader(</span><br><span class="line">    testset,</span><br><span class="line">    batch_size=<span class="number">4</span>,</span><br><span class="line">    shuffle=<span class="literal">True</span>,</span><br><span class="line">    num_workers=<span class="number">2</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">classes = (<span class="string">'plane'</span>, <span class="string">'car'</span>, <span class="string">'bird'</span>, <span class="string">'cat'</span>,</span><br><span class="line">           <span class="string">'deer'</span>, <span class="string">'dog'</span>, <span class="string">'frog'</span>, <span class="string">'horse'</span>, <span class="string">'ship'</span>, <span class="string">'truck'</span>)</span><br></pre></td></tr></table></figure>
 
+
 <blockquote>
 <p><strong>关于 <code>transforms.Normalize()</code> 的参数解释</strong></p>
 <ol>
@@ -481,7 +316,9 @@
 </blockquote>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%matplotlib inline</span><br><span class="line">%config InlineBackend.figure_format = <span class="string">'svg'</span></span><br></pre></td></tr></table></figure>
 
+
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">imshow</span><span class="params">(img)</span>:</span></span><br><span class="line">    img = img / <span class="number">2</span> + <span class="number">0.5</span> <span class="comment"># 把正规化的图片还原</span></span><br><span class="line">    npimg = img.numpy() <span class="comment"># tensor to numpy</span></span><br><span class="line">    plt.axis</span><br><span class="line">    plt.imshow(np.transpose(npimg, (<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>))) <span class="comment"># numpy image 的格式是(H, W, C)</span></span><br><span class="line">    plt.show()</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line"><span class="comment"># 随机获取一些图片</span></span><br><span class="line">dataiter = iter(trainloader) <span class="comment"># trainloader 是一个 iterable</span></span><br><span class="line">images, labels = dataiter.next()</span><br><span class="line"></span><br><span class="line"><span class="comment"># trainloader 的 batch_size=4, 因此 images 中有四张图，这里做拼接</span></span><br><span class="line">imshow(torchvision.utils.make_grid(images))</span><br><span class="line"><span class="comment"># 打印标签</span></span><br><span class="line">print(<span class="string">' '</span>.join(<span class="string">'%5s'</span> % classes[labels[j]] <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">4</span>)))</span><br></pre></td></tr></table></figure>
+
 
 <p><img src="https://pytorch.org/tutorials/_images/sphx_glr_cifar10_tutorial_001.png" alt="sample"></p>
 <pre><code>horse   dog  frog plane</code></pre><h3 id="Define-a-Convolutional-Neural-Network"><a href="#Define-a-Convolutional-Neural-Network" class="headerlink" title="Define a Convolutional Neural Network"></a>Define a Convolutional Neural Network</h3><p>使用之前 Neural Networks 章节的模型，稍作修改使其接受三通道图片作为输入。</p>
@@ -510,6 +347,7 @@ CPU times: user 1min 39s, sys: 14.7 s, total: 1min 54s
 Wall time: 2min 7s</code></pre><h3 id="Test-the-network-on-the-test-data"><a href="#Test-the-network-on-the-test-data" class="headerlink" title="Test the network on the test data"></a>Test the network on the test data</h3><p>上述代码已经在训练集上迭代了 2 轮，下面我们测试这个模型是否有学到点什么。</p>
 <p>首先从测试集中取出几张图片：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dataiter = iter(testloader)</span><br><span class="line">images, labels = dataiter.next()</span><br><span class="line"></span><br><span class="line">imshow(torchvision.utils.make_grid(images))</span><br><span class="line">print(<span class="string">'GroundTruth: '</span>, <span class="string">' '</span>.join(<span class="string">'%5s'</span> % classes[labels[j]] <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">4</span>)))</span><br></pre></td></tr></table></figure>
+
 
 <p><img src="https://pytorch.org/tutorials/_images/sphx_glr_cifar10_tutorial_002.png" alt="ground_truth"></p>
 <pre><code>GroundTruth:    cat  ship  ship plane</code></pre><p>接下来看看模型如何预测这些图片：</p>
@@ -582,84 +420,62 @@ Finished Training
 <li><a href="https://pytorch.org/docs/stable/torchvision/transforms.html#torchvision.transforms.Normalize" target="_blank" rel="noopener">torchvision.transforms.Normalize()</a></li>
 </ul>
 
-      
     </div>
 
     
-
     
     
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
         
-          
-        
-        <div class="post-tags">
-          
-            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
-          
-        </div>
       
 
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
+      <footer class="post-footer">
+          
             
-              <a href="/2019/06/13/a-60min-blitz-neural-networks/" rel="next" title="A 60 Minute Blitz 学习笔记：Neural Networks">
-                <i class="fa fa-chevron-left"></i> A 60 Minute Blitz 学习笔记：Neural Networks
-              </a>
+          
+          <div class="post-tags">
+            
+              <a href="/tags/pytorch/" rel="tag"># pytorch</a>
             
           </div>
+        
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/19/pytorch-data-loading-tutorial/" rel="prev" title="PyTorch Data Loading Tutorial">
-                PyTorch Data Loading Tutorial <i class="fa fa-chevron-right"></i>
-              </a>
-            
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/06/13/a-60min-blitz-neural-networks/" rel="next" title="A 60 Minute Blitz 学习笔记：Neural Networks">
+                  <i class="fa fa-chevron-left"></i> A 60 Minute Blitz 学习笔记：Neural Networks
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/06/19/pytorch-data-loading-tutorial/" rel="prev" title="PyTorch Data Loading Tutorial">
+                  PyTorch Data Loading Tutorial <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
           </div>
-        </div>
-      
-
-      
-      
-    </footer>
+        
+      </footer>
+    
   </div>
   
   
   
   </article>
 
-
   </div>
 
 
           </div>
           
 
-  
-
-
-
         </div>
-        
           
   
   <div class="sidebar-toggle">
@@ -670,120 +486,69 @@ Finished Training
     </div>
   </div>
 
-  <aside id="sidebar" class="sidebar">
+  <aside class="sidebar">
     <div class="sidebar-inner">
-
+        
+        
+        
+        
       
 
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What-about-data"><span class="nav-number">1.</span> <span class="nav-text">What about data?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Training-an-image-classifier"><span class="nav-number">2.</span> <span class="nav-text">Training an image classifier</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lodaing-and-normalizing-CIFAR10"><span class="nav-number">2.1.</span> <span class="nav-text">Lodaing and normalizing CIFAR10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Define-a-Convolutional-Neural-Network"><span class="nav-number">2.2.</span> <span class="nav-text">Define a Convolutional Neural Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Define-a-Loss-function-and-optimizer"><span class="nav-number">2.3.</span> <span class="nav-text">Define a Loss function and optimizer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Train-the-network"><span class="nav-number">2.4.</span> <span class="nav-text">Train the network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Test-the-network-on-the-test-data"><span class="nav-number">2.5.</span> <span class="nav-text">Test the network on the test data</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Training-on-GPU"><span class="nav-number">3.</span> <span class="nav-text">Training on GPU</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Patrick</p>
-              <div class="site-description motion-element" itemprop="description">🌈</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">16</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
-                </div>
-              
-
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                      <a href="/tags/">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">5</span>
-                    <span class="site-state-item-name">标签</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Patrick</p>
+  <div class="site-description" itemprop="description">🌈</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/%20%7C%7C%20archive">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
       </div>
-
+    
       
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What-about-data"><span class="nav-number">1.</span> <span class="nav-text">What about data?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Training-an-image-classifier"><span class="nav-number">2.</span> <span class="nav-text">Training an image classifier</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lodaing-and-normalizing-CIFAR10"><span class="nav-number">2.1.</span> <span class="nav-text">Lodaing and normalizing CIFAR10</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Define-a-Convolutional-Neural-Network"><span class="nav-number">2.2.</span> <span class="nav-text">Define a Convolutional Neural Network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Define-a-Loss-function-and-optimizer"><span class="nav-number">2.3.</span> <span class="nav-text">Define a Loss function and optimizer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Train-the-network"><span class="nav-number">2.4.</span> <span class="nav-text">Train the network</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Test-the-network-on-the-test-data"><span class="nav-number">2.5.</span> <span class="nav-text">Test the network on the test data</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Training-on-GPU"><span class="nav-number">3.</span> <span class="nav-text">Training on GPU</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/%20%7C%7C%20tags">
+          
+        
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
 
-      
+
+
+      </div>
 
     </div>
   </aside>
-  
+  <div id="sidebar-dimmer"></div>
 
 
-        
       </div>
     </main>
 
@@ -794,21 +559,13 @@ Finished Training
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Patrick</span>
-
-  
-
-  
 </div>
 
-
-
-
-
-
-
-
-
         
+
+
+
+
 
 
 
@@ -820,140 +577,41 @@ Finished Training
         
       </div>
     </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-          <span id="scrollpercent"><span>0</span>%</span>
-        
-      </div>
-    
-
-    
-
-    
-
-    
   </div>
 
   
 
-<script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="/lib/jquery/index.js?v=3.4.1"></script>
-
-  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
   <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
   <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/utils.js?v=7.1.2"></script>
-
-  <script src="/js/motion.js?v=7.1.2"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/affix.js?v=7.1.2"></script>
-
-  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
-
-
-
-  
-  <script src="/js/scrollspy.js?v=7.1.2"></script>
-<script src="/js/post-details.js?v=7.1.2"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+<script src="/js/next-boot.js?v=7.4.0"></script>
 
 
 
   
 
 
-  <script src="/js/next-boot.js?v=7.1.2"></script>
-
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-
-  
 
 
 
 
-  
-
-  
-
-  
-  
-
-  
-  
-
-  
 
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
+
+
+
+
+
+
 
   
 

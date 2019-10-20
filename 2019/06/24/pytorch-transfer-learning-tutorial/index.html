@@ -4,155 +4,83 @@
 
 
 
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next pisces use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-CN">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon.ico?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-32x32.png?v=7.4.0">
   <meta http-equiv="Cache-Control" content="no-transform">
   <meta http-equiv="Cache-Control" content="no-siteapp">
 
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
-  
-
-
-
-
-
-
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
 
-<link rel="stylesheet" href="/css/main.css?v=7.1.2">
 
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png?v=7.1.2">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon.ico?v=7.1.2">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-32x32.png?v=7.1.2">
-
-
-
-
-
-
-
-
-<script id="hexo.configurations">
+<script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    version: '7.1.2',
+    version: '7.4.0',
+    exturl: false,
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
-    back2top: true,
-    back2top_sidebar: false,
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"save":"auto"},
     fancybox: false,
-    fastclick: false,
+    mediumzoom: ,
     lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    pangu: false,
     algolia: {
-      applicationID: '',
+      appID: '',
       apiKey: '',
       indexName: '',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
   };
 </script>
-
-
-  
-
-
-
 
   <meta name="description" content="本文是 TRANSFER LEARNING TUTORIAL 的学习笔记。">
 <meta name="keywords" content="pytorch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Transfer Learning Tutorial">
-<meta property="og:url" content="http://yoursite.com/2019/06/24/pytorch-transfer-learning-tutorial/index.html">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;06&#x2F;24&#x2F;pytorch-transfer-learning-tutorial&#x2F;index.html">
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文是 TRANSFER LEARNING TUTORIAL 的学习笔记。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_001.png">
-<meta property="og:image" content="https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_002.png">
-<meta property="og:image" content="https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_003.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pytorch.org&#x2F;tutorials&#x2F;_images&#x2F;sphx_glr_transfer_learning_tutorial_001.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pytorch.org&#x2F;tutorials&#x2F;_images&#x2F;sphx_glr_transfer_learning_tutorial_002.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pytorch.org&#x2F;tutorials&#x2F;_images&#x2F;sphx_glr_transfer_learning_tutorial_003.png">
 <meta property="og:updated_time" content="2019-06-24T08:37:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Transfer Learning Tutorial">
-<meta name="twitter:description" content="本文是 TRANSFER LEARNING TUTORIAL 的学习笔记。">
-<meta name="twitter:image" content="https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_001.png">
-
-
-
-
-
-  
-  
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pytorch.org&#x2F;tutorials&#x2F;_images&#x2F;sphx_glr_transfer_learning_tutorial_001.png">
   <link rel="canonical" href="http://yoursite.com/2019/06/24/pytorch-transfer-learning-tutorial/">
 
 
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
   };
 </script>
 
@@ -166,13 +94,8 @@
 
 
 
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -181,7 +104,7 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
   .use-motion .logo,
   .use-motion .site-title,
@@ -198,29 +121,23 @@
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container use-motion">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta custom-logo">
 
-    <div class="custom-logo-site-title">
+    <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">Pato's raison d'etre</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-    
-    
+      <a>
+        <img class="custom-logo-image" src="[object Object]" alt="Pato's raison d'etre">
+      </a>
   </div>
 
   <div class="site-nav-toggle">
@@ -233,128 +150,80 @@
 </div>
 
 
-
 <nav class="site-nav">
   
-    <ul id="menu" class="menu">
+  <ul id="menu" class="menu">
+      
+      
       
         
-        
-        
-          
-          <li class="menu-item menu-item-home">
-
-    
-    
-    
+        <li class="menu-item menu-item-home">
       
     
 
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+    <a href="/" rel="section">&lt;i class=&quot;menu-item-icon fa fa-fw fa-home&quot;&gt;&lt;&#x2F;i&gt; &lt;br&gt;首页</a>
 
   </li>
+      
+      
+      
         
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-
-    
-    
-    
+        <li class="menu-item menu-item-tags">
       
     
 
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+    <a href="/tags/" rel="section">&lt;i class=&quot;menu-item-icon fa fa-fw fa-tags&quot;&gt;&lt;&#x2F;i&gt; &lt;br&gt;标签</a>
 
   </li>
+      
+      
+      
         
-        
-        
-          
-          <li class="menu-item menu-item-about">
-
-    
-    
-    
+        <li class="menu-item menu-item-about">
       
     
 
-    
-
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+    <a href="/about/" rel="section">&lt;i class=&quot;menu-item-icon fa fa-fw fa-user&quot;&gt;&lt;&#x2F;i&gt; &lt;br&gt;关于</a>
 
   </li>
+      
+      
+      
         
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-
-    
-    
-    
+        <li class="menu-item menu-item-archives">
       
     
 
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+    <a href="/archives/" rel="section">&lt;i class=&quot;menu-item-icon fa fa-fw fa-archive&quot;&gt;&lt;&#x2F;i&gt; &lt;br&gt;归档</a>
 
   </li>
+  </ul>
 
-      
-      
-    </ul>
-  
-
-  
-
-  
 </nav>
-
-
-
-  
-
-
-
 </div>
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
-          
             
 
-          
           <div id="content" class="content">
             
 
   <div id="posts" class="posts-expand">
-    
-
-  
-
+      <article itemscope itemtype="http://schema.org/Article">
   
   
   
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
+  <div class="post-block post">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/24/pytorch-transfer-learning-tutorial/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -366,75 +235,40 @@
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Pato's raison d'etre">
     </span>
-
-    
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Transfer Learning Tutorial
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">Transfer Learning Tutorial
-
-              
-            
-          </h1>
-        
+          
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
+              <span class="post-meta-item-text">发表于</span>
 
               
                 
               
 
               <time title="创建时间：2019-06-24 16:36:23 / 修改时间：16:37:01" itemprop="dateCreated datePublished" datetime="2019-06-24T16:36:23+08:00">2019-06-24</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
+            </span>
           
             
+
             
-          
-
-          
-          
-
-          
-
           
 
           
 
         </div>
       </header>
-    
 
     
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
-      
 
       
         <p>本文是 <a href="https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html" target="_blank" rel="noopener">TRANSFER LEARNING TUTORIAL</a> 的学习笔记。</p>
@@ -460,6 +294,7 @@
 
 <h3 id="Visualize-a-few-images"><a href="#Visualize-a-few-images" class="headerlink" title="Visualize a few images"></a>Visualize a few images</h3><p>让我们展示一些训练图以理解数据增强：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">imshow</span><span class="params">(inp, title=None)</span>:</span></span><br><span class="line">    <span class="string">"""Imshow for Tensor."""</span></span><br><span class="line">    inp = inp.numpy().transpose((<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>))</span><br><span class="line">    mean = np.array([<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>])</span><br><span class="line">    std = np.array([<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])</span><br><span class="line">    inp = std * inp + mean</span><br><span class="line">    inp = np.clip(inp, <span class="number">0</span>, <span class="number">1</span>) <span class="comment"># 等同于 tensor.clamp, 因为原图的数据范围不是 [0, 1]</span></span><br><span class="line">    plt.imshow(inp)</span><br><span class="line">    plt.axis(<span class="string">'off'</span>)</span><br><span class="line">    <span class="keyword">if</span> title <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        plt.title(title)</span><br><span class="line">    plt.pause(<span class="number">0.001</span>)</span><br><span class="line">    </span><br><span class="line">inputs, classes = next(iter(dataloaders[<span class="string">'train'</span>]))</span><br><span class="line">out = torchvision.utils.make_grid(inputs)</span><br><span class="line"></span><br><span class="line">imshow(out, title=[class_names[x] <span class="keyword">for</span> x <span class="keyword">in</span> classes])</span><br></pre></td></tr></table></figure>
+
 
 <p><img src="https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_001.png" alt="svg"></p>
 <h2 id="Training-the-model"><a href="#Training-the-model" class="headerlink" title="Training the model"></a>Training the model</h2><p>编写一个通用函数来训练这个模型。下面我们将阐述如何：</p>
@@ -514,6 +349,7 @@ val Loss: 0.2214 Acc: 0.9020
 
 Training complete in 1m 31s
 Best val Acc: 0.9542</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">visualize_model(model_ft)</span><br></pre></td></tr></table></figure>
+
 
 <p><img src="https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_002.png" alt="svg"></p>
 <blockquote>
@@ -603,84 +439,62 @@ Best val Acc: 0.9608</code></pre><figure class="highlight python"><table><tr><td
 <li><a href="https://zhuanlan.zhihu.com/p/22038289?refer=intelligentunit" target="_blank" rel="noopener">CS231n 课程笔记翻译</a></li>
 </ul>
 
-      
     </div>
 
     
-
     
     
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
         
-          
-        
-        <div class="post-tags">
-          
-            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
-          
-        </div>
       
 
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
+      <footer class="post-footer">
+          
             
-              <a href="/2019/06/20/learning-pytorch-with-examples/" rel="next" title="Learning Pytorch With Examples">
-                <i class="fa fa-chevron-left"></i> Learning Pytorch With Examples
-              </a>
+          
+          <div class="post-tags">
+            
+              <a href="/tags/pytorch/" rel="tag"># pytorch</a>
             
           </div>
+        
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/25/pytorch-saving-and-loading-models/" rel="prev" title="Saving and Loading Models">
-                Saving and Loading Models <i class="fa fa-chevron-right"></i>
-              </a>
-            
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/06/20/learning-pytorch-with-examples/" rel="next" title="Learning Pytorch With Examples">
+                  <i class="fa fa-chevron-left"></i> Learning Pytorch With Examples
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/06/25/pytorch-saving-and-loading-models/" rel="prev" title="Saving and Loading Models">
+                  Saving and Loading Models <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
           </div>
-        </div>
-      
-
-      
-      
-    </footer>
+        
+      </footer>
+    
   </div>
   
   
   
   </article>
 
-
   </div>
 
 
           </div>
           
 
-  
-
-
-
         </div>
-        
           
   
   <div class="sidebar-toggle">
@@ -691,120 +505,69 @@ Best val Acc: 0.9608</code></pre><figure class="highlight python"><table><tr><td
     </div>
   </div>
 
-  <aside id="sidebar" class="sidebar">
+  <aside class="sidebar">
     <div class="sidebar-inner">
-
+        
+        
+        
+        
       
 
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Load-Data"><span class="nav-number">1.</span> <span class="nav-text">Load Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Visualize-a-few-images"><span class="nav-number">1.1.</span> <span class="nav-text">Visualize a few images</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Training-the-model"><span class="nav-number">2.</span> <span class="nav-text">Training the model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Visualizing-the-model-predictions"><span class="nav-number">2.1.</span> <span class="nav-text">Visualizing the model predictions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Finetuning-the-convnet"><span class="nav-number">3.</span> <span class="nav-text">Finetuning the convnet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Train-and-evaluate"><span class="nav-number">3.1.</span> <span class="nav-text">Train and evaluate</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConvNet-as-fixed-feature-extractor"><span class="nav-number">4.</span> <span class="nav-text">ConvNet as fixed feature extractor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Train-and-evaluate-1"><span class="nav-number">4.1.</span> <span class="nav-text">Train and evaluate</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#When-and-how-to-fine-tune"><span class="nav-number">5.</span> <span class="nav-text">When and how to fine-tune?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Practical-advice"><span class="nav-number">6.</span> <span class="nav-text">Practical advice</span></a></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Patrick</p>
-              <div class="site-description motion-element" itemprop="description">🌈</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">16</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
-                </div>
-              
-
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                      <a href="/tags/">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">5</span>
-                    <span class="site-state-item-name">标签</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Patrick</p>
+  <div class="site-description" itemprop="description">🌈</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/%20%7C%7C%20archive">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
       </div>
-
+    
       
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Load-Data"><span class="nav-number">1.</span> <span class="nav-text">Load Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Visualize-a-few-images"><span class="nav-number">1.1.</span> <span class="nav-text">Visualize a few images</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Training-the-model"><span class="nav-number">2.</span> <span class="nav-text">Training the model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Visualizing-the-model-predictions"><span class="nav-number">2.1.</span> <span class="nav-text">Visualizing the model predictions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Finetuning-the-convnet"><span class="nav-number">3.</span> <span class="nav-text">Finetuning the convnet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Train-and-evaluate"><span class="nav-number">3.1.</span> <span class="nav-text">Train and evaluate</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConvNet-as-fixed-feature-extractor"><span class="nav-number">4.</span> <span class="nav-text">ConvNet as fixed feature extractor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Train-and-evaluate-1"><span class="nav-number">4.1.</span> <span class="nav-text">Train and evaluate</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#When-and-how-to-fine-tune"><span class="nav-number">5.</span> <span class="nav-text">When and how to fine-tune?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Practical-advice"><span class="nav-number">6.</span> <span class="nav-text">Practical advice</span></a></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/%20%7C%7C%20tags">
+          
+        
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
 
-      
+
+
+      </div>
 
     </div>
   </aside>
-  
+  <div id="sidebar-dimmer"></div>
 
 
-        
       </div>
     </main>
 
@@ -815,21 +578,13 @@ Best val Acc: 0.9608</code></pre><figure class="highlight python"><table><tr><td
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Patrick</span>
-
-  
-
-  
 </div>
 
-
-
-
-
-
-
-
-
         
+
+
+
+
 
 
 
@@ -841,140 +596,41 @@ Best val Acc: 0.9608</code></pre><figure class="highlight python"><table><tr><td
         
       </div>
     </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-          <span id="scrollpercent"><span>0</span>%</span>
-        
-      </div>
-    
-
-    
-
-    
-
-    
   </div>
 
   
 
-<script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="/lib/jquery/index.js?v=3.4.1"></script>
-
-  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
   <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
   <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/utils.js?v=7.1.2"></script>
-
-  <script src="/js/motion.js?v=7.1.2"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/affix.js?v=7.1.2"></script>
-
-  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
-
-
-
-  
-  <script src="/js/scrollspy.js?v=7.1.2"></script>
-<script src="/js/post-details.js?v=7.1.2"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+<script src="/js/next-boot.js?v=7.4.0"></script>
 
 
 
   
 
 
-  <script src="/js/next-boot.js?v=7.1.2"></script>
-
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-
-  
 
 
 
 
-  
-
-  
-
-  
-  
-
-  
-  
-
-  
 
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
+
+
+
+
+
+
 
   
 

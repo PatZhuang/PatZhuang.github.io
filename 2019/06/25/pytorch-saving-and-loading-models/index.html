@@ -4,151 +4,79 @@
 
 
 
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next pisces use-motion" lang="zh-CN">
-<head><meta name="generator" content="Hexo 3.9.0">
+<html lang="zh-CN">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon.ico?v=7.4.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-32x32.png?v=7.4.0">
   <meta http-equiv="Cache-Control" content="no-transform">
   <meta http-equiv="Cache-Control" content="no-siteapp">
 
+<link rel="stylesheet" href="/css/main.css?v=7.4.0">
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-  
-  
-
-  
-    
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    
-    
-    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
-  
-
-
-
-
-
-
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
 <link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
 
-<link rel="stylesheet" href="/css/main.css?v=7.1.2">
 
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon/apple-touch-icon.png?v=7.1.2">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon/favicon.ico?v=7.1.2">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon/favicon-32x32.png?v=7.1.2">
-
-
-
-
-
-
-
-
-<script id="hexo.configurations">
+<script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Pisces',
-    version: '7.1.2',
+    version: '7.4.0',
+    exturl: false,
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
-    back2top: true,
-    back2top_sidebar: false,
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":true},
+    bookmark: {"enable":false,"save":"auto"},
     fancybox: false,
-    fastclick: false,
+    mediumzoom: ,
     lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    pangu: false,
     algolia: {
-      applicationID: '',
+      appID: '',
       apiKey: '',
       indexName: '',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
   };
 </script>
-
-
-  
-
-
-
 
   <meta name="description" content="本文是 SAVING AND LOADING MODELS 的学习笔记">
 <meta name="keywords" content="pytorch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Saving and Loading Models">
-<meta property="og:url" content="http://yoursite.com/2019/06/25/pytorch-saving-and-loading-models/index.html">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;06&#x2F;25&#x2F;pytorch-saving-and-loading-models&#x2F;index.html">
 <meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
 <meta property="og:description" content="本文是 SAVING AND LOADING MODELS 的学习笔记">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:updated_time" content="2019-06-25T15:30:53.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Saving and Loading Models">
-<meta name="twitter:description" content="本文是 SAVING AND LOADING MODELS 的学习笔记">
-
-
-
-
-
-  
-  
   <link rel="canonical" href="http://yoursite.com/2019/06/25/pytorch-saving-and-loading-models/">
 
 
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
   };
 </script>
 
@@ -162,13 +90,8 @@
 
 
 
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -177,7 +100,7 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
   .use-motion .logo,
   .use-motion .site-title,
@@ -194,29 +117,23 @@
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container use-motion">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta">
-    
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta custom-logo">
 
-    <div class="custom-logo-site-title">
+    <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">Pato's raison d'etre</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-    
-    
+      <a>
+        <img class="custom-logo-image" src="[object Object]" alt="Pato's raison d'etre">
+      </a>
   </div>
 
   <div class="site-nav-toggle">
@@ -229,128 +146,80 @@
 </div>
 
 
-
 <nav class="site-nav">
   
-    <ul id="menu" class="menu">
+  <ul id="menu" class="menu">
+      
+      
       
         
-        
-        
-          
-          <li class="menu-item menu-item-home">
-
-    
-    
-    
+        <li class="menu-item menu-item-home">
       
     
 
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+    <a href="/" rel="section">&lt;i class=&quot;menu-item-icon fa fa-fw fa-home&quot;&gt;&lt;&#x2F;i&gt; &lt;br&gt;首页</a>
 
   </li>
+      
+      
+      
         
-        
-        
-          
-          <li class="menu-item menu-item-tags">
-
-    
-    
-    
+        <li class="menu-item menu-item-tags">
       
     
 
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+    <a href="/tags/" rel="section">&lt;i class=&quot;menu-item-icon fa fa-fw fa-tags&quot;&gt;&lt;&#x2F;i&gt; &lt;br&gt;标签</a>
 
   </li>
+      
+      
+      
         
-        
-        
-          
-          <li class="menu-item menu-item-about">
-
-    
-    
-    
+        <li class="menu-item menu-item-about">
       
     
 
-    
-
-    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+    <a href="/about/" rel="section">&lt;i class=&quot;menu-item-icon fa fa-fw fa-user&quot;&gt;&lt;&#x2F;i&gt; &lt;br&gt;关于</a>
 
   </li>
+      
+      
+      
         
-        
-        
-          
-          <li class="menu-item menu-item-archives">
-
-    
-    
-    
+        <li class="menu-item menu-item-archives">
       
     
 
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+    <a href="/archives/" rel="section">&lt;i class=&quot;menu-item-icon fa fa-fw fa-archive&quot;&gt;&lt;&#x2F;i&gt; &lt;br&gt;归档</a>
 
   </li>
+  </ul>
 
-      
-      
-    </ul>
-  
-
-  
-
-  
 </nav>
-
-
-
-  
-
-
-
 </div>
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
-          
             
 
-          
           <div id="content" class="content">
             
 
   <div id="posts" class="posts-expand">
-    
-
-  
-
+      <article itemscope itemtype="http://schema.org/Article">
   
   
   
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
+  <div class="post-block post">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/25/pytorch-saving-and-loading-models/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -362,75 +231,40 @@
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Pato's raison d'etre">
     </span>
-
-    
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">Saving and Loading Models
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">Saving and Loading Models
-
-              
-            
-          </h1>
-        
+          
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
+              <span class="post-meta-item-text">发表于</span>
 
               
                 
               
 
               <time title="创建时间：2019-06-25 23:29:45 / 修改时间：23:30:53" itemprop="dateCreated datePublished" datetime="2019-06-25T23:29:45+08:00">2019-06-25</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-
+            </span>
           
             
+
             
-          
-
-          
-          
-
-          
-
           
 
           
 
         </div>
       </header>
-    
 
     
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
-      
 
       
         <p>本文是 <a href="https://pytorch.org/tutorials/beginner/saving_loading_models.html" target="_blank" rel="noopener">SAVING AND LOADING MODELS</a> 的学习笔记</p>
@@ -445,7 +279,7 @@
 </ol>
 <h2 id="What-is-a-state-dict"><a href="#What-is-a-state-dict" class="headerlink" title="What is a state_dict?"></a>What is a <code>state_dict</code>?</h2><p>在 PyTorch 中，一个 <code>torch.nn.Module</code> 模型的可学习参数（权重、bias）等被保存在模型中，可以通过 <code>model.parameters()</code> 来访问。一个 <em>state_dict</em> 是一个 Python 字典，保存着每一层到其参数的映射。注意只有拥有科学系参数的层（卷积层、线性层等）和注册过的缓存（batchnorm 的 running_mean）会保存在 <em>state_dict</em> 中。Optimizer 对象（<code>torch.optim</code>）同样也有一个 <em>state_dict</em>，保存了优化器的状态信息和超参数。</p>
 <p>下面来看看在 <a href="https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html#sphx-glr-beginner-blitz-cifar10-tutorial-py" target="_blank" rel="noopener">Training a classifier</a> 教程中用到的模型的 <em>state_dict</em>.</p>
-<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line">import torch.nn as nn</span><br><span class="line">import torch.nn.functional as F</span><br><span class="line">import torch.optim as optim</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TheModelClass</span>(<span class="title">nn</span>.<span class="title">Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(<span class="keyword">self</span>)</span></span><span class="symbol">:</span></span><br><span class="line">        <span class="keyword">super</span>().__init_<span class="number">_</span>()</span><br><span class="line">        <span class="keyword">self</span>.conv1 = nn.Conv2d(<span class="number">3</span>, <span class="number">6</span>, <span class="number">5</span>)</span><br><span class="line">        <span class="keyword">self</span>.pool = nn.MaxPool2d(<span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">        <span class="keyword">self</span>.conv2 = nn.Conv2d(<span class="number">6</span>, <span class="number">16</span>, <span class="number">5</span>)</span><br><span class="line">        <span class="keyword">self</span>.fc1 = nn.Linear(<span class="number">16</span>*<span class="number">5</span>*<span class="number">5</span>, <span class="number">120</span>)</span><br><span class="line">        <span class="keyword">self</span>.fc2 = nn.Linear(<span class="number">120</span>, <span class="number">84</span>)</span><br><span class="line">        <span class="keyword">self</span>.fc3 = nn.Linear(<span class="number">84</span>, <span class="number">10</span>)</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(<span class="keyword">self</span>, x)</span></span><span class="symbol">:</span></span><br><span class="line">        x = <span class="keyword">self</span>.pool(F.relu(<span class="keyword">self</span>.conv1(x)))</span><br><span class="line">        x = <span class="keyword">self</span>.pool(F.relu(<span class="keyword">self</span>.conv2(x)))</span><br><span class="line">        x = x.view(-<span class="number">1</span>, <span class="number">16</span> * <span class="number">5</span> * <span class="number">5</span>)</span><br><span class="line">        x = F.relu(<span class="keyword">self</span>.fc1(x))</span><br><span class="line">        x = F.relu(<span class="keyword">self</span>.fc2(x))</span><br><span class="line">        x = <span class="keyword">self</span>.fc3(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">model = TheModelClass()</span><br><span class="line"></span><br><span class="line">optimizer = optim.SGD(model.parameters(), lr=<span class="number">0</span>.<span class="number">001</span>, momentum=<span class="number">0</span>.<span class="number">9</span>)</span><br><span class="line">        </span><br><span class="line"><span class="comment"># 打印模型的 state_dict</span></span><br><span class="line">print(<span class="string">"Model's state_dict:"</span>)</span><br><span class="line"><span class="keyword">for</span> param_tensor <span class="keyword">in</span> model.state_dict()<span class="symbol">:</span></span><br><span class="line">    print(param_tensor, <span class="string">'\t'</span>, model.state_dict()[param_tensor].size())</span><br><span class="line">    </span><br><span class="line">print()</span><br><span class="line"><span class="comment"># 打印优化器的 state_dict</span></span><br><span class="line">print(<span class="string">"Optimizer's state_dict:"</span>)</span><br><span class="line"><span class="keyword">for</span> var_name <span class="keyword">in</span> optimizer.state_dict()<span class="symbol">:</span></span><br><span class="line">    print(var_name, <span class="string">'\t'</span>, optimizer.state_dict()[var_name])</span><br></pre></td></tr></table></figure>
+<figure class="highlight gml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line">import torch.nn as nn</span><br><span class="line">import torch.nn.functional as F</span><br><span class="line">import torch.optim as optim</span><br><span class="line"></span><br><span class="line">class TheModelClass(nn.Module):</span><br><span class="line">    def __init__(<span class="literal">self</span>):</span><br><span class="line">        super().__init__()</span><br><span class="line">        <span class="literal">self</span>.conv1 = nn.Conv2d(<span class="number">3</span>, <span class="number">6</span>, <span class="number">5</span>)</span><br><span class="line">        <span class="literal">self</span>.pool = nn.MaxPool2d(<span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">        <span class="literal">self</span>.conv2 = nn.Conv2d(<span class="number">6</span>, <span class="number">16</span>, <span class="number">5</span>)</span><br><span class="line">        <span class="literal">self</span>.fc1 = nn.Linear(<span class="number">16</span>*<span class="number">5</span>*<span class="number">5</span>, <span class="number">120</span>)</span><br><span class="line">        <span class="literal">self</span>.fc2 = nn.Linear(<span class="number">120</span>, <span class="number">84</span>)</span><br><span class="line">        <span class="literal">self</span>.fc3 = nn.Linear(<span class="number">84</span>, <span class="number">10</span>)</span><br><span class="line">    </span><br><span class="line">    def forward(<span class="literal">self</span>, <span class="symbol">x</span>):</span><br><span class="line">        <span class="symbol">x</span> = <span class="literal">self</span>.pool(F.relu(<span class="literal">self</span>.conv1(<span class="symbol">x</span>)))</span><br><span class="line">        <span class="symbol">x</span> = <span class="literal">self</span>.pool(F.relu(<span class="literal">self</span>.conv2(<span class="symbol">x</span>)))</span><br><span class="line">        <span class="symbol">x</span> = <span class="symbol">x</span>.view(<span class="number">-1</span>, <span class="number">16</span> * <span class="number">5</span> * <span class="number">5</span>)</span><br><span class="line">        <span class="symbol">x</span> = F.relu(<span class="literal">self</span>.fc1(<span class="symbol">x</span>))</span><br><span class="line">        <span class="symbol">x</span> = F.relu(<span class="literal">self</span>.fc2(<span class="symbol">x</span>))</span><br><span class="line">        <span class="symbol">x</span> = <span class="literal">self</span>.fc3(<span class="symbol">x</span>)</span><br><span class="line">        <span class="keywords">return</span> <span class="symbol">x</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">model = TheModelClass()</span><br><span class="line"></span><br><span class="line">optimizer = optim.SGD(model.parameters(), lr=<span class="number">0.001</span>, momentum=<span class="number">0.9</span>)</span><br><span class="line">        </span><br><span class="line"># 打印模型的 state_dict</span><br><span class="line">print(<span class="string">"Model's state_dict:"</span>)</span><br><span class="line"><span class="keywords">for</span> param_tensor in model.state_dict():</span><br><span class="line">    print(param_tensor, <span class="string">'\t'</span>, model.state_dict()[param_tensor].size())</span><br><span class="line">    </span><br><span class="line">print()</span><br><span class="line"># 打印优化器的 state_dict</span><br><span class="line">print(<span class="string">"Optimizer's state_dict:"</span>)</span><br><span class="line"><span class="keywords">for</span> var_name in optimizer.state_dict():</span><br><span class="line">    print(var_name, <span class="string">'\t'</span>, optimizer.state_dict()[var_name])</span><br></pre></td></tr></table></figure>
 
 <pre><code>Model&apos;s state_dict:
 conv1.weight      torch.Size([6, 3, 5, 5])
@@ -463,6 +297,7 @@ Optimizer&apos;s state_dict:
 state      {}
 param_groups      [{&apos;lr&apos;: 0.001, &apos;momentum&apos;: 0.9, &apos;dampening&apos;: 0, &apos;weight_decay&apos;: 0, &apos;nesterov&apos;: False, &apos;params&apos;: [139955743198016, 139955743198160, 139957022063280, 139955743842448, 139955743842736, 139955743843168, 139955743680984, 139955743198088, 139955743198232, 139955743198304]}]</code></pre><h2 id="Saving-amp-Loading-Model-for-Inference"><a href="#Saving-amp-Loading-Model-for-Inference" class="headerlink" title="Saving &amp; Loading Model for Inference"></a>Saving &amp; Loading Model for Inference</h2><h3 id="Save-Load-state-dict（推荐）"><a href="#Save-Load-state-dict（推荐）" class="headerlink" title="Save/Load state_dict（推荐）"></a>Save/Load <code>state_dict</code>（推荐）</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">PATH</span> = <span class="string">'./model_state_dict.pt'</span></span><br></pre></td></tr></table></figure>
 
+
 <figure class="highlight stan"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Save:</span></span><br><span class="line">torch.save(<span class="title">model</span>.state_dict(), PATH)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load:</span></span><br><span class="line"><span class="title">model</span> = TheModelClass(*args, **kwargs)</span><br><span class="line"><span class="title">model</span>.load_state_dict(torch.load(PATH)) <span class="comment"># 注意要预先把 state_dict 反序列化</span></span><br><span class="line"><span class="comment"># 模型被加载后默认是训练状态</span></span><br><span class="line"><span class="title">model</span>.eval()</span><br></pre></td></tr></table></figure>
 
 <p>当保存一个要用于推断的模型时，只需要保存它的可学习参数即可。使用 <code>torch.save()</code> 保存模型的 <em>state_dict</em> 可以在恢复模型的时候有最大的灵活性，因此这是推荐的保存模型的方法。</p>
@@ -478,7 +313,9 @@ param_groups      [{&apos;lr&apos;: 0.001, &apos;momentum&apos;: 0.9, &apos;damp
 <p>一般把模型保存为 <code>.pt</code> 或 <code>.pth</code> 格式。同样，对于需要用于推断的模型在加载后要调用 <code>eval()</code> 方法。</p>
 <h3 id="Checkpoint"><a href="#Checkpoint" class="headerlink" title="Checkpoint"></a>Checkpoint</h3><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">PATH</span> = <span class="string">'./checkpoint.tar'</span></span><br></pre></td></tr></table></figure>
 
+
 <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Save:</span></span><br><span class="line">torch.save(&#123;</span><br><span class="line">    <span class="string">'epoch'</span>: epoch,</span><br><span class="line">    <span class="string">'model_state_dict'</span>: model.state_dict(),</span><br><span class="line">    <span class="string">'optimizer_state_dict'</span>: optimizer.state_dict(),</span><br><span class="line">    <span class="string">'loss'</span>: loss,</span><br><span class="line">    <span class="keyword">...</span></span><br><span class="line">&#125;, PATH)</span><br></pre></td></tr></table></figure>
+
 
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Load:</span></span><br><span class="line">model = TheModelClass(*args, **kwagrs) <span class="comment"># 注意模型要初始化</span></span><br><span class="line">optimizer = TheOptimizerClass(*args, **kwargs) <span class="comment"># 优化器也要初始化</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取 checkpoint</span></span><br><span class="line">checkpoint = torch.load(PATH)</span><br><span class="line"><span class="comment"># 分别读取对应的项</span></span><br><span class="line">model.load_state_dict(checkpoint['model_state_dict'])</span><br><span class="line">optimizer.load_state_dict(checkpoint['optimizer_state_dict'])</span><br><span class="line">epoch = checkpoint['epoch']</span><br><span class="line">loss = checkpoint['loss']</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可以根据需要设置模型为训练或推断状态</span></span><br><span class="line">model.eval()</span><br><span class="line"><span class="comment"># 或者 </span></span><br><span class="line">model.train()</span><br></pre></td></tr></table></figure>
 
@@ -487,14 +324,16 @@ param_groups      [{&apos;lr&apos;: 0.001, &apos;momentum&apos;: 0.9, &apos;damp
 <p>要读取这些项，首先要初始化模型和优化器，再使用 <code>torch.load()</code> 来读取对应的项。根据你要继续训练模型或使用模型进行推断，分别调用 <code>model.train()</code> 和 <code>model.eval()</code> 来把模型设置为对应的状态。</p>
 <h2 id="Saving-Multiple-Models-in-One-File"><a href="#Saving-Multiple-Models-in-One-File" class="headerlink" title="Saving Multiple Models in One File"></a>Saving Multiple Models in One File</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Save:</span></span><br><span class="line">torch.save(&#123;</span><br><span class="line">            <span class="string">'modelA_state_dict'</span>: modelA.state_dict(),</span><br><span class="line">            <span class="string">'modelB_state_dict'</span>: modelB.state_dict(),</span><br><span class="line">            <span class="string">'optimizerA_state_dict'</span>: optimizerA.state_dict(),</span><br><span class="line">            <span class="string">'optimizerB_state_dict'</span>: optimizerB.state_dict(),</span><br><span class="line">            <span class="keyword">...</span></span><br><span class="line">&#125;, PATH)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Load:</span></span><br><span class="line">modelA = TheModelAClass(*args, **kwargs)</span><br><span class="line">modelB = TheModelBClass(*args, **kwargs)</span><br><span class="line">optimizerA = TheOptimizerAClass(*args, **kwargs)</span><br><span class="line">optimizerB = TheOptimizerBClass(*args, **kwargs)</span><br><span class="line"></span><br><span class="line">checkpoint = torch.load(PATH)</span><br><span class="line">modelA.load_state_dict(checkpoint['modelA_state_dict'])</span><br><span class="line">modelB.load_state_dict(checkpoint['modelB_state_dict'])</span><br><span class="line">optimizerA.load_state_dict(checkpoint['optimizerA_state_dict'])</span><br><span class="line">optimizerB.load_state_dict(checkpoint['optimizerB_state_dict'])</span><br><span class="line"></span><br><span class="line">modelA.eval()</span><br><span class="line">modelB.eval()</span><br><span class="line"><span class="comment"># - or -</span></span><br><span class="line">modelA.train()</span><br><span class="line">modelB.train()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># Load:</span><br><span class="line">modelA = <span class="constructor">TheModelAClass(<span class="operator">*</span><span class="params">args</span>, <span class="operator">**</span><span class="params">kwargs</span>)</span></span><br><span class="line">modelB = <span class="constructor">TheModelBClass(<span class="operator">*</span><span class="params">args</span>, <span class="operator">**</span><span class="params">kwargs</span>)</span></span><br><span class="line">optimizerA = <span class="constructor">TheOptimizerAClass(<span class="operator">*</span><span class="params">args</span>, <span class="operator">**</span><span class="params">kwargs</span>)</span></span><br><span class="line">optimizerB = <span class="constructor">TheOptimizerBClass(<span class="operator">*</span><span class="params">args</span>, <span class="operator">**</span><span class="params">kwargs</span>)</span></span><br><span class="line"></span><br><span class="line">checkpoint = torch.load(PATH)</span><br><span class="line">modelA.load<span class="constructor">_state_dict(<span class="params">checkpoint</span>['<span class="params">modelA_state_dict</span>'])</span></span><br><span class="line">modelB.load<span class="constructor">_state_dict(<span class="params">checkpoint</span>['<span class="params">modelB_state_dict</span>'])</span></span><br><span class="line">optimizerA.load<span class="constructor">_state_dict(<span class="params">checkpoint</span>['<span class="params">optimizerA_state_dict</span>'])</span></span><br><span class="line">optimizerB.load<span class="constructor">_state_dict(<span class="params">checkpoint</span>['<span class="params">optimizerB_state_dict</span>'])</span></span><br><span class="line"></span><br><span class="line">modelA.eval<span class="literal">()</span></span><br><span class="line">modelB.eval<span class="literal">()</span></span><br><span class="line"># - <span class="keyword">or</span> -</span><br><span class="line">modelA.train<span class="literal">()</span></span><br><span class="line">modelB.train<span class="literal">()</span></span><br></pre></td></tr></table></figure>
 
 <p>需要保存由多个 <code>torch.nn.Modules</code> 组合成的模型（例如 GAN）时，和保存 checkpoint 一样，分别将多个模型和优化器的 <em>state_dict</em> 组合到字典里保存。这里同样也可以保存额外信息例如 epoch、loss 等。</p>
 <p>和保存 checkpoint 一样，保存多个模型一般使用 <code>.tar</code> 后缀。</p>
 <p>读取流程与读取 checkpoint 相同。</p>
-<h2 id="Warmstarting-Model-Using-Parameters-from-a-Different-Model"><a href="#Warmstarting-Model-Using-Parameters-from-a-Different-Model" class="headerlink" title="Warmstarting Model Using Parameters from a Different Model"></a>Warmstarting Model Using Parameters from a Different Model</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># <span class="selector-tag">Save</span>:</span><br><span class="line"><span class="selector-tag">torch</span><span class="selector-class">.save</span>(<span class="selector-tag">ModelA</span><span class="selector-class">.state_dict</span>(), <span class="selector-tag">PATH</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="Warmstarting-Model-Using-Parameters-from-a-Different-Model"><a href="#Warmstarting-Model-Using-Parameters-from-a-Different-Model" class="headerlink" title="Warmstarting Model Using Parameters from a Different Model"></a>Warmstarting Model Using Parameters from a Different Model</h2><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># Save:</span><br><span class="line">torch.save(<span class="module-access"><span class="module"><span class="identifier">ModelA</span>.</span></span>state<span class="constructor">_dict()</span>, PATH)</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Load:</span></span><br><span class="line">modelB = TheModelBClass(<span class="number">*a</span>rgs, **kwargs)</span><br><span class="line">modelB.load_state_dict(torch.load(PATH), <span class="attribute">strict</span>=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># Load:</span><br><span class="line">modelB = <span class="constructor">TheModelBClass(<span class="operator">*</span><span class="params">args</span>, <span class="operator">**</span><span class="params">kwargs</span>)</span></span><br><span class="line">modelB.load<span class="constructor">_state_dict(<span class="params">torch</span>.<span class="params">load</span>(PATH)</span>, strict=False)</span><br></pre></td></tr></table></figure>
 
 <p>在迁移学习和训练一个新的复杂模型的时候，经常会需要读取部分的模型。即使不能使用所有训练好的参数，这也会对训练的热启动有所帮助，比起从头训练模型，这样做也很可能使得你的模型能够更快地收敛。</p>
 <p>当你加载部分的 <em>state_dict</em> ，也就是有缺失 key 或者冗余 key 时，设置 <code>strict</code> 参数为 <code>False</code> 可以忽略这些不匹配的键。</p>
@@ -503,13 +342,13 @@ param_groups      [{&apos;lr&apos;: 0.001, &apos;momentum&apos;: 0.9, &apos;damp
 <p>实际上，无论是在 GPU 还是在 CPU 上训练的模型，都是调用</p>
 <p><code>torch.save(model.state_dict(), PATH)</code> 来保存的</p>
 </blockquote>
-<h3 id="Save-on-GPU-Load-on-CPU"><a href="#Save-on-GPU-Load-on-CPU" class="headerlink" title="Save on GPU, Load on CPU"></a>Save on GPU, Load on CPU</h3><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Save:</span></span><br><span class="line">torch.save(model.state_dict(), PATH)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load:</span></span><br><span class="line">device = torch.device('cpu')</span><br><span class="line">model = TheModelClass(*args, **kwargs)</span><br><span class="line">model.load_state_dict(torch.load(PATH, map_location=device))</span><br></pre></td></tr></table></figure>
+<h3 id="Save-on-GPU-Load-on-CPU"><a href="#Save-on-GPU-Load-on-CPU" class="headerlink" title="Save on GPU, Load on CPU"></a>Save on GPU, Load on CPU</h3><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># Save:</span><br><span class="line">torch.save(model.state<span class="constructor">_dict()</span>, PATH)</span><br><span class="line"></span><br><span class="line"># Load:</span><br><span class="line">device = torch.device('cpu')</span><br><span class="line">model = <span class="constructor">TheModelClass(<span class="operator">*</span><span class="params">args</span>, <span class="operator">**</span><span class="params">kwargs</span>)</span></span><br><span class="line">model.load<span class="constructor">_state_dict(<span class="params">torch</span>.<span class="params">load</span>(PATH, <span class="params">map_location</span>=<span class="params">device</span>)</span>)</span><br></pre></td></tr></table></figure>
 
 <p>在 CPU 加载某个在 GPU 训练的模型时，将 <code>torch.device(&#39;cpu&#39;)</code> 传入 <code>torch.load()</code> 的 <code>map_location</code> 参数中，这会使得 <em>state_dict</em> 中所有的张量都被映射到 CPU 中。</p>
-<h3 id="Save-on-GPU-Load-on-GPU"><a href="#Save-on-GPU-Load-on-GPU" class="headerlink" title="Save on GPU, Load on GPU"></a>Save on GPU, Load on GPU</h3><figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Save:</span></span><br><span class="line">torch.save(model.state_dict(), PATH)</span><br><span class="line"></span><br><span class="line"><span class="comment">#Load:</span></span><br><span class="line">device = torch.device('cuda')</span><br><span class="line">model = TheModelClass(*args, **kwargs)</span><br><span class="line">model.load_state_dict(torch.load(PATH))</span><br><span class="line">model.to(device)</span><br></pre></td></tr></table></figure>
+<h3 id="Save-on-GPU-Load-on-GPU"><a href="#Save-on-GPU-Load-on-GPU" class="headerlink" title="Save on GPU, Load on GPU"></a>Save on GPU, Load on GPU</h3><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Save:</span><br><span class="line">torch.save(model.state<span class="constructor">_dict()</span>, PATH)</span><br><span class="line"></span><br><span class="line">#Load:</span><br><span class="line">device = torch.device('cuda')</span><br><span class="line">model = <span class="constructor">TheModelClass(<span class="operator">*</span><span class="params">args</span>, <span class="operator">**</span><span class="params">kwargs</span>)</span></span><br><span class="line">model.load<span class="constructor">_state_dict(<span class="params">torch</span>.<span class="params">load</span>(PATH)</span>)</span><br><span class="line">model.<span class="keyword">to</span>(device)</span><br></pre></td></tr></table></figure>
 
 <p>在 GPU 上加载模型，只需要在加载模型后调用 <code>model.to(torch.device(&#39;cuda&#39;))</code> 把模型送往 GPU 就可以。</p>
-<h3 id="Save-on-CPU-Load-on-GPU"><a href="#Save-on-CPU-Load-on-GPU" class="headerlink" title="Save on CPU, Load on GPU"></a>Save on CPU, Load on GPU</h3><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Save:</span></span><br><span class="line">torch.save(model.state_dict(), PATH)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Load:</span></span><br><span class="line">device = torch.device(<span class="string">'cuda'</span>)</span><br><span class="line">model = TheModelClass(*args, **kwargs)</span><br><span class="line">model.load_state_dict(torch.<span class="built_in">load</span>(PATH, map_location=<span class="string">'cuda:0'</span>)) <span class="comment"># 选择需要加载到的设备</span></span><br><span class="line">model.<span class="built_in">to</span>(device)</span><br></pre></td></tr></table></figure>
+<h3 id="Save-on-CPU-Load-on-GPU"><a href="#Save-on-CPU-Load-on-GPU" class="headerlink" title="Save on CPU, Load on GPU"></a>Save on CPU, Load on GPU</h3><figure class="highlight reasonml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Save:</span><br><span class="line">torch.save(model.state<span class="constructor">_dict()</span>, PATH)</span><br><span class="line"></span><br><span class="line"># Load:</span><br><span class="line">device = torch.device('cuda')</span><br><span class="line">model = <span class="constructor">TheModelClass(<span class="operator">*</span><span class="params">args</span>, <span class="operator">**</span><span class="params">kwargs</span>)</span></span><br><span class="line">model.load<span class="constructor">_state_dict(<span class="params">torch</span>.<span class="params">load</span>(PATH, <span class="params">map_location</span>='<span class="params">cuda</span>:0')</span>) # 选择需要加载到的设备</span><br><span class="line">model.<span class="keyword">to</span>(device)</span><br></pre></td></tr></table></figure>
 
 <p>在 GPU 加载某个在 CPU 训练的模型时，要注意：</p>
 <ol>
@@ -521,84 +360,62 @@ param_groups      [{&apos;lr&apos;: 0.001, &apos;momentum&apos;: 0.9, &apos;damp
 
 <p><code>torch.nn.DataParallel</code> 是一个模型包装器，可以支持 GPU 并行运算。保存这样的模型需要保存的是 <code>model.module.state_dict()</code>.</p>
 
-      
     </div>
 
     
-
     
     
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
         
-          
-        
-        <div class="post-tags">
-          
-            <a href="/tags/pytorch/" rel="tag"># pytorch</a>
-          
-        </div>
       
 
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
+      <footer class="post-footer">
+          
             
-              <a href="/2019/06/24/pytorch-transfer-learning-tutorial/" rel="next" title="Transfer Learning Tutorial">
-                <i class="fa fa-chevron-left"></i> Transfer Learning Tutorial
-              </a>
+          
+          <div class="post-tags">
+            
+              <a href="/tags/pytorch/" rel="tag"># pytorch</a>
             
           </div>
+        
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/26/what-is-torch-nn-really/" rel="prev" title="What Is torch.nn Really?">
-                What Is torch.nn Really? <i class="fa fa-chevron-right"></i>
-              </a>
-            
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/06/24/pytorch-transfer-learning-tutorial/" rel="next" title="Transfer Learning Tutorial">
+                  <i class="fa fa-chevron-left"></i> Transfer Learning Tutorial
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/06/26/what-is-torch-nn-really/" rel="prev" title="What Is torch.nn Really?">
+                  What Is torch.nn Really? <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
           </div>
-        </div>
-      
-
-      
-      
-    </footer>
+        
+      </footer>
+    
   </div>
   
   
   
   </article>
 
-
   </div>
 
 
           </div>
           
 
-  
-
-
-
         </div>
-        
           
   
   <div class="sidebar-toggle">
@@ -609,120 +426,69 @@ param_groups      [{&apos;lr&apos;: 0.001, &apos;momentum&apos;: 0.9, &apos;damp
     </div>
   </div>
 
-  <aside id="sidebar" class="sidebar">
+  <aside class="sidebar">
     <div class="sidebar-inner">
-
+        
+        
+        
+        
       
 
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What-is-a-state-dict"><span class="nav-number">1.</span> <span class="nav-text">What is a state_dict?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Saving-amp-Loading-Model-for-Inference"><span class="nav-number">2.</span> <span class="nav-text">Saving &amp; Loading Model for Inference</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Save-Load-state-dict（推荐）"><span class="nav-number">2.1.</span> <span class="nav-text">Save/Load state_dict（推荐）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Save-Load-Entire-Model"><span class="nav-number">2.2.</span> <span class="nav-text">Save/Load Entire Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Checkpoint"><span class="nav-number">2.3.</span> <span class="nav-text">Checkpoint</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Saving-Multiple-Models-in-One-File"><span class="nav-number">3.</span> <span class="nav-text">Saving Multiple Models in One File</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Warmstarting-Model-Using-Parameters-from-a-Different-Model"><span class="nav-number">4.</span> <span class="nav-text">Warmstarting Model Using Parameters from a Different Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Saving-amp-Loading-Model-Across-Devices"><span class="nav-number">5.</span> <span class="nav-text">Saving &amp; Loading Model Across Devices</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Save-on-GPU-Load-on-CPU"><span class="nav-number">5.1.</span> <span class="nav-text">Save on GPU, Load on CPU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Save-on-GPU-Load-on-GPU"><span class="nav-number">5.2.</span> <span class="nav-text">Save on GPU, Load on GPU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Save-on-CPU-Load-on-GPU"><span class="nav-number">5.3.</span> <span class="nav-text">Save on CPU, Load on GPU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Saving-torch-nn-DataParallel-Models"><span class="nav-number">5.4.</span> <span class="nav-text">Saving torch.nn.DataParallel Models</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Patrick</p>
-              <div class="site-description motion-element" itemprop="description">🌈</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">16</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
-                </div>
-              
-
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                      <a href="/tags/">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">5</span>
-                    <span class="site-state-item-name">标签</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Patrick</p>
+  <div class="site-description" itemprop="description">🌈</div>
+</div>
+  <nav class="site-state motion-element">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/%20%7C%7C%20archive">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
       </div>
-
+    
       
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#What-is-a-state-dict"><span class="nav-number">1.</span> <span class="nav-text">What is a state_dict?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Saving-amp-Loading-Model-for-Inference"><span class="nav-number">2.</span> <span class="nav-text">Saving &amp; Loading Model for Inference</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Save-Load-state-dict（推荐）"><span class="nav-number">2.1.</span> <span class="nav-text">Save/Load state_dict（推荐）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Save-Load-Entire-Model"><span class="nav-number">2.2.</span> <span class="nav-text">Save/Load Entire Model</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Checkpoint"><span class="nav-number">2.3.</span> <span class="nav-text">Checkpoint</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Saving-Multiple-Models-in-One-File"><span class="nav-number">3.</span> <span class="nav-text">Saving Multiple Models in One File</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Warmstarting-Model-Using-Parameters-from-a-Different-Model"><span class="nav-number">4.</span> <span class="nav-text">Warmstarting Model Using Parameters from a Different Model</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Saving-amp-Loading-Model-Across-Devices"><span class="nav-number">5.</span> <span class="nav-text">Saving &amp; Loading Model Across Devices</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Save-on-GPU-Load-on-CPU"><span class="nav-number">5.1.</span> <span class="nav-text">Save on GPU, Load on CPU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Save-on-GPU-Load-on-GPU"><span class="nav-number">5.2.</span> <span class="nav-text">Save on GPU, Load on GPU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Save-on-CPU-Load-on-GPU"><span class="nav-number">5.3.</span> <span class="nav-text">Save on CPU, Load on GPU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Saving-torch-nn-DataParallel-Models"><span class="nav-number">5.4.</span> <span class="nav-text">Saving torch.nn.DataParallel Models</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/%20%7C%7C%20tags">
+          
+        
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
 
-      
+
+
+      </div>
 
     </div>
   </aside>
-  
+  <div id="sidebar-dimmer"></div>
 
 
-        
       </div>
     </main>
 
@@ -733,21 +499,13 @@ param_groups      [{&apos;lr&apos;: 0.001, &apos;momentum&apos;: 0.9, &apos;damp
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Patrick</span>
-
-  
-
-  
 </div>
 
-
-
-
-
-
-
-
-
         
+
+
+
+
 
 
 
@@ -759,140 +517,41 @@ param_groups      [{&apos;lr&apos;: 0.001, &apos;momentum&apos;: 0.9, &apos;damp
         
       </div>
     </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-          <span id="scrollpercent"><span>0</span>%</span>
-        
-      </div>
-    
-
-    
-
-    
-
-    
   </div>
 
   
 
-<script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="/lib/jquery/index.js?v=3.4.1"></script>
-
-  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
   <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
   <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/utils.js?v=7.1.2"></script>
-
-  <script src="/js/motion.js?v=7.1.2"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/affix.js?v=7.1.2"></script>
-
-  <script src="/js/schemes/pisces.js?v=7.1.2"></script>
-
-
-
-  
-  <script src="/js/scrollspy.js?v=7.1.2"></script>
-<script src="/js/post-details.js?v=7.1.2"></script>
+<script src="/js/utils.js?v=7.4.0"></script><script src="/js/motion.js?v=7.4.0"></script>
+<script src="/js/schemes/pisces.js?v=7.4.0"></script>
+<script src="/js/next-boot.js?v=7.4.0"></script>
 
 
 
   
 
 
-  <script src="/js/next-boot.js?v=7.1.2"></script>
-
-
-  
-
-  
-
-  
-
-  
-
-
-  
-
-
-  
 
 
 
 
-  
-
-  
-
-  
-  
-
-  
-  
-
-  
 
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
 
-  
+
+
+
+
+
+
 
   
 
