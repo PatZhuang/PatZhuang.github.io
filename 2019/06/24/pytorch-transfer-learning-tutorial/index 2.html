@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.2">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.2">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.2" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.2">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.4.2',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="本文是 TRANSFER LEARNING TUTORIAL 的学习笔记。">
+<meta name="keywords" content="pytorch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Transfer Learning Tutorial">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;06&#x2F;24&#x2F;pytorch-transfer-learning-tutorial&#x2F;index.html">
+<meta property="og:site_name" content="Pato&#39;s raison d&#39;etre">
+<meta property="og:description" content="本文是 TRANSFER LEARNING TUTORIAL 的学习笔记。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;pytorch.org&#x2F;tutorials&#x2F;_images&#x2F;sphx_glr_transfer_learning_tutorial_001.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pytorch.org&#x2F;tutorials&#x2F;_images&#x2F;sphx_glr_transfer_learning_tutorial_002.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;pytorch.org&#x2F;tutorials&#x2F;_images&#x2F;sphx_glr_transfer_learning_tutorial_003.png">
+<meta property="og:updated_time" content="2019-06-24T08:37:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;pytorch.org&#x2F;tutorials&#x2F;_images&#x2F;sphx_glr_transfer_learning_tutorial_001.png">
+
+<link rel="canonical" href="http://yoursite.com/2019/06/24/pytorch-transfer-learning-tutorial/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>Transfer Learning Tutorial | Pato's raison d'etre</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pato's raison d'etre</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/24/pytorch-transfer-learning-tutorial/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Patrick">
+      <meta itemprop="description" content="🌈">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pato's raison d'etre">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Transfer Learning Tutorial
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2019-06-24 16:36:23 / 修改时间：16:37:01" itemprop="dateCreated datePublished" datetime="2019-06-24T16:36:23+08:00">2019-06-24</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文是 <a href="https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html" target="_blank" rel="noopener">TRANSFER LEARNING TUTORIAL</a> 的学习笔记。</p>
+<a id="more"></a>
+
+<p>本文将展示如何使用迁移学习来训练你的网络。有关迁移学习的更多内容见 <a href="https://cs231n.github.io/transfer-learning/" target="_blank" rel="noopener">cs231n notes</a></p>
+<p>引用 CS231n 的说法：</p>
+<blockquote>
+<p>In practice, very few people train an entire Convolutional Network from scratch (with random initialization), because it is relatively rare to have a dataset of sufficient size. Instead, it is common to pretrain a ConvNet on a very large dataset (e.g. ImageNet, which contains 1.2 million images with 1000 categories), and then use the ConvNet either as an initialization or a fixed feature extractor for the task of interest.</p>
+<p>在实际使用中，很少有人从头训练一个卷积神经网络（使用随机初始化的权重），因为我们很难获得足够大的数据集。常见的做法是在一个很大的数据集（比如 ImageNet, 它有 1000 类 共 120 万张图片）上预训练一个卷积神经网络，然后使用这个网络的权重作为我们的初始化权重，或者将这个网络作为固定的特征提取器。</p>
+</blockquote>
+<p>需要使用迁移学习的两个主要场景如下：</p>
+<ul>
+<li><strong>对卷积神经网络做微调</strong>：使用预训练的网络而不是随机权重来初始化我们的网络，之后再进行常规的训练过程。</li>
+<li><strong>把卷积神经网络作为固定特征提取器</strong>：把卷积神经网络除最后一层全连接层以外的所有层的权重冻结（不更新），再使用一个新的全连接层来替代最后一层，并将其权重随机初始化。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">%config InlineBackend.figure_format = <span class="string">'svg'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.optim <span class="keyword">as</span> optim</span><br><span class="line"><span class="keyword">from</span> torch.optim <span class="keyword">import</span> lr_scheduler <span class="comment"># 用于动态调整学习率</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> torchvision</span><br><span class="line"><span class="keyword">from</span> torchvision <span class="keyword">import</span> datasets, models, transforms</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> copy</span><br></pre></td></tr></table></figure>
+
+<h2 id="Load-Data"><a href="#Load-Data" class="headerlink" title="Load Data"></a>Load Data</h2><p>我们将使用 torchvision 和 torch.utils.data 包来载入数据。</p>
+<p>下面要解决的问题是训练一个能分类 <strong>蚂蚁</strong> 和 <strong>蜜蜂</strong> 的模型，其中蚂蚁和蜜蜂的训练集分别有 120 张图，验证集分别有 75 张图。如果是从头训练模型，这个训练集太小以致于不会有很好的泛化效果，但是使用迁移学习的话，我们能够在小的训练集上得到不错的泛化效果。</p>
+<p>该数据集是 imagenet 的一个子集。<a href="https://download.pytorch.org/tutorial/hymenoptera_data.zip" target="_blank" rel="noopener">下载</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 数据增强和正规化</span></span><br><span class="line">data_transforms = &#123;</span><br><span class="line">    <span class="string">'train'</span>: transforms.Compose([</span><br><span class="line">        transforms.RandomResizedCrop(<span class="number">224</span>),</span><br><span class="line">        transforms.RandomHorizontalFlip(), <span class="comment"># 随机切割和随机水平翻转</span></span><br><span class="line">        transforms.ToTensor(),</span><br><span class="line">        transforms.Normalize([<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>], [<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])</span><br><span class="line">    ]),</span><br><span class="line">    <span class="string">'val'</span>: transforms.Compose([</span><br><span class="line">        transforms.Resize(<span class="number">256</span>),</span><br><span class="line">        transforms.CenterCrop(<span class="number">224</span>),</span><br><span class="line">        transforms.ToTensor(),</span><br><span class="line">        transforms.Normalize([<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>], [<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])</span><br><span class="line">    ]),</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">data_dir = <span class="string">'hymenoptera_data'</span></span><br><span class="line">image_datasets = &#123;</span><br><span class="line">    x: datasets.ImageFolder(os.path.join(data_dir, x), data_transforms[x]) </span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> [<span class="string">'train'</span>, <span class="string">'val'</span>]</span><br><span class="line">&#125;</span><br><span class="line">dataloaders = &#123;</span><br><span class="line">    x: torch.utils.data.DataLoader(image_datasets[x], batch_size=<span class="number">4</span>, shuffle=<span class="literal">True</span>, num_workers=<span class="number">4</span>)</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> [<span class="string">'train'</span>, <span class="string">'val'</span>]</span><br><span class="line">&#125;</span><br><span class="line">dataset_sizes = &#123;</span><br><span class="line">    x: len(image_datasets[x]) <span class="keyword">for</span> x <span class="keyword">in</span> [<span class="string">'train'</span>, <span class="string">'val'</span>]</span><br><span class="line">&#125;</span><br><span class="line">class_names = image_datasets[<span class="string">'train'</span>].classes</span><br><span class="line">device = torch.device(<span class="string">"cuda:0"</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">"cpu"</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Visualize-a-few-images"><a href="#Visualize-a-few-images" class="headerlink" title="Visualize a few images"></a>Visualize a few images</h3><p>让我们展示一些训练图以理解数据增强：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">imshow</span><span class="params">(inp, title=None)</span>:</span></span><br><span class="line">    <span class="string">"""Imshow for Tensor."""</span></span><br><span class="line">    inp = inp.numpy().transpose((<span class="number">1</span>, <span class="number">2</span>, <span class="number">0</span>))</span><br><span class="line">    mean = np.array([<span class="number">0.485</span>, <span class="number">0.456</span>, <span class="number">0.406</span>])</span><br><span class="line">    std = np.array([<span class="number">0.229</span>, <span class="number">0.224</span>, <span class="number">0.225</span>])</span><br><span class="line">    inp = std * inp + mean</span><br><span class="line">    inp = np.clip(inp, <span class="number">0</span>, <span class="number">1</span>) <span class="comment"># 等同于 tensor.clamp, 因为原图的数据范围不是 [0, 1]</span></span><br><span class="line">    plt.imshow(inp)</span><br><span class="line">    plt.axis(<span class="string">'off'</span>)</span><br><span class="line">    <span class="keyword">if</span> title <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        plt.title(title)</span><br><span class="line">    plt.pause(<span class="number">0.001</span>)</span><br><span class="line">    </span><br><span class="line">inputs, classes = next(iter(dataloaders[<span class="string">'train'</span>]))</span><br><span class="line">out = torchvision.utils.make_grid(inputs)</span><br><span class="line"></span><br><span class="line">imshow(out, title=[class_names[x] <span class="keyword">for</span> x <span class="keyword">in</span> classes])</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_001.png" alt="svg"></p>
+<h2 id="Training-the-model"><a href="#Training-the-model" class="headerlink" title="Training the model"></a>Training the model</h2><p>编写一个通用函数来训练这个模型。下面我们将阐述如何：</p>
+<ul>
+<li>调整（schedule）学习率</li>
+<li>保存最佳模型</li>
+</ul>
+<p>下面的代码中，<code>scheduler</code> 是 <code>torch.optim.lr_scheduler</code> 中的一个学习率调整器。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">train_model</span><span class="params">(model, criterion, optimizer, scheduler, num_epochs=<span class="number">25</span>)</span>:</span></span><br><span class="line">    since = time.time()</span><br><span class="line">    </span><br><span class="line">    <span class="comment"># 模型的 state_dict() 保存了模型的所有参数</span></span><br><span class="line">    best_model_wts = copy.deepcopy(model.state_dict())</span><br><span class="line">    best_acc = <span class="number">0.0</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> epoch <span class="keyword">in</span> range(num_epochs):</span><br><span class="line">        print(<span class="string">f'Epoch <span class="subst">&#123;epoch + <span class="number">1</span>&#125;</span> / <span class="subst">&#123;num_epochs&#125;</span>'</span>)</span><br><span class="line">        print(<span class="string">'-'</span> * <span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># 每个 epoch 都有训练和验证阶段</span></span><br><span class="line">        <span class="keyword">for</span> phase <span class="keyword">in</span> [<span class="string">'train'</span>, <span class="string">'val'</span>]:</span><br><span class="line">            <span class="keyword">if</span> phase == <span class="string">'train'</span>:</span><br><span class="line">                scheduler.step() <span class="comment"># 调整学习率</span></span><br><span class="line">                model.train() <span class="comment"># 设置模型为训练状态</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                model.eval() <span class="comment"># 设置模型为验证状态</span></span><br><span class="line">            </span><br><span class="line">            running_loss = <span class="number">0.0</span></span><br><span class="line">            running_corrects = <span class="number">0</span></span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 遍历数据</span></span><br><span class="line">            <span class="keyword">for</span> inputs, labels <span class="keyword">in</span> dataloaders[phase]:</span><br><span class="line">                inputs = inputs.to(device)</span><br><span class="line">                labels = labels.to(device)</span><br><span class="line">                </span><br><span class="line">                <span class="comment"># 清空梯度</span></span><br><span class="line">                optimizer.zero_grad()</span><br><span class="line">                </span><br><span class="line">                <span class="comment"># 前向传播，只有训练过程才追踪计算</span></span><br><span class="line">                <span class="keyword">with</span> torch.set_grad_enabled(phase == <span class="string">'train'</span>):</span><br><span class="line">                    outputs = model(inputs)</span><br><span class="line">                    _, preds = torch.max(outputs, <span class="number">1</span>)</span><br><span class="line">                    loss = criterion(outputs, labels)</span><br><span class="line">                    </span><br><span class="line">                    <span class="comment"># 在训练阶段，执行反向传播和权重更新</span></span><br><span class="line">                    <span class="keyword">if</span> phase == <span class="string">'train'</span>:</span><br><span class="line">                        loss.backward()</span><br><span class="line">                        optimizer.step()</span><br><span class="line">                        </span><br><span class="line">                <span class="comment"># statistics</span></span><br><span class="line">                running_loss += loss.item() * inputs.size(<span class="number">0</span>)</span><br><span class="line">                running_corrects += torch.sum(preds == labels.data)</span><br><span class="line">            </span><br><span class="line">            epoch_loss = running_loss / dataset_sizes[phase]</span><br><span class="line">            epoch_acc = running_corrects.double() / dataset_sizes[phase]</span><br><span class="line">            </span><br><span class="line">            print(<span class="string">f'<span class="subst">&#123;phase&#125;</span> Loss: <span class="subst">&#123;epoch_loss:<span class="number">.4</span>f&#125;</span> Acc: <span class="subst">&#123;epoch_acc:<span class="number">.4</span>f&#125;</span>'</span>)</span><br><span class="line">            </span><br><span class="line">            <span class="comment"># 记录最优模型</span></span><br><span class="line">            <span class="keyword">if</span> phase == <span class="string">'val'</span> <span class="keyword">and</span> epoch_acc &gt; best_acc:</span><br><span class="line">                best_acc = epoch_acc</span><br><span class="line">                best_model_wts = copy.deepcopy(model.state_dict())</span><br><span class="line"></span><br><span class="line">        print()</span><br><span class="line">        </span><br><span class="line">    time_elapsed = time.time() - since</span><br><span class="line">    print(<span class="string">f'Training complete in <span class="subst">&#123;time_elapsed // <span class="number">60</span>:<span class="number">.0</span>f&#125;</span>m <span class="subst">&#123;time_elapsed % <span class="number">60</span>:<span class="number">.0</span>f&#125;</span>s'</span>)</span><br><span class="line">    print(<span class="string">f'Best val Acc: <span class="subst">&#123;best_acc:<span class="number">.4</span>f&#125;</span>'</span>)</span><br><span class="line">    <span class="comment"># 使用最优模型</span></span><br><span class="line">    model.load_state_dict(best_model_wts)</span><br><span class="line">    <span class="keyword">return</span> model</span><br></pre></td></tr></table></figure>
+
+<h3 id="Visualizing-the-model-predictions"><a href="#Visualizing-the-model-predictions" class="headerlink" title="Visualizing the model predictions"></a>Visualizing the model predictions</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">visualize_model</span><span class="params">(model, num_images=<span class="number">6</span>)</span>:</span></span><br><span class="line">    was_training = model.training <span class="comment"># 保存训练状态标记（有可能在训练中途调用这个函数）</span></span><br><span class="line">    model.eval()</span><br><span class="line">    images_so_far = <span class="number">0</span></span><br><span class="line">    fig = plt.figure()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">        <span class="keyword">for</span> i, (inputs, labels) <span class="keyword">in</span> enumerate(dataloaders[<span class="string">'val'</span>]):</span><br><span class="line">            inputs = inputs.to(device)</span><br><span class="line">            labels = labels.to(device)</span><br><span class="line">            </span><br><span class="line">            outputs = model(inputs)</span><br><span class="line">            _, preds = torch.max(outputs, <span class="number">1</span>)</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(inputs.size()[<span class="number">0</span>]):</span><br><span class="line">                images_so_far += <span class="number">1</span></span><br><span class="line">                ax = plt.subplot(num_images//<span class="number">2</span>, <span class="number">2</span>, images_so_far)</span><br><span class="line">                ax.axis(<span class="string">'off'</span>)</span><br><span class="line">                ax.set_title(<span class="string">f'predicted: <span class="subst">&#123;class_names[preds[j]]&#125;</span>'</span>)</span><br><span class="line">                imshow(inputs.cpu().data[j])</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> images_so_far == num_images:</span><br><span class="line">                    model.train(mode=was_training)</span><br><span class="line">                    <span class="keyword">return</span></span><br><span class="line">        model.train(mode=was_training) <span class="comment"># 恢复训练状态标记</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Finetuning-the-convnet"><a href="#Finetuning-the-convnet" class="headerlink" title="Finetuning the convnet"></a>Finetuning the convnet</h2><p>载入预训练模型，重置最后一层全连接层：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">model_ft = models.resnet18(pretrained=<span class="literal">True</span>)</span><br><span class="line">num_ftrs = model_ft.fc.in_features</span><br><span class="line">model_ft.fc = nn.Linear(num_ftrs, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">model_ft = model_ft.to(device)</span><br><span class="line"></span><br><span class="line">criterion = nn.CrossEntropyLoss()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 注意所有的参数都要做优化</span></span><br><span class="line">optimizer_ft = optim.SGD(model_ft.parameters(), lr=<span class="number">0.001</span>, momentum=<span class="number">0.9</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 每 7 个 epoch 对学习率做参数为 0.1 的衰减</span></span><br><span class="line">exp_lr_scheduler = lr_scheduler.StepLR(optimizer_ft, step_size=<span class="number">7</span>, gamma=<span class="number">0.1</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>关于学习率调整器 <code>lr_scheduler</code> 的更多说明见<a href="https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate" target="_blank" rel="noopener">官方文档</a></p>
+</blockquote>
+<h3 id="Train-and-evaluate"><a href="#Train-and-evaluate" class="headerlink" title="Train and evaluate"></a>Train and evaluate</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model_ft = train_model(model_ft, criterion, optimizer_ft, exp_lr_scheduler, num_epochs=<span class="number">25</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>Epoch 1 / 25
+----------
+train Loss: 0.5664 Acc: 0.6844
+val Loss: 0.2803 Acc: 0.8889
+
+Epoch 2 / 25
+----------
+train Loss: 0.4566 Acc: 0.8238
+val Loss: 0.3513 Acc: 0.8758
+
+Epoch 3 / 25
+----------
+train Loss: 0.4418 Acc: 0.8361
+val Loss: 0.3872 Acc: 0.8366
+
+...(略)
+
+Epoch 23 / 25
+----------
+train Loss: 0.3314 Acc: 0.8525
+val Loss: 0.1892 Acc: 0.9281
+
+Epoch 24 / 25
+----------
+train Loss: 0.3175 Acc: 0.8730
+val Loss: 0.1861 Acc: 0.9150
+
+Epoch 25 / 25
+----------
+train Loss: 0.3159 Acc: 0.8361
+val Loss: 0.2214 Acc: 0.9020
+
+Training complete in 1m 31s
+Best val Acc: 0.9542</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">visualize_model(model_ft)</span><br></pre></td></tr></table></figure>
+
+
+<p><img src="https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_002.png" alt="svg"></p>
+<blockquote>
+<p>CS231n notes 对 “Fine-tuning the Convnet” 的说法是：</p>
+<p>(It) is to not only replace and retrain the classifier on top of the ConvNet on the new dataset, but to also fine-tune the weights of the pretrained network by continuing the backpropagation.</p>
+<p>即对预训练模型微调的方法是：替换分类器（最后一层全连接层），并继续对执行反向传播来调整权重。</p>
+<p>这个过程既可以调整所有层的权重（如本例），也可以只训练靠后的（靠近输出）的层而固定一些靠前的层的权重来降低过拟合的风险。后者的原因是：可以观察到靠前的层提取到的特征是更宽泛的特征（比如边缘或颜色提取），而靠后的层提取到的特征会更针对数据集。</p>
+</blockquote>
+<h2 id="ConvNet-as-fixed-feature-extractor"><a href="#ConvNet-as-fixed-feature-extractor" class="headerlink" title="ConvNet as fixed feature extractor"></a>ConvNet as fixed feature extractor</h2><p>在本例中，我们会冻结模型的除了最后一层全连接层以外的所有层，也即将它们的 <code>requires_grad</code> 设置为 <code>False</code>，这样在条用 <code>backward()</code> 方法的时候这些层的梯度就不会被计算。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">model_conv = torchvision.models.resnet18(pretrained=<span class="literal">True</span>)</span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> model_conv.parameters():</span><br><span class="line">    param.requires_grad = <span class="literal">False</span></span><br><span class="line">    </span><br><span class="line"><span class="comment"># 新建的层默认 requires_grad=True</span></span><br><span class="line">num_ftrs = model_conv.fc.in_features</span><br><span class="line">model_conv.fc = nn.Linear(num_ftrs, <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">model_conv = model_conv.to(device)</span><br><span class="line"></span><br><span class="line">criterion = nn.CrossEntropyLoss()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本例中，只有最后一层的权重会被优化</span></span><br><span class="line">optimizer_conv = optim.SGD(model_conv.fc.parameters(), lr=<span class="number">0.001</span>, momentum=<span class="number">0.9</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 学习率衰减</span></span><br><span class="line">exp_lr_scheduler = lr_scheduler.StepLR(optimizer_conv, step_size=<span class="number">7</span>, gamma=<span class="number">0.1</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Train-and-evaluate-1"><a href="#Train-and-evaluate-1" class="headerlink" title="Train and evaluate"></a>Train and evaluate</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">model_conv = train_model(model_conv, criterion, optimizer_conv, exp_lr_scheduler, num_epochs=<span class="number">25</span>)</span><br></pre></td></tr></table></figure>
+
+<pre><code>Epoch 1 / 25
+----------
+train Loss: 0.7890 Acc: 0.5943
+val Loss: 0.2486 Acc: 0.9150
+
+Epoch 2 / 25
+----------
+train Loss: 0.4822 Acc: 0.7951
+val Loss: 0.4813 Acc: 0.7974
+
+Epoch 3 / 25
+----------
+train Loss: 0.4274 Acc: 0.8361
+val Loss: 0.1791 Acc: 0.9608
+
+...
+
+Epoch 23 / 25
+----------
+train Loss: 0.2910 Acc: 0.8811
+val Loss: 0.1955 Acc: 0.9477
+
+Epoch 24 / 25
+----------
+train Loss: 0.3968 Acc: 0.8156
+val Loss: 0.1938 Acc: 0.9477
+
+Epoch 25 / 25
+----------
+train Loss: 0.3212 Acc: 0.8525
+val Loss: 0.1890 Acc: 0.9412
+
+Training complete in 1m 21s
+Best val Acc: 0.9608</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">visualize_model(model_conv)</span><br><span class="line"></span><br><span class="line">plt.ioff()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://pytorch.org/tutorials/_images/sphx_glr_transfer_learning_tutorial_003.png" alt="svg"></p>
+<blockquote>
+<p>CS231n notes 对 “ConvNet as fixed feature extractor” 的说法是：</p>
+<p>Take a ConvNet pretrained on ImageNet, remove the last fully-connected layer (this layer’s outputs are the 1000 class scores for a different task like ImageNet), then treat the rest of the ConvNet as a fixed feature extractor for the new dataset.</p>
+<p>和微调一样，将预训练模型作为特征提取器时，也是替换最后一层全连接层。</p>
+<p>对于 AlexNet，这样的结果是将在最后一层之前计算出一个 4069 维的向量，这个向量也被称为 <strong>CNN codes</strong>. 对所有的图像都提取出这些特征后，再训练一个线性分类器（线性 SVM 或者 softmax，本例使用的是一个简单的全连接层）就可以。</p>
+</blockquote>
+<h2 id="When-and-how-to-fine-tune"><a href="#When-and-how-to-fine-tune" class="headerlink" title="When and how to fine-tune?"></a>When and how to fine-tune?</h2><p>CS231n notes 给出了以下四个主要场景：</p>
+<ol>
+<li><p>新的数据集较小，而且和模型对应的原数据集相似。</p>
+<p> 在这种情况下，考虑到过拟合问题，对原模型进行微调（fine-tune）是不太合适的。而由于两个数据集相似，我们可以认为该模型的高层特征与我们的数据集也是相关的。因此，最好的做法是对 CNN codes 训练一个线性分类器。</p>
+</li>
+<li><p>新的数据集很大，而且和模型对应的原数据集相似。</p>
+<p> 在数据集很大的情况下，可以对原模型进行微调而不用太担心会造成过拟合问题。</p>
+</li>
+<li><p>新的数据集较小，而且和模型对应的原数据集有很大差异。</p>
+<p> 同样的，对于小数据集来说，较好的做法是训练一个线性分类器。但是由于我们的数据集和原始数据集差异较大，模型高层特征和原数据集有一定的相关性。因此最好的做法是从模型较早的某层开始训练一个线性分类器。</p>
+</li>
+<li><p>新的数据集很大，而且和模型对应的原数据集有很大差异。</p>
+<p> 在这种情况下，从头训练一个模型是可以的。但是在实际应用中，使用预训练模型的权重并对整个模型进行微调通常仍然是有益的。</p>
+</li>
+</ol>
+<h2 id="Practical-advice"><a href="#Practical-advice" class="headerlink" title="Practical advice"></a>Practical advice</h2><p>CS231n notes 给出了两个使用建议：</p>
+<ul>
+<li><p>关于预训练模型的限制：</p>
+<p>  如果要使用预训练模型，那么对新数据集使用的模型架构会有所限制。例如说，你不能随意地从预训练模型中拆除某个卷积层。不过某些简单的更改是可以做到的：由于参数共享（parameter sharing），你可以对有不同空间大小（spatial size）的图片执行训练。这是因为卷积层和池化层的前向传播运算无关图片空间大小，而全连接层可以相应替换成卷积层来规避这个问题。</p>
+<p>  这里比较 tricky，参考 <a href="https://zhuanlan.zhihu.com/p/22038289?refer=intelligentunit" target="_blank" rel="noopener">CS231n 课程笔记翻译</a></p>
+</li>
+<li><p>关于学习率：</p>
+<p>  比起训练分类器，在微调模型的时候一般会使用更小的学习率。这是因为我们认为预训练模型的权重已经相当不错，而我们不想过快和过分地调整这些权重（特别是当顶层的分类器是随机初始化的时候）。</p>
+</li>
+</ul>
+<hr>
+<p>参考资料：</p>
+<ul>
+<li><a href="https://pytorch.org/tutorials/beginner/transfer_learning_tutorial.html" target="_blank" rel="noopener">TRANSFER LEARNING TUTORIAL</a> </li>
+<li><a href="https://cs231n.github.io/transfer-learning/" target="_blank" rel="noopener">cs231n notes</a></li>
+<li><a href="https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate" target="_blank" rel="noopener">lr_scheduler</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/22038289?refer=intelligentunit" target="_blank" rel="noopener">CS231n 课程笔记翻译</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/pytorch/" rel="tag"># pytorch</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2019/06/20/learning-pytorch-with-examples/" rel="next" title="Learning Pytorch With Examples">
+                  <i class="fa fa-chevron-left"></i> Learning Pytorch With Examples
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2019/06/25/pytorch-saving-and-loading-models/" rel="prev" title="Saving and Loading Models">
+                  Saving and Loading Models <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Load-Data"><span class="nav-number">1.</span> <span class="nav-text">Load Data</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Visualize-a-few-images"><span class="nav-number">1.1.</span> <span class="nav-text">Visualize a few images</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Training-the-model"><span class="nav-number">2.</span> <span class="nav-text">Training the model</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Visualizing-the-model-predictions"><span class="nav-number">2.1.</span> <span class="nav-text">Visualizing the model predictions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Finetuning-the-convnet"><span class="nav-number">3.</span> <span class="nav-text">Finetuning the convnet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Train-and-evaluate"><span class="nav-number">3.1.</span> <span class="nav-text">Train and evaluate</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConvNet-as-fixed-feature-extractor"><span class="nav-number">4.</span> <span class="nav-text">ConvNet as fixed feature extractor</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Train-and-evaluate-1"><span class="nav-number">4.1.</span> <span class="nav-text">Train and evaluate</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#When-and-how-to-fine-tune"><span class="nav-number">5.</span> <span class="nav-text">When and how to fine-tune?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Practical-advice"><span class="nav-number">6.</span> <span class="nav-text">Practical advice</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="Patrick"
+    src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">Patrick</p>
+  <div class="site-description" itemprop="description">🌈</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-snowflake-o"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Patrick</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.2"></script><script src="/js/motion.js?v=7.4.2"></script>
+<script src="/js/schemes/pisces.js?v=7.4.2"></script>
+<script src="/js/next-boot.js?v=7.4.2"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
